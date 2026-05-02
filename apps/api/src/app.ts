@@ -4,9 +4,11 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import passport from "passport";
+import { apiReference } from "@scalar/express-api-reference";
 import { configureGoogleStrategy } from "./auth/strategies/google.strategy.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { apiRateLimit, authRateLimit } from "./middleware/security.js";
+import { openApiSpec } from "./openapi.js";
 import { auditRoutes } from "./routes/audit.routes.js";
 import { authRoutes } from "./routes/auth.routes.js";
 import { availabilityRoutes } from "./routes/availability.routes.js";
@@ -97,5 +99,18 @@ app.use("/audit-logs", auditRoutes);
 app.get("/health", (_req, res) => {
   res.json({ success: true, message: "API running 🚀" });
 });
+
+// ── API Docs (development-friendly, not rate-limited) ──────────────────────
+app.get("/openapi.json", (_req, res) => {
+  res.json(openApiSpec);
+});
+
+app.use(
+  "/reference",
+  apiReference({
+    theme: "purple",
+    url: "/openapi.json",
+  }),
+);
 
 app.use(errorHandler);

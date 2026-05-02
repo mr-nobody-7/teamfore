@@ -26,6 +26,7 @@
     "@getbrevo/brevo": "^3.0.1",
     "@prisma/adapter-pg": "^7.4.1",
     "@prisma/client": "^7.4.1",
+    "@scalar/express-api-reference": "^0.9.13",
     "bcrypt": "^6.0.0",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",

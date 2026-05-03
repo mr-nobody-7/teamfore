@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: team-pulse-api
+    name: teamfore-api
     runtime: node
     rootDir: apps/api
     buildCommand: pnpm run build:render

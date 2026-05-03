@@ -134,7 +134,7 @@ export function Sidebar({
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
           <span className="text-sm font-bold text-primary-foreground">T</span>
         </div>
-        <span className="text-lg font-semibold tracking-tight">Team Pulse</span>
+        <span className="text-lg font-semibold tracking-tight">TeamFore</span>
       </div>
 
       {/* Navigation */}

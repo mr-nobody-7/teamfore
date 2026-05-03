@@ -11,6 +11,8 @@
   "scripts": {
     "dev": "pnpm -r dev",
     "build": "pnpm -r build",
+    "build:render": "pnpm --filter backend run build:render",
+    "start": "pnpm --filter backend start",
     "lint": "pnpm -r lint",
     "format": "pnpm -r format",
     "check": "pnpm -r check",

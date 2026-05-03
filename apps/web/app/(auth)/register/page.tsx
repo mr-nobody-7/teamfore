@@ -150,7 +150,7 @@ export default function RegisterPage() {
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Create Workspace</CardTitle>
-          <CardDescription>Get started with Team Pulse</CardDescription>
+          <CardDescription>Get started with TeamFore</CardDescription>
         </CardHeader>
 
         <CardContent>

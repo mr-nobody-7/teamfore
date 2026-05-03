@@ -91,7 +91,7 @@ export default function LoginPage() {
           <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-primary">
             <span className="text-lg font-bold text-primary-foreground">T</span>
           </div>
-          <CardTitle className="text-2xl font-bold">Team Pulse</CardTitle>
+          <CardTitle className="text-2xl font-bold">TeamFore</CardTitle>
           <CardDescription>Sign in to your workspace</CardDescription>
         </CardHeader>
 

@@ -19,7 +19,7 @@ const fontMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Team Pulse",
+  title: "TeamFore",
   description: "Team leave management system",
 };
 

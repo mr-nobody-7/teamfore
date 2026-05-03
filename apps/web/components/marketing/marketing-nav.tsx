@@ -28,7 +28,7 @@ export function MarketingNav() {
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
             <Zap className="h-4 w-4 text-white" />
           </div>
-          <span className="font-bold tracking-tight">Team Pulse</span>
+          <span className="font-bold tracking-tight">TeamFore</span>
         </Link>
 
         {/* Desktop nav links */}

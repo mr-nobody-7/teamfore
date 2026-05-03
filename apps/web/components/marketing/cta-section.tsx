@@ -23,7 +23,7 @@ export function CtaSection() {
           </span>
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-          Don&apos;t let leave chaos derail your next delivery. Get Team Pulse
+          Don&apos;t let leave chaos derail your next delivery. Get TeamFore
           set up in under 2 minutes — completely free.
         </p>
 
@@ -36,7 +36,7 @@ export function CtaSection() {
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
           <a
-            href="https://github.com/mr-nobody-7/team-pulse"
+            href="https://github.com/mr-nobody-7/teamfore"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold transition-all hover:bg-muted"

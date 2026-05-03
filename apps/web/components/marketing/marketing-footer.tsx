@@ -12,7 +12,7 @@ export function MarketingFooter() {
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/25">
                 <Zap className="h-4 w-4 text-white" />
               </div>
-              <span className="font-bold tracking-tight">Team Pulse</span>
+              <span className="font-bold tracking-tight">TeamFore</span>
             </div>
             <p className="text-xs leading-relaxed text-muted-foreground">
               Leave management and team availability for dev teams who care
@@ -67,7 +67,7 @@ export function MarketingFooter() {
                 Open source
               </span>
               <a
-                href="https://github.com/mr-nobody-7/team-pulse"
+                href="https://github.com/mr-nobody-7/teamfore"
                 target="_blank"
                 rel="noreferrer"
                 className="text-muted-foreground transition-colors hover:text-foreground"
@@ -96,7 +96,7 @@ export function MarketingFooter() {
         </div>
 
         <div className="mt-10 flex flex-col gap-2 border-t border-border pt-8 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>© 2026 Team Pulse · Built by Vivekananda</p>
+          <p>© 2026 TeamFore · Built by Vivekananda</p>
           <p>Made with ♥ for dev teams everywhere</p>
         </div>
       </div>

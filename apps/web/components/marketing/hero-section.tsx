@@ -24,7 +24,7 @@ function DashboardMockup() {
             <div className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
           </div>
           <div className="mx-auto flex h-5 w-52 items-center justify-center rounded-md bg-white/8 text-[10px] text-white/25">
-            app.teampulse.in
+            app.teamfore.in
           </div>
           <div className="h-5 w-5 rounded-full bg-gradient-to-br from-violet-500/60 to-indigo-600/60" />
         </div>
@@ -197,7 +197,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:mx-0 md:text-lg">
-            Team Pulse gives dev teams a single place for leave requests,
+            TeamFore gives dev teams a single place for leave requests,
             approvals, and team availability — so no one gets surprised
             mid-sprint.
           </p>

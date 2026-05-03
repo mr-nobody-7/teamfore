@@ -3,8 +3,8 @@ import { MarketingFooter } from "@/components/marketing/marketing-footer";
 import { MarketingNav } from "@/components/marketing/marketing-nav";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Team Pulse",
-  description: "The terms and conditions for using Team Pulse.",
+  title: "Terms of Service — TeamFore",
+  description: "The terms and conditions for using TeamFore.",
 };
 
 export default function TermsPage() {
@@ -25,7 +25,7 @@ export default function TermsPage() {
               1. Acceptance of terms
             </h2>
             <p>
-              By accessing or using Team Pulse (&quot;the Service&quot;), you
+              By accessing or using TeamFore (&quot;the Service&quot;), you
               agree to be bound by these Terms of Service. If you do not agree,
               do not use the Service. These terms apply to all users, including
               workspace admins, managers, and employees.
@@ -37,7 +37,7 @@ export default function TermsPage() {
               2. Description of service
             </h2>
             <p>
-              Team Pulse is a workspace-based leave and availability management
+              TeamFore is a workspace-based leave and availability management
               platform that allows teams to submit leave requests, manage
               approvals, track team availability, and plan capacity. The Service
               is provided free of charge for workspaces with up to 10 users.
@@ -171,7 +171,7 @@ export default function TermsPage() {
               10. Limitation of liability
             </h2>
             <p>
-              To the maximum extent permitted by law, Team Pulse and its creator
+              To the maximum extent permitted by law, TeamFore and its creator
               shall not be liable for any indirect, incidental, special,
               consequential, or punitive damages arising from your use of or
               inability to use the Service, even if advised of the possibility

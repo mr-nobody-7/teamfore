@@ -3,8 +3,8 @@ import { MarketingFooter } from "@/components/marketing/marketing-footer";
 import { MarketingNav } from "@/components/marketing/marketing-nav";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Team Pulse",
-  description: "How Team Pulse collects, uses, and protects your data.",
+  title: "Privacy Policy — TeamFore",
+  description: "How TeamFore collects, uses, and protects your data.",
 };
 
 export default function PrivacyPage() {
@@ -25,12 +25,12 @@ export default function PrivacyPage() {
               1. Who we are
             </h2>
             <p>
-              Team Pulse (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) is a
+              TeamFore (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) is a
               workspace-based leave and availability management platform built
               for teams. This Privacy Policy explains how we collect, use, and
               protect your information when you use our service at{" "}
               <span className="font-medium text-foreground">
-                team-pulse-web-omega.vercel.app
+                teamfore.vercel.app
               </span>
               .
             </p>
@@ -217,7 +217,7 @@ export default function PrivacyPage() {
             <p>
               We may update this Privacy Policy from time to time. Material
               changes will be noted by updating the date at the top of this
-              page. Continued use of Team Pulse after changes constitutes
+              page. Continued use of TeamFore after changes constitutes
               acceptance of the updated policy.
             </p>
           </section>

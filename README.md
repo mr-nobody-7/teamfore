@@ -1,12 +1,12 @@
-# Team Pulse
+# TeamFore
 
-Team Pulse is a workspace-based leave and availability platform for teams.
+TeamFore is a workspace-based leave and availability platform for teams.
 It helps employees plan time off, helps managers make better approval decisions,
 and gives admins visibility into operations with auditability.
 
 ## User guide
 
-### Who should use Team Pulse
+### Who should use TeamFore
 
 - Users (employees): apply for leave, track request status, set daily availability/workload.
 - Managers: review team leaves, approve/reject requests, monitor team planning risk.
@@ -146,7 +146,7 @@ Then register both exact callback URLs in Google Console:
 Current hosted setup:
 
 - API: Railway (`https://backend-production-4678.up.railway.app`)
-- Web: Vercel (`https://team-pulse-web-omega.vercel.app`)
+- Web: Vercel (`https://teamfore.vercel.app`)
 
 Deployment checklist:
 

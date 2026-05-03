@@ -1,8 +1,8 @@
-# Team Pulse - AI Agent Instructions
+# TeamFore - AI Agent Instructions
 
 ## Project Overview
 
-Team Pulse is a pnpm-based monorepo workspace with two applications in active development:
+TeamFore is a pnpm-based monorepo workspace with two applications in active development:
 - **apps/api**: Express.js REST API (Node.js + TypeScript)
 - **apps/web**: Next.js web application (React + TypeScript)
 
@@ -50,7 +50,7 @@ All commands use `pnpm -r` (recursive) to execute across workspace packages simu
 ## Project Structure
 
 ```
-team-pulse/
+teamfore/
 ├── apps/
 │   ├── api/          # Express API server
 │   │   ├── src/
@@ -105,7 +105,7 @@ pnpm start   # Run production build from dist/
 ### Adding New Packages
 1. Create directory in `packages/` for shared libraries or `apps/` for applications
 2. Each package must have its own `package.json` with standard scripts
-3. Use workspace protocol for internal dependencies: `"@team-pulse/<name>": "workspace:*"`
+3. Use workspace protocol for internal dependencies: `"@teamfore/<name>": "workspace:*"`
 
 ### Script Conventions
 Every workspace package should implement these scripts:

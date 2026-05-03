@@ -2,7 +2,7 @@
 
 ## Vision
 
-Team Pulse gives organizations a single source of truth for leave planning, workforce availability, and team capacity.
+TeamFore gives organizations a single source of truth for leave planning, workforce availability, and team capacity.
 
 ## Core problems solved
 

@@ -2,7 +2,7 @@
 
 ## System overview
 
-Team Pulse is a pnpm monorepo containing:
+TeamFore is a pnpm monorepo containing:
 
 - API service (`apps/api`): Express + TypeScript backend.
 - Web application (`apps/web`): Next.js + TypeScript frontend.

@@ -1,16 +1,16 @@
 /**
- * OpenAPI 3.1 specification for the Team Pulse API.
+ * OpenAPI 3.1 specification for the TeamFore API.
  * Mounted at GET /openapi.json and rendered via Scalar at GET /reference.
  */
 export const openApiSpec = {
   openapi: "3.1.0",
   info: {
-    title: "Team Pulse API",
+    title: "TeamFore API",
     version: "1.0.0",
     description:
-      "REST API for Team Pulse — a team leave and availability management platform. All authenticated endpoints require a valid `token` cookie set after login.",
+      "REST API for TeamFore — a team leave and availability management platform. All authenticated endpoints require a valid `token` cookie set after login.",
     contact: {
-      name: "Team Pulse",
+      name: "TeamFore",
       email: "vivekanandagodi@gmail.com",
     },
   },

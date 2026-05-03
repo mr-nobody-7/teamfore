@@ -86,7 +86,7 @@ function buildLeaveSubmittedHtml(params: {
       <p><strong>Leave type:</strong> ${params.leaveType}</p>
       <p><strong>Dates:</strong> ${formatDate(params.startDate)} to ${formatDate(params.endDate)}</p>
       ${noteSection}
-      <p>Please review it in Team Pulse.</p>
+      <p>Please review it in TeamFore.</p>
     </div>
   `;
 }

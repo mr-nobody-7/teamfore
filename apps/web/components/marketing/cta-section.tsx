@@ -23,8 +23,8 @@ export function CtaSection() {
           </span>
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-          Don&apos;t let leave chaos derail your next delivery. Get TeamFore
-          set up in under 2 minutes — completely free.
+          Don&apos;t let leave chaos derail your next delivery. Get TeamFore set
+          up in under 2 minutes — completely free.
         </p>
 
         <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">

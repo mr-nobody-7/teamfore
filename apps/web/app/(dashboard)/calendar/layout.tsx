@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Team Calendar · Team Pulse",
+  title: "Team Calendar · TeamFore",
 };
 
 export default function CalendarSectionLayout({

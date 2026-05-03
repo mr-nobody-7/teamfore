@@ -105,7 +105,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
           <textarea
             value={feedbackMessage}
             onChange={(event) => setFeedbackMessage(event.target.value)}
-            placeholder="Tell us what would make Team Pulse better..."
+            placeholder="Tell us what would make TeamFore better..."
             className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring min-h-28 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden"
             maxLength={2000}
           />

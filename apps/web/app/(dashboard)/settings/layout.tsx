@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Settings · Team Pulse",
+  title: "Settings · TeamFore",
 };
 
 export default function SettingsSectionLayout({

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard · Team Pulse",
+  title: "Dashboard · TeamFore",
 };
 
 export default function DashboardSectionLayout({

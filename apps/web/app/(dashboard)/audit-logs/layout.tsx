@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Audit Logs · Team Pulse",
+  title: "Audit Logs · TeamFore",
 };
 
 export default function AuditLogsSectionLayout({

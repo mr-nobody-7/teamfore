@@ -1,18 +1,8 @@
 import axios from "axios";
 
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-
-if (!apiBaseUrl) {
-  throw new Error(
-    "NEXT_PUBLIC_API_URL is not set. Define it in apps/web/.env.local for development and in your deployment environment for production.",
-  );
-}
-
-const resolvedBaseUrl =
-  process.env.NODE_ENV === "production" ? `${apiBaseUrl}/api` : apiBaseUrl;
-
 const api = axios.create({
-  baseURL: resolvedBaseUrl,
+  // Always call through Next.js rewrite so both local and production are consistent.
+  baseURL: "/api",
   // Send the httpOnly cookie on every request
   withCredentials: true,
   headers: {

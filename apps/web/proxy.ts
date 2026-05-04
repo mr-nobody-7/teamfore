@@ -20,7 +20,7 @@ function isProtectedDashboardRoute(pathname: string): boolean {
   );
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isAuthenticated = Boolean(request.cookies.get("token")?.value);
 

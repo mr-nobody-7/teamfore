@@ -121,6 +121,7 @@ pnpm format
 
 ### API recommended/optional (`apps/api`)
 
+- `PUBLIC_API_URL` (used by API docs/OpenAPI server URL)
 - `CLIENT_URLS` (comma-separated allowed origins)
 - `NODE_ENV`
 - `PORT`
@@ -128,7 +129,7 @@ pnpm format
 
 ### Web required (`apps/web`)
 
-- `NEXT_PUBLIC_API_URL`
+- `BACKEND_URL`
 
 ### OAuth callback recommendation
 
@@ -151,10 +152,11 @@ Current hosted setup:
 Deployment checklist:
 
 1. Deploy API and confirm `/health` is reachable.
-2. Set web `NEXT_PUBLIC_API_URL` to API URL.
-3. Configure API `CLIENT_URL` to the web domain.
-4. Ensure Google OAuth origins and redirect URIs include local and production URLs.
-5. Redeploy both services after environment variable changes.
+2. Set web `BACKEND_URL` to the Railway API URL.
+3. Optionally set API `PUBLIC_API_URL` to the same Railway URL for docs/OpenAPI.
+4. Configure API `CLIENT_URL` to the web domain.
+5. Ensure Google OAuth origins and redirect URIs include local and production URLs.
+6. Redeploy both services after environment variable changes.
 
 ## Repository structure
 

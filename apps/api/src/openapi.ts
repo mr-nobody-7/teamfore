@@ -16,7 +16,10 @@ export const openApiSpec = {
   },
   servers: [
     {
-      url: process.env.API_URL ?? "http://localhost:4000",
+      url:
+        process.env.PUBLIC_API_URL ??
+        process.env.API_URL ??
+        "http://localhost:4000",
       description: "API server",
     },
   ],

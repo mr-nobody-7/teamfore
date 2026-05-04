@@ -115,8 +115,8 @@ Core entities:
 ### Data flow
 
 - Axios instance uses:
-	- local dev: direct API base URL.
-	- production: `/api/*` path with Next.js rewrite to external backend.
+	- local dev and production: relative `/api/*` requests.
+	- Next.js rewrites `/api/*` to the external backend using `BACKEND_URL`.
 - Auth failures (`401`) on private routes trigger redirect to login.
 - React Query handles caching, stale-time management, and invalidation after mutations.
 

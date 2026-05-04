@@ -10,6 +10,7 @@
 
 - `NODE_ENV`: environment mode
 - `PORT`: API port
+- `BACKEND_URL`: web-side backend base URL for Next.js rewrites
 - `CLIENT_URL`: CORS origin for web client
 - `TEAM_MIN_CAPACITY_WARNING_PERCENT`: warning trigger threshold (`0`–`100`, default `50`)
 

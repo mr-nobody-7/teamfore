@@ -9,7 +9,7 @@ if (!apiBaseUrl) {
 }
 
 const resolvedBaseUrl =
-  process.env.NODE_ENV === "production" ? "/api" : apiBaseUrl;
+  process.env.NODE_ENV === "production" ? `${apiBaseUrl}/api` : apiBaseUrl;
 
 const api = axios.create({
   baseURL: resolvedBaseUrl,

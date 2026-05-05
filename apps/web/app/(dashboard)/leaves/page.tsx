@@ -136,7 +136,9 @@ export default function LeavesPage() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <Badge variant="outline">{formatLeaveType(leave.type)}</Badge>
+                    <Badge variant="outline">
+                      {formatLeaveType(leave.type)}
+                    </Badge>
                     <Badge>{leave.status}</Badge>
                     {leave.status === "PENDING" &&
                       leave.userId === user?.id && (

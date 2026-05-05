@@ -280,7 +280,9 @@ export default function DashboardPage() {
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <Badge variant="outline">{formatLeaveType(leave.type)}</Badge>
+                            <Badge variant="outline">
+                              {formatLeaveType(leave.type)}
+                            </Badge>
                             <Button
                               size="xs"
                               onClick={() =>
@@ -357,7 +359,9 @@ export default function DashboardPage() {
                           {leave.dateLabel}
                         </span>
                       </div>
-                      <Badge variant="outline">{formatLeaveType(leave.type)}</Badge>
+                      <Badge variant="outline">
+                        {formatLeaveType(leave.type)}
+                      </Badge>
                     </div>
                     {i < formattedUpcomingLeaves.length - 1 && (
                       <Separator className="my-0" />

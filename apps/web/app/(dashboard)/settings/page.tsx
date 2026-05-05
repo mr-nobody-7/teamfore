@@ -116,7 +116,9 @@ export default function SettingsPage() {
                           (isActive && enabledTypes.length === 1)
                         }
                       />
-                      <span className="text-sm font-medium">{formatLeaveType(type)}</span>
+                      <span className="text-sm font-medium">
+                        {formatLeaveType(type)}
+                      </span>
                     </div>
 
                     <Badge variant={isActive ? "default" : "outline"}>

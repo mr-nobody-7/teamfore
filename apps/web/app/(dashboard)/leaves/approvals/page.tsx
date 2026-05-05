@@ -111,7 +111,9 @@ export default function ApprovalsPage() {
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline">{formatLeaveType(leave.type)}</Badge>
+                          <Badge variant="outline">
+                            {formatLeaveType(leave.type)}
+                          </Badge>
                           <Badge>{leave.status}</Badge>
                         </div>
                       </div>

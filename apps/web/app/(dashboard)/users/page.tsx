@@ -47,7 +47,7 @@ export default function UsersPage() {
     queryKey: ["workspace-users"],
     queryFn: async () => {
       const response = await api.get<ApiResponse<ListUsersResponse>>("/users", {
-        params: { page: 1, limit: 100 },
+        params: { page: 1, limit: 50 },
       });
       return response.data.data;
     },

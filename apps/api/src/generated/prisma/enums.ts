@@ -18,16 +18,6 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
-export const LeaveType = {
-  VACATION: 'VACATION',
-  SICK: 'SICK',
-  PERSONAL: 'PERSONAL',
-  CASUAL: 'CASUAL'
-} as const
-
-export type LeaveType = (typeof LeaveType)[keyof typeof LeaveType]
-
-
 export const LeaveStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',

@@ -151,7 +151,9 @@ export const WorkspaceLeaveTypeScalarFieldEnum = {
   id: 'id',
   workspaceId: 'workspaceId',
   type: 'type',
+  label: 'label',
   isActive: 'isActive',
+  isCustom: 'isCustom',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

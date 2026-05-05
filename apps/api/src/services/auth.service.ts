@@ -26,12 +26,12 @@ export class InvalidCredentialsError extends AppError {
   }
 }
 
-const ALL_WORKSPACE_LEAVE_TYPES = [
-  "VACATION",
-  "SICK",
-  "PERSONAL",
-  "CASUAL",
-] as const;
+const ALL_WORKSPACE_LEAVE_TYPES: { type: string; label: string }[] = [
+  { type: "VACATION", label: "Earned Leave" },
+  { type: "SICK",     label: "Sick Leave"   },
+  { type: "PERSONAL", label: "Comp Off"     },
+  { type: "CASUAL",   label: "Casual Leave" },
+];
 
 function isEmailUniqueConstraintError(error: unknown): boolean {
   if (!(error instanceof Prisma.PrismaClientKnownRequestError)) {
@@ -91,10 +91,10 @@ export const registerUserService = async (
 
       await tx.workspaceLeaveType.createMany({
         data: [
-          { workspaceId: workspace.id, type: "VACATION", isActive: true },
-          { workspaceId: workspace.id, type: "SICK", isActive: true },
-          { workspaceId: workspace.id, type: "PERSONAL", isActive: true },
-          { workspaceId: workspace.id, type: "CASUAL", isActive: true },
+          { workspaceId: workspace.id, type: "VACATION", label: "Earned Leave", isActive: true },
+          { workspaceId: workspace.id, type: "SICK", label: "Sick Leave", isActive: true },
+          { workspaceId: workspace.id, type: "PERSONAL", label: "Comp Off", isActive: true },
+          { workspaceId: workspace.id, type: "CASUAL", label: "Casual Leave", isActive: true },
         ],
         skipDuplicates: true,
       });
@@ -148,9 +148,10 @@ export const registerWorkspaceService = async (
       });
 
       await tx.workspaceLeaveType.createMany({
-        data: ALL_WORKSPACE_LEAVE_TYPES.map((type) => ({
+        data: ALL_WORKSPACE_LEAVE_TYPES.map(({ type, label }) => ({
           workspaceId: workspace.id,
           type,
+          label,
           isActive: selectedLeaveTypes.has(type),
         })),
         skipDuplicates: true,

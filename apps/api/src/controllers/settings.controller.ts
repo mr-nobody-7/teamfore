@@ -1,10 +1,17 @@
 import type { NextFunction, Request, Response } from "express";
 
 import {
+  createWorkspaceLeaveType,
+  deleteWorkspaceLeaveType,
   listWorkspaceLeaveTypes,
+  updateWorkspaceLeaveType,
   updateWorkspaceLeaveTypes,
 } from "../services/settings.service.js";
-import type { UpdateLeaveTypesInput } from "../types/index.js";
+import type {
+  CreateLeaveTypeInput,
+  UpdateLeaveTypeInput,
+  UpdateLeaveTypesInput,
+} from "../types/index.js";
 import { createAuditLog } from "../utils/audit.js";
 import { sendSuccess } from "../utils/response.js";
 
@@ -51,3 +58,88 @@ export const updateLeaveTypesSettingsController = async (
     next(error);
   }
 };
+
+export const createLeaveTypeController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { userId, workspaceId } = req.user!;
+    const created = await createWorkspaceLeaveType(
+      workspaceId,
+      req.body as CreateLeaveTypeInput,
+    );
+
+    createAuditLog({
+      action: "LEAVE_TYPES_UPDATED",
+      userId,
+      workspaceId,
+      targetType: "Workspace",
+      targetId: workspaceId,
+      ipAddress: req.ip,
+      metadata: { action: "created", label: created.label },
+    });
+
+    sendSuccess(res, created, "Leave type created", 201);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateLeaveTypeController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { userId, workspaceId } = req.user!;
+    const id = String(req.params.id);
+    const updated = await updateWorkspaceLeaveType(
+      workspaceId,
+      id,
+      req.body as UpdateLeaveTypeInput,
+    );
+
+    createAuditLog({
+      action: "LEAVE_TYPES_UPDATED",
+      userId,
+      workspaceId,
+      targetType: "Workspace",
+      targetId: workspaceId,
+      ipAddress: req.ip,
+      metadata: { action: "updated", id, changes: req.body },
+    });
+
+    sendSuccess(res, updated, "Leave type updated");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteLeaveTypeController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { userId, workspaceId } = req.user!;
+    const id = String(req.params.id);
+    await deleteWorkspaceLeaveType(workspaceId, id);
+
+    createAuditLog({
+      action: "LEAVE_TYPES_UPDATED",
+      userId,
+      workspaceId,
+      targetType: "Workspace",
+      targetId: workspaceId,
+      ipAddress: req.ip,
+      metadata: { action: "deleted", id },
+    });
+
+    sendSuccess(res, null, "Leave type deleted");
+  } catch (error) {
+    next(error);
+  }
+};
+

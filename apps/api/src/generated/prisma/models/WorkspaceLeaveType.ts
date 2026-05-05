@@ -27,8 +27,10 @@ export type AggregateWorkspaceLeaveType = {
 export type WorkspaceLeaveTypeMinAggregateOutputType = {
   id: string | null
   workspaceId: string | null
-  type: $Enums.LeaveType | null
+  type: string | null
+  label: string | null
   isActive: boolean | null
+  isCustom: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -36,8 +38,10 @@ export type WorkspaceLeaveTypeMinAggregateOutputType = {
 export type WorkspaceLeaveTypeMaxAggregateOutputType = {
   id: string | null
   workspaceId: string | null
-  type: $Enums.LeaveType | null
+  type: string | null
+  label: string | null
   isActive: boolean | null
+  isCustom: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -46,7 +50,9 @@ export type WorkspaceLeaveTypeCountAggregateOutputType = {
   id: number
   workspaceId: number
   type: number
+  label: number
   isActive: number
+  isCustom: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -57,7 +63,9 @@ export type WorkspaceLeaveTypeMinAggregateInputType = {
   id?: true
   workspaceId?: true
   type?: true
+  label?: true
   isActive?: true
+  isCustom?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -66,7 +74,9 @@ export type WorkspaceLeaveTypeMaxAggregateInputType = {
   id?: true
   workspaceId?: true
   type?: true
+  label?: true
   isActive?: true
+  isCustom?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -75,7 +85,9 @@ export type WorkspaceLeaveTypeCountAggregateInputType = {
   id?: true
   workspaceId?: true
   type?: true
+  label?: true
   isActive?: true
+  isCustom?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -156,8 +168,10 @@ export type WorkspaceLeaveTypeGroupByArgs<ExtArgs extends runtime.Types.Extensio
 export type WorkspaceLeaveTypeGroupByOutputType = {
   id: string
   workspaceId: string
-  type: $Enums.LeaveType
+  type: string
+  label: string
   isActive: boolean
+  isCustom: boolean
   createdAt: Date
   updatedAt: Date
   _count: WorkspaceLeaveTypeCountAggregateOutputType | null
@@ -186,8 +200,10 @@ export type WorkspaceLeaveTypeWhereInput = {
   NOT?: Prisma.WorkspaceLeaveTypeWhereInput | Prisma.WorkspaceLeaveTypeWhereInput[]
   id?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
   workspaceId?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
-  type?: Prisma.EnumLeaveTypeFilter<"WorkspaceLeaveType"> | $Enums.LeaveType
+  type?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
+  label?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
   isActive?: Prisma.BoolFilter<"WorkspaceLeaveType"> | boolean
+  isCustom?: Prisma.BoolFilter<"WorkspaceLeaveType"> | boolean
   createdAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
@@ -197,7 +213,9 @@ export type WorkspaceLeaveTypeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  label?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCustom?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   workspace?: Prisma.WorkspaceOrderByWithRelationInput
@@ -210,8 +228,10 @@ export type WorkspaceLeaveTypeWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.WorkspaceLeaveTypeWhereInput[]
   NOT?: Prisma.WorkspaceLeaveTypeWhereInput | Prisma.WorkspaceLeaveTypeWhereInput[]
   workspaceId?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
-  type?: Prisma.EnumLeaveTypeFilter<"WorkspaceLeaveType"> | $Enums.LeaveType
+  type?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
+  label?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
   isActive?: Prisma.BoolFilter<"WorkspaceLeaveType"> | boolean
+  isCustom?: Prisma.BoolFilter<"WorkspaceLeaveType"> | boolean
   createdAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
@@ -221,7 +241,9 @@ export type WorkspaceLeaveTypeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  label?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCustom?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.WorkspaceLeaveTypeCountOrderByAggregateInput
@@ -235,16 +257,20 @@ export type WorkspaceLeaveTypeScalarWhereWithAggregatesInput = {
   NOT?: Prisma.WorkspaceLeaveTypeScalarWhereWithAggregatesInput | Prisma.WorkspaceLeaveTypeScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"WorkspaceLeaveType"> | string
   workspaceId?: Prisma.StringWithAggregatesFilter<"WorkspaceLeaveType"> | string
-  type?: Prisma.EnumLeaveTypeWithAggregatesFilter<"WorkspaceLeaveType"> | $Enums.LeaveType
+  type?: Prisma.StringWithAggregatesFilter<"WorkspaceLeaveType"> | string
+  label?: Prisma.StringWithAggregatesFilter<"WorkspaceLeaveType"> | string
   isActive?: Prisma.BoolWithAggregatesFilter<"WorkspaceLeaveType"> | boolean
+  isCustom?: Prisma.BoolWithAggregatesFilter<"WorkspaceLeaveType"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"WorkspaceLeaveType"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"WorkspaceLeaveType"> | Date | string
 }
 
 export type WorkspaceLeaveTypeCreateInput = {
   id?: string
-  type: $Enums.LeaveType
+  type: string
+  label: string
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   workspace: Prisma.WorkspaceCreateNestedOneWithoutLeaveTypeSettingsInput
@@ -253,16 +279,20 @@ export type WorkspaceLeaveTypeCreateInput = {
 export type WorkspaceLeaveTypeUncheckedCreateInput = {
   id?: string
   workspaceId: string
-  type: $Enums.LeaveType
+  type: string
+  label: string
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type WorkspaceLeaveTypeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutLeaveTypeSettingsNestedInput
@@ -271,8 +301,10 @@ export type WorkspaceLeaveTypeUpdateInput = {
 export type WorkspaceLeaveTypeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -280,16 +312,20 @@ export type WorkspaceLeaveTypeUncheckedUpdateInput = {
 export type WorkspaceLeaveTypeCreateManyInput = {
   id?: string
   workspaceId: string
-  type: $Enums.LeaveType
+  type: string
+  label: string
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type WorkspaceLeaveTypeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -297,8 +333,10 @@ export type WorkspaceLeaveTypeUpdateManyMutationInput = {
 export type WorkspaceLeaveTypeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -315,14 +353,16 @@ export type WorkspaceLeaveTypeOrderByRelationAggregateInput = {
 
 export type WorkspaceLeaveTypeWorkspaceIdTypeCompoundUniqueInput = {
   workspaceId: string
-  type: $Enums.LeaveType
+  type: string
 }
 
 export type WorkspaceLeaveTypeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  label?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCustom?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -331,7 +371,9 @@ export type WorkspaceLeaveTypeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  label?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCustom?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -340,7 +382,9 @@ export type WorkspaceLeaveTypeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  label?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isCustom?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -389,16 +433,20 @@ export type WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput = {
 
 export type WorkspaceLeaveTypeCreateWithoutWorkspaceInput = {
   id?: string
-  type: $Enums.LeaveType
+  type: string
+  label: string
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type WorkspaceLeaveTypeUncheckedCreateWithoutWorkspaceInput = {
   id?: string
-  type: $Enums.LeaveType
+  type: string
+  label: string
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -435,40 +483,50 @@ export type WorkspaceLeaveTypeScalarWhereInput = {
   NOT?: Prisma.WorkspaceLeaveTypeScalarWhereInput | Prisma.WorkspaceLeaveTypeScalarWhereInput[]
   id?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
   workspaceId?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
-  type?: Prisma.EnumLeaveTypeFilter<"WorkspaceLeaveType"> | $Enums.LeaveType
+  type?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
+  label?: Prisma.StringFilter<"WorkspaceLeaveType"> | string
   isActive?: Prisma.BoolFilter<"WorkspaceLeaveType"> | boolean
+  isCustom?: Prisma.BoolFilter<"WorkspaceLeaveType"> | boolean
   createdAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
 }
 
 export type WorkspaceLeaveTypeCreateManyWorkspaceInput = {
   id?: string
-  type: $Enums.LeaveType
+  type: string
+  label: string
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type WorkspaceLeaveTypeUpdateWithoutWorkspaceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorkspaceLeaveTypeUncheckedUpdateWithoutWorkspaceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -479,7 +537,9 @@ export type WorkspaceLeaveTypeSelect<ExtArgs extends runtime.Types.Extensions.In
   id?: boolean
   workspaceId?: boolean
   type?: boolean
+  label?: boolean
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
@@ -489,7 +549,9 @@ export type WorkspaceLeaveTypeSelectCreateManyAndReturn<ExtArgs extends runtime.
   id?: boolean
   workspaceId?: boolean
   type?: boolean
+  label?: boolean
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
@@ -499,7 +561,9 @@ export type WorkspaceLeaveTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.
   id?: boolean
   workspaceId?: boolean
   type?: boolean
+  label?: boolean
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
@@ -509,12 +573,14 @@ export type WorkspaceLeaveTypeSelectScalar = {
   id?: boolean
   workspaceId?: boolean
   type?: boolean
+  label?: boolean
   isActive?: boolean
+  isCustom?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type WorkspaceLeaveTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workspaceId" | "type" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["workspaceLeaveType"]>
+export type WorkspaceLeaveTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workspaceId" | "type" | "label" | "isActive" | "isCustom" | "createdAt" | "updatedAt", ExtArgs["result"]["workspaceLeaveType"]>
 export type WorkspaceLeaveTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
 }
@@ -533,8 +599,10 @@ export type $WorkspaceLeaveTypePayload<ExtArgs extends runtime.Types.Extensions.
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     workspaceId: string
-    type: $Enums.LeaveType
+    type: string
+    label: string
     isActive: boolean
+    isCustom: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["workspaceLeaveType"]>
@@ -963,8 +1031,10 @@ export interface Prisma__WorkspaceLeaveTypeClient<T, Null = never, ExtArgs exten
 export interface WorkspaceLeaveTypeFieldRefs {
   readonly id: Prisma.FieldRef<"WorkspaceLeaveType", 'String'>
   readonly workspaceId: Prisma.FieldRef<"WorkspaceLeaveType", 'String'>
-  readonly type: Prisma.FieldRef<"WorkspaceLeaveType", 'LeaveType'>
+  readonly type: Prisma.FieldRef<"WorkspaceLeaveType", 'String'>
+  readonly label: Prisma.FieldRef<"WorkspaceLeaveType", 'String'>
   readonly isActive: Prisma.FieldRef<"WorkspaceLeaveType", 'Boolean'>
+  readonly isCustom: Prisma.FieldRef<"WorkspaceLeaveType", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"WorkspaceLeaveType", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"WorkspaceLeaveType", 'DateTime'>
 }

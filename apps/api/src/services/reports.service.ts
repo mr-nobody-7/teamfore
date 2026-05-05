@@ -359,7 +359,7 @@ export const getReportsAnalytics = async ({
   const teamNameById = new Map(teams.map((team) => [team.id, team.name]));
 
   const monthDiff = Array.from({ length: 13 }, () => 0);
-  const leaveTypeCounts = new Map<(typeof LEAVE_TYPES)[number], number>(
+  const leaveTypeCounts = new Map<string, number>(
     LEAVE_TYPES.map((type) => [type, 0]),
   );
   const teamCounts = new Map<string, number>();

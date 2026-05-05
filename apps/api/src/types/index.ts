@@ -46,7 +46,7 @@ export interface ApplyLeaveInput {
   start_session: "FULL_DAY" | "FIRST_HALF" | "SECOND_HALF";
   end_date: string;
   end_session: "FULL_DAY" | "FIRST_HALF" | "SECOND_HALF";
-  type: "VACATION" | "SICK" | "PERSONAL" | "CASUAL";
+  type: string;
   reason: string;
 }
 
@@ -109,10 +109,19 @@ export interface ReportsAnalyticsQuery {
   team_id?: string | undefined;
 }
 
-export type LeaveTypeValue = "VACATION" | "SICK" | "PERSONAL" | "CASUAL";
+export type LeaveTypeValue = string;
 
 export interface UpdateLeaveTypesInput {
-  enabled_types: LeaveTypeValue[];
+  enabled_types: string[];
+}
+
+export interface CreateLeaveTypeInput {
+  label: string;
+}
+
+export interface UpdateLeaveTypeInput {
+  label?: string;
+  isActive?: boolean;
 }
 
 export interface CreateFeedbackInput {

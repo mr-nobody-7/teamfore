@@ -37,8 +37,8 @@ export const registerWorkspaceSchema = z.object({
     .min(3, "Workspace name is required")
     .max(50, "Workspace name must be less than 50 characters"),
   leaveTypes: z
-    .array(z.enum(["VACATION", "SICK", "PERSONAL", "CASUAL"]))
-    .max(4, "At most 4 leave types are supported")
+    .array(z.string().trim().min(1))
+    .max(10, "At most 10 leave types are supported")
     .transform((types) => Array.from(new Set(types))),
 });
 
@@ -64,9 +64,7 @@ export const applyLeaveSchema = z.object({
   end_session: z.enum(["FULL_DAY", "FIRST_HALF", "SECOND_HALF"], {
     error: "Invalid end session",
   }),
-  type: z.enum(["VACATION", "SICK", "PERSONAL", "CASUAL"], {
-    error: "Invalid leave type",
-  }),
+  type: z.string().trim().min(1, "Leave type is required").max(100, "Invalid leave type"),
   reason: z
     .string()
     .trim()
@@ -182,8 +180,29 @@ export const reportsAnalyticsSchema = z
 
 export const updateLeaveTypesSchema = z.object({
   enabled_types: z
-    .array(z.enum(["VACATION", "SICK", "PERSONAL", "CASUAL"]))
+    .array(z.string().trim().min(1))
     .min(1, "At least one leave type must remain enabled"),
+});
+
+export const createLeaveTypeSchema = z.object({
+  label: z
+    .string()
+    .trim()
+    .min(1, "Label is required")
+    .max(50, "Label must be less than 50 characters"),
+});
+
+export const updateLeaveTypeSchema = z.object({
+  label: z
+    .string()
+    .trim()
+    .min(1, "Label is required")
+    .max(50, "Label must be less than 50 characters")
+    .optional(),
+  isActive: z.boolean().optional(),
+}).refine((v) => v.label !== undefined || v.isActive !== undefined, {
+  message: "At least one field (label or isActive) must be provided",
+  path: ["label"],
 });
 
 export const createFeedbackSchema = z.object({

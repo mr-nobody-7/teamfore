@@ -32,7 +32,7 @@ export type LeaveRequestMinAggregateOutputType = {
   startSession: $Enums.Session | null
   endDate: Date | null
   endSession: $Enums.Session | null
-  type: $Enums.LeaveType | null
+  type: string | null
   status: $Enums.LeaveStatus | null
   reason: string | null
   approverId: string | null
@@ -48,7 +48,7 @@ export type LeaveRequestMaxAggregateOutputType = {
   startSession: $Enums.Session | null
   endDate: Date | null
   endSession: $Enums.Session | null
-  type: $Enums.LeaveType | null
+  type: string | null
   status: $Enums.LeaveStatus | null
   reason: string | null
   approverId: string | null
@@ -203,7 +203,7 @@ export type LeaveRequestGroupByOutputType = {
   startSession: $Enums.Session
   endDate: Date
   endSession: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status: $Enums.LeaveStatus
   reason: string | null
   approverId: string | null
@@ -240,7 +240,7 @@ export type LeaveRequestWhereInput = {
   startSession?: Prisma.EnumSessionFilter<"LeaveRequest"> | $Enums.Session
   endDate?: Prisma.DateTimeFilter<"LeaveRequest"> | Date | string
   endSession?: Prisma.EnumSessionFilter<"LeaveRequest"> | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFilter<"LeaveRequest"> | $Enums.LeaveType
+  type?: Prisma.StringFilter<"LeaveRequest"> | string
   status?: Prisma.EnumLeaveStatusFilter<"LeaveRequest"> | $Enums.LeaveStatus
   reason?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   approverId?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
@@ -279,7 +279,7 @@ export type LeaveRequestWhereUniqueInput = Prisma.AtLeast<{
   startSession?: Prisma.EnumSessionFilter<"LeaveRequest"> | $Enums.Session
   endDate?: Prisma.DateTimeFilter<"LeaveRequest"> | Date | string
   endSession?: Prisma.EnumSessionFilter<"LeaveRequest"> | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFilter<"LeaveRequest"> | $Enums.LeaveType
+  type?: Prisma.StringFilter<"LeaveRequest"> | string
   status?: Prisma.EnumLeaveStatusFilter<"LeaveRequest"> | $Enums.LeaveStatus
   reason?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   approverId?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
@@ -319,7 +319,7 @@ export type LeaveRequestScalarWhereWithAggregatesInput = {
   startSession?: Prisma.EnumSessionWithAggregatesFilter<"LeaveRequest"> | $Enums.Session
   endDate?: Prisma.DateTimeWithAggregatesFilter<"LeaveRequest"> | Date | string
   endSession?: Prisma.EnumSessionWithAggregatesFilter<"LeaveRequest"> | $Enums.Session
-  type?: Prisma.EnumLeaveTypeWithAggregatesFilter<"LeaveRequest"> | $Enums.LeaveType
+  type?: Prisma.StringWithAggregatesFilter<"LeaveRequest"> | string
   status?: Prisma.EnumLeaveStatusWithAggregatesFilter<"LeaveRequest"> | $Enums.LeaveStatus
   reason?: Prisma.StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
   approverId?: Prisma.StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
@@ -334,7 +334,7 @@ export type LeaveRequestCreateInput = {
   startSession?: $Enums.Session
   endDate: Date | string
   endSession?: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
@@ -351,7 +351,7 @@ export type LeaveRequestUncheckedCreateInput = {
   startSession?: $Enums.Session
   endDate: Date | string
   endSession?: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status?: $Enums.LeaveStatus
   reason?: string | null
   approverId?: string | null
@@ -366,7 +366,7 @@ export type LeaveRequestUpdateInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -383,7 +383,7 @@ export type LeaveRequestUncheckedUpdateInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -399,7 +399,7 @@ export type LeaveRequestCreateManyInput = {
   startSession?: $Enums.Session
   endDate: Date | string
   endSession?: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status?: $Enums.LeaveStatus
   reason?: string | null
   approverId?: string | null
@@ -414,7 +414,7 @@ export type LeaveRequestUpdateManyMutationInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -429,7 +429,7 @@ export type LeaveRequestUncheckedUpdateManyInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -583,10 +583,6 @@ export type EnumSessionFieldUpdateOperationsInput = {
   set?: $Enums.Session
 }
 
-export type EnumLeaveTypeFieldUpdateOperationsInput = {
-  set?: $Enums.LeaveType
-}
-
 export type EnumLeaveStatusFieldUpdateOperationsInput = {
   set?: $Enums.LeaveStatus
 }
@@ -598,7 +594,7 @@ export type LeaveRequestCreateWithoutUserInput = {
   startSession?: $Enums.Session
   endDate: Date | string
   endSession?: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
@@ -613,7 +609,7 @@ export type LeaveRequestUncheckedCreateWithoutUserInput = {
   startSession?: $Enums.Session
   endDate: Date | string
   endSession?: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status?: $Enums.LeaveStatus
   reason?: string | null
   approverId?: string | null
@@ -638,7 +634,7 @@ export type LeaveRequestCreateWithoutApproverInput = {
   startSession?: $Enums.Session
   endDate: Date | string
   endSession?: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
@@ -654,7 +650,7 @@ export type LeaveRequestUncheckedCreateWithoutApproverInput = {
   startSession?: $Enums.Session
   endDate: Date | string
   endSession?: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
@@ -698,7 +694,7 @@ export type LeaveRequestScalarWhereInput = {
   startSession?: Prisma.EnumSessionFilter<"LeaveRequest"> | $Enums.Session
   endDate?: Prisma.DateTimeFilter<"LeaveRequest"> | Date | string
   endSession?: Prisma.EnumSessionFilter<"LeaveRequest"> | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFilter<"LeaveRequest"> | $Enums.LeaveType
+  type?: Prisma.StringFilter<"LeaveRequest"> | string
   status?: Prisma.EnumLeaveStatusFilter<"LeaveRequest"> | $Enums.LeaveStatus
   reason?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   approverId?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
@@ -729,7 +725,7 @@ export type LeaveRequestCreateManyUserInput = {
   startSession?: $Enums.Session
   endDate: Date | string
   endSession?: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status?: $Enums.LeaveStatus
   reason?: string | null
   approverId?: string | null
@@ -745,7 +741,7 @@ export type LeaveRequestCreateManyApproverInput = {
   startSession?: $Enums.Session
   endDate: Date | string
   endSession?: $Enums.Session
-  type: $Enums.LeaveType
+  type: string
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
@@ -759,7 +755,7 @@ export type LeaveRequestUpdateWithoutUserInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -774,7 +770,7 @@ export type LeaveRequestUncheckedUpdateWithoutUserInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -789,7 +785,7 @@ export type LeaveRequestUncheckedUpdateManyWithoutUserInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -804,7 +800,7 @@ export type LeaveRequestUpdateWithoutApproverInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -820,7 +816,7 @@ export type LeaveRequestUncheckedUpdateWithoutApproverInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -835,7 +831,7 @@ export type LeaveRequestUncheckedUpdateManyWithoutApproverInput = {
   startSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endSession?: Prisma.EnumSessionFieldUpdateOperationsInput | $Enums.Session
-  type?: Prisma.EnumLeaveTypeFieldUpdateOperationsInput | $Enums.LeaveType
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -942,7 +938,7 @@ export type $LeaveRequestPayload<ExtArgs extends runtime.Types.Extensions.Intern
     startSession: $Enums.Session
     endDate: Date
     endSession: $Enums.Session
-    type: $Enums.LeaveType
+    type: string
     status: $Enums.LeaveStatus
     reason: string | null
     approverId: string | null
@@ -1380,7 +1376,7 @@ export interface LeaveRequestFieldRefs {
   readonly startSession: Prisma.FieldRef<"LeaveRequest", 'Session'>
   readonly endDate: Prisma.FieldRef<"LeaveRequest", 'DateTime'>
   readonly endSession: Prisma.FieldRef<"LeaveRequest", 'Session'>
-  readonly type: Prisma.FieldRef<"LeaveRequest", 'LeaveType'>
+  readonly type: Prisma.FieldRef<"LeaveRequest", 'String'>
   readonly status: Prisma.FieldRef<"LeaveRequest", 'LeaveStatus'>
   readonly reason: Prisma.FieldRef<"LeaveRequest", 'String'>
   readonly approverId: Prisma.FieldRef<"LeaveRequest", 'String'>

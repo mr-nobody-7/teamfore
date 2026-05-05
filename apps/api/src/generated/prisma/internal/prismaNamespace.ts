@@ -1264,7 +1264,9 @@ export const WorkspaceLeaveTypeScalarFieldEnum = {
   id: 'id',
   workspaceId: 'workspaceId',
   type: 'type',
+  label: 'label',
   isActive: 'isActive',
+  isCustom: 'isCustom',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1430,20 +1432,6 @@ export type EnumSessionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
  * Reference to a field of type 'Session[]'
  */
 export type ListEnumSessionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Session[]'>
-    
-
-
-/**
- * Reference to a field of type 'LeaveType'
- */
-export type EnumLeaveTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeaveType'>
-    
-
-
-/**
- * Reference to a field of type 'LeaveType[]'
- */
-export type ListEnumLeaveTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeaveType[]'>
     
 
 

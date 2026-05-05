@@ -15,7 +15,7 @@ const router = Router();
 router.post(
   "/applyLeave",
   authenticate,
-  authorize(["MANAGER", "USER"]),
+  authorize(["ADMIN", "MANAGER", "USER"]),
   validate(applyLeaveSchema),
   applyLeaveController,
 );

@@ -13,13 +13,6 @@ enum Role {
   ADMIN
 }
 
-enum LeaveType {
-  VACATION
-  SICK
-  PERSONAL
-  CASUAL
-}
-
 enum LeaveStatus {
   PENDING
   APPROVED
@@ -139,7 +132,7 @@ model LeaveRequest {
   startSession Session     @default(FULL_DAY)
   endDate      DateTime
   endSession   Session     @default(FULL_DAY)
-  type         LeaveType
+  type         String
   status       LeaveStatus @default(PENDING)
   reason       String?
   approver     User?       @relation("Approver", fields: [approverId], references: [id])
@@ -173,13 +166,15 @@ model AuditLog {
 }
 
 model WorkspaceLeaveType {
-  id         String    @id @default(uuid())
+  id          String    @id @default(uuid())
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
-  type       LeaveType
-  isActive   Boolean   @default(true)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  type        String    // internal key: built-in enum name or UUID for custom
+  label       String    // human-readable display name
+  isActive    Boolean   @default(true)
+  isCustom    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@unique([workspaceId, type])
   @@index([workspaceId])

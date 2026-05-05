@@ -36,7 +36,7 @@ export interface RegisterWorkspacePayload {
   email: string;
   password: string;
   workspaceName: string;
-  leaveTypes: LeaveType[];
+  leaveTypes: string[];
 }
 
 export interface LoginPayload {
@@ -46,7 +46,7 @@ export interface LoginPayload {
 
 // ── Leave ─────────────────────────────────────────────────────────────────────
 
-export type LeaveType = "VACATION" | "SICK" | "PERSONAL" | "CASUAL";
+export type LeaveType = string;
 export type LeaveStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
 export type Session = "FULL_DAY" | "FIRST_HALF" | "SECOND_HALF";
 export type AvailabilityStatus =
@@ -94,7 +94,7 @@ export interface ApplyLeavePayload {
   start_session: Session;
   end_date: string;
   end_session: Session;
-  type: LeaveType;
+  type: string;
   reason: string;
 }
 
@@ -230,14 +230,16 @@ export interface ReportsAnalytics {
 
 export interface LeaveTypeSetting {
   id: string;
-  type: LeaveType;
+  type: string;
+  label: string;
   isActive: boolean;
+  isCustom: boolean;
   updatedAt: string;
 }
 
 export interface LeaveTypeSettingsResponse {
   leaveTypes: LeaveTypeSetting[];
-  enabledTypes: LeaveType[];
+  enabledTypes: string[];
 }
 
 export interface AvailabilityStatusCount {

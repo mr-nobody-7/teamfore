@@ -41,7 +41,7 @@ const applyLeaveSchema = z.object({
   start_session: z.enum(["FULL_DAY", "FIRST_HALF", "SECOND_HALF"]),
   end_date: z.string().min(1, "End date is required"),
   end_session: z.enum(["FULL_DAY", "FIRST_HALF", "SECOND_HALF"]),
-  type: z.enum(["VACATION", "SICK", "PERSONAL", "CASUAL"]),
+  type: z.string().min(1, "Leave type is required"),
   reason: z.string().min(1, "Reason is required").max(500),
 });
 

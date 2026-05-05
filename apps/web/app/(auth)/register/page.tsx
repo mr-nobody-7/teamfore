@@ -30,7 +30,6 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/auth-context";
 import { posthog } from "@/lib/posthog";
 import { registerWorkspace } from "@/services/auth.service";
-import type { LeaveType } from "@/types/api";
 
 const registerSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -39,19 +38,19 @@ const registerSchema = z.object({
   workspaceName: z
     .string()
     .min(3, "Workspace name must be at least 3 characters"),
-  leaveTypes: z.array(z.enum(["VACATION", "SICK", "PERSONAL", "CASUAL"])),
+  leaveTypes: z.array(z.string().min(1)),
 });
 
 type RegisterForm = z.infer<typeof registerSchema>;
 
-const DEFAULT_LEAVE_TYPES: LeaveType[] = [
+const DEFAULT_LEAVE_TYPES: string[] = [
   "CASUAL",
   "SICK",
   "VACATION",
   "PERSONAL",
 ];
 
-const LEAVE_TYPE_OPTIONS: Array<{ value: LeaveType; label: string }> = [
+const LEAVE_TYPE_OPTIONS: Array<{ value: string; label: string }> = [
   { value: "CASUAL", label: "Casual Leave" },
   { value: "SICK", label: "Sick Leave" },
   { value: "VACATION", label: "Earned Leave" },

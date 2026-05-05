@@ -14,12 +14,17 @@ export function formatSession(session: string): string {
   return labels[session] ?? session;
 }
 
-export function formatLeaveType(type: string): string {
-  const labels: Record<string, string> = {
+export function formatLeaveType(
+  type: string,
+  labelMap?: Record<string, string>,
+): string {
+  if (labelMap?.[type]) return labelMap[type];
+  // Fallback map for built-in types (used before API data loads)
+  const builtIn: Record<string, string> = {
     VACATION: "Earned Leave",
     SICK: "Sick Leave",
     PERSONAL: "Comp Off",
     CASUAL: "Casual Leave",
   };
-  return labels[type] ?? type;
+  return builtIn[type] ?? type;
 }

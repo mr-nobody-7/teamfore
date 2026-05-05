@@ -4,7 +4,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn, formatLeaveType } from "@/lib/utils";
 import type { LeaveRequest, PublicHoliday } from "@/types/api";
 import type { CapacityHeatmapCell } from "./capacity-heatmap";
 
@@ -183,7 +183,7 @@ export function CalendarDay({
               <ul className="space-y-0.5">
                 {leaves.slice(0, 5).map((leave) => (
                   <li key={leave.id}>
-                    {leave.user.name} · {leave.type}
+                    {leave.user.name} · {formatLeaveType(leave.type)}
                   </li>
                 ))}
                 {leaves.length > 5 && <li>+{leaves.length - 5} more</li>}

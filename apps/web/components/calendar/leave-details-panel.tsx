@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
+import { cn, formatLeaveType } from "@/lib/utils";
 import type { LeaveRequest, PublicHoliday } from "@/types/api";
 
 interface LeaveDetailsPanelProps {
@@ -78,7 +78,7 @@ function LeaveCard({ leave, day }: { leave: LeaveRequest; day: Date }) {
         <div className="flex items-center justify-between gap-2">
           <p className="truncate text-sm font-medium">{leave.user.name}</p>
           <Badge variant="outline" className="shrink-0 text-[10px]">
-            {leave.type}
+            {formatLeaveType(leave.type)}
           </Badge>
         </div>
         <p className="mt-0.5 text-xs text-muted-foreground">{sessionLabel}</p>

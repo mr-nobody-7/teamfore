@@ -35,6 +35,7 @@ import { useDashboardSummary } from "@/hooks/use-dashboard-summary";
 import { useLeaves } from "@/hooks/use-leaves";
 import { useRole } from "@/hooks/use-role";
 import api from "@/lib/axios";
+import { formatLeaveType } from "@/lib/utils";
 
 export default function DashboardPage() {
   const queryClient = useQueryClient();
@@ -279,7 +280,7 @@ export default function DashboardPage() {
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <Badge variant="outline">{leave.type}</Badge>
+                            <Badge variant="outline">{formatLeaveType(leave.type)}</Badge>
                             <Button
                               size="xs"
                               onClick={() =>
@@ -356,7 +357,7 @@ export default function DashboardPage() {
                           {leave.dateLabel}
                         </span>
                       </div>
-                      <Badge variant="outline">{leave.type}</Badge>
+                      <Badge variant="outline">{formatLeaveType(leave.type)}</Badge>
                     </div>
                     {i < formattedUpcomingLeaves.length - 1 && (
                       <Separator className="my-0" />

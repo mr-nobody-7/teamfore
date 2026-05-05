@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import api from "@/lib/axios";
+import { formatLeaveType } from "@/lib/utils";
 import type {
   ApiResponse,
   LeaveType,
@@ -115,7 +116,7 @@ export default function SettingsPage() {
                           (isActive && enabledTypes.length === 1)
                         }
                       />
-                      <span className="text-sm font-medium">{type}</span>
+                      <span className="text-sm font-medium">{formatLeaveType(type)}</span>
                     </div>
 
                     <Badge variant={isActive ? "default" : "outline"}>

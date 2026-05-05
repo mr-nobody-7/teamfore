@@ -16,6 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useLeaves } from "@/hooks/use-leaves";
 import api from "@/lib/axios";
 import { posthog } from "@/lib/posthog";
+import { formatLeaveType } from "@/lib/utils";
 
 export default function ApprovalsPage() {
   const queryClient = useQueryClient();
@@ -110,7 +111,7 @@ export default function ApprovalsPage() {
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline">{leave.type}</Badge>
+                          <Badge variant="outline">{formatLeaveType(leave.type)}</Badge>
                           <Badge>{leave.status}</Badge>
                         </div>
                       </div>

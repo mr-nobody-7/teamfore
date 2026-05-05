@@ -22,6 +22,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useLeaves } from "@/hooks/use-leaves";
 import { useRole } from "@/hooks/use-role";
 import api from "@/lib/axios";
+import { formatLeaveType } from "@/lib/utils";
 import type { LeaveStatus } from "@/types/api";
 
 const STATUS_OPTIONS: Array<"ALL" | LeaveStatus> = [
@@ -135,7 +136,7 @@ export default function LeavesPage() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <Badge variant="outline">{leave.type}</Badge>
+                    <Badge variant="outline">{formatLeaveType(leave.type)}</Badge>
                     <Badge>{leave.status}</Badge>
                     {leave.status === "PENDING" &&
                       leave.userId === user?.id && (

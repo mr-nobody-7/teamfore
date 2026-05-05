@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/select";
 import api from "@/lib/axios";
 import { posthog } from "@/lib/posthog";
+import { formatLeaveType, formatSession } from "@/lib/utils";
 import type {
   ApiResponse,
   ApplyLeavePayload,
@@ -180,7 +181,7 @@ export default function ApplyLeavePage() {
                       <SelectContent>
                         {SESSIONS.map((session) => (
                           <SelectItem key={session} value={session}>
-                            {session}
+                            {formatSession(session)}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -205,7 +206,7 @@ export default function ApplyLeavePage() {
                       <SelectContent>
                         {SESSIONS.map((session) => (
                           <SelectItem key={session} value={session}>
-                            {session}
+                            {formatSession(session)}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -230,7 +231,7 @@ export default function ApplyLeavePage() {
                       <SelectContent>
                         {enabledTypes.map((type) => (
                           <SelectItem key={type} value={type}>
-                            {type}
+                            {formatLeaveType(type)}
                           </SelectItem>
                         ))}
                       </SelectContent>

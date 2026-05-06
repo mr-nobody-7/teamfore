@@ -82,7 +82,14 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const WorkspaceScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  slackAccessToken: 'slackAccessToken',
+  slackTeamId: 'slackTeamId',
+  slackTeamName: 'slackTeamName',
+  slackWebhookUrl: 'slackWebhookUrl',
+  slackBotUserId: 'slackBotUserId',
+  slackChannelId: 'slackChannelId',
+  slackConnectedAt: 'slackConnectedAt'
 } as const
 
 export type WorkspaceScalarFieldEnum = (typeof WorkspaceScalarFieldEnum)[keyof typeof WorkspaceScalarFieldEnum]

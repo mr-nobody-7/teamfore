@@ -544,10 +544,6 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type UserCreateNestedOneWithoutRequestedLeaveRequestsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutRequestedLeaveRequestsInput, Prisma.UserUncheckedCreateWithoutRequestedLeaveRequestsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutRequestedLeaveRequestsInput

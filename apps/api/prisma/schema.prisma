@@ -81,6 +81,15 @@ model Workspace {
   name      String
   createdAt DateTime @default(now())
 
+  // Slack integration
+  slackAccessToken String?
+  slackTeamId      String?
+  slackTeamName    String?
+  slackWebhookUrl  String?
+  slackBotUserId   String?
+  slackChannelId   String?   // default channel to post notifications
+  slackConnectedAt DateTime?
+
   users                User[]
   teams                Team[]
   leaveTypeSettings    WorkspaceLeaveType[]

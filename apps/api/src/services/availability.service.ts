@@ -7,6 +7,7 @@ import type {
   WorkloadLevelValue,
 } from "../types/index.js";
 import { BadRequestError, NotFoundError } from "../utils/errors.js";
+import { sendAvailabilityNotification } from "./slack.service.js";
 
 const ALL_AVAILABILITY_STATUSES: AvailabilityStatusValue[] = [
   "AVAILABLE",
@@ -214,7 +215,7 @@ export const setMyAvailability = async (
       workspaceId,
       isActive: true,
     },
-    select: { id: true },
+    select: { id: true, name: true },
   });
 
   if (!user) {
@@ -316,6 +317,14 @@ export const setMyAvailability = async (
   const effectiveStatus =
     onLeaveCount > 0 ? "ON_LEAVE" : (currentStatus?.status ?? "AVAILABLE");
   const effectiveWorkload = currentWorkload?.workload ?? "NORMAL";
+
+  if (input.status) {
+    void sendAvailabilityNotification(workspaceId, {
+      userName: user.name,
+      status: input.status,
+      date: date.toDateString(),
+    }).catch((err: unknown) => console.error("Slack notification error:", err));
+  }
 
   return {
     date: dateKey,

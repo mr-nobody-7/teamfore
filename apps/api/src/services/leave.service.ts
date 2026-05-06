@@ -15,6 +15,10 @@ import {
 } from "../utils/errors.js";
 import { sendMail } from "./mail.service.js";
 import { isLeaveTypeEnabledForWorkspace } from "./settings.service.js";
+import {
+  sendLeaveNotification,
+  sendLeaveStatusNotification,
+} from "./slack.service.js";
 
 // ── Session ordering helpers ──────────────────────────────────────────────────
 // Map each leave period to a range of "half-day slots" so overlap detection
@@ -443,6 +447,16 @@ export const applyLeave = async (
     });
   }
 
+  void sendLeaveNotification(workspaceId, {
+    userName: requester?.name ?? user.name,
+    leaveType: leaveRequest.type,
+    startDate: leaveRequest.startDate.toDateString(),
+    endDate: leaveRequest.endDate.toDateString(),
+    startSession: leaveRequest.startSession,
+    endSession: leaveRequest.endSession,
+    ...(leaveRequest.reason ? { reason: leaveRequest.reason } : {}),
+  }).catch((err: unknown) => console.error("Slack notification error:", err));
+
   return {
     leaveRequest,
     warning: conflictDetected,
@@ -606,6 +620,14 @@ export const updateLeaveStatus = async (
       endDate: updated.endDate,
       approvedBy: updated.approver?.name ?? "Manager",
     });
+
+    void sendLeaveStatusNotification(workspaceId, {
+      userName: updated.user.name,
+      leaveType: updated.type,
+      status: "APPROVED",
+      ...(updated.comment ? { comment: updated.comment } : {}),
+      approverName: updated.approver?.name ?? "Manager",
+    }).catch((err: unknown) => console.error("Slack notification error:", err));
   }
 
   if (updated.status === "REJECTED") {
@@ -618,6 +640,14 @@ export const updateLeaveStatus = async (
       rejectedBy: updated.approver?.name ?? "Manager",
       comment: updated.comment,
     });
+
+    void sendLeaveStatusNotification(workspaceId, {
+      userName: updated.user.name,
+      leaveType: updated.type,
+      status: "REJECTED",
+      ...(updated.comment ? { comment: updated.comment } : {}),
+      approverName: updated.approver?.name ?? "Manager",
+    }).catch((err: unknown) => console.error("Slack notification error:", err));
   }
 
   return updated;

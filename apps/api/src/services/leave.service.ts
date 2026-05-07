@@ -16,6 +16,7 @@ import {
 import { sendMail } from "./mail.service.js";
 import { isLeaveTypeEnabledForWorkspace } from "./settings.service.js";
 import {
+  sendLeaveCancelledNotification,
   sendLeaveNotification,
   sendLeaveStatusNotification,
 } from "./slack.service.js";
@@ -448,6 +449,8 @@ export const applyLeave = async (
   }
 
   void sendLeaveNotification(workspaceId, {
+    leaveId: leaveRequest.id,
+    requesterId: leaveRequest.userId,
     userName: requester?.name ?? user.name,
     leaveType: leaveRequest.type,
     startDate: leaveRequest.startDate.toDateString(),
@@ -622,6 +625,7 @@ export const updateLeaveStatus = async (
     });
 
     void sendLeaveStatusNotification(workspaceId, {
+      requesterId: updated.user.id,
       userName: updated.user.name,
       leaveType: updated.type,
       status: "APPROVED",
@@ -642,6 +646,7 @@ export const updateLeaveStatus = async (
     });
 
     void sendLeaveStatusNotification(workspaceId, {
+      requesterId: updated.user.id,
       userName: updated.user.name,
       leaveType: updated.type,
       status: "REJECTED",
@@ -690,6 +695,13 @@ export const cancelLeave = async (
       approver: { select: { id: true, name: true } },
     },
   });
+
+  void sendLeaveCancelledNotification(workspaceId, {
+    userName: cancelled.user.name,
+    leaveType: cancelled.type,
+    startDate: cancelled.startDate.toISOString(),
+    endDate: cancelled.endDate.toISOString(),
+  }).catch((err: unknown) => console.error("Slack notification error:", err));
 
   return cancelled;
 };

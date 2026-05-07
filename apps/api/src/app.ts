@@ -56,6 +56,10 @@ function resolveAllowedOrigins(): string[] {
 
 const allowedOrigins = resolveAllowedOrigins();
 
+function shouldCaptureRawBodyUrl(url?: string): boolean {
+  return (url ?? "").startsWith("/slack/");
+}
+
 app.set("trust proxy", 1);
 
 app.use(
@@ -81,8 +85,26 @@ app.use(
 app.use(helmet());
 app.use(compression());
 app.use(apiRateLimit);
-app.use(express.json({ limit: "1mb" }));
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  express.json({
+    limit: "1mb",
+    verify: (req, _res, buf) => {
+      if (shouldCaptureRawBodyUrl(req.url)) {
+        (req as express.Request).rawBody = buf.toString("utf8");
+      }
+    },
+  }),
+);
+app.use(
+  express.urlencoded({
+    extended: true,
+    verify: (req, _res, buf) => {
+      if (shouldCaptureRawBodyUrl(req.url)) {
+        (req as express.Request).rawBody = buf.toString("utf8");
+      }
+    },
+  }),
+);
 app.use(cookieParser());
 app.use(passport.initialize());
 

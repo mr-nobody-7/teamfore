@@ -28,39 +28,30 @@ export type WorkspaceMinAggregateOutputType = {
   id: string | null
   name: string | null
   createdAt: Date | null
-  slackAccessToken: string | null
-  slackTeamId: string | null
-  slackTeamName: string | null
-  slackWebhookUrl: string | null
-  slackBotUserId: string | null
-  slackChannelId: string | null
-  slackConnectedAt: Date | null
+  slackDigestEnabled: boolean | null
+  slackDigestTime: string | null
+  slackDigestChannel: string | null
+  slackNotifyLeave: boolean | null
 }
 
 export type WorkspaceMaxAggregateOutputType = {
   id: string | null
   name: string | null
   createdAt: Date | null
-  slackAccessToken: string | null
-  slackTeamId: string | null
-  slackTeamName: string | null
-  slackWebhookUrl: string | null
-  slackBotUserId: string | null
-  slackChannelId: string | null
-  slackConnectedAt: Date | null
+  slackDigestEnabled: boolean | null
+  slackDigestTime: string | null
+  slackDigestChannel: string | null
+  slackNotifyLeave: boolean | null
 }
 
 export type WorkspaceCountAggregateOutputType = {
   id: number
   name: number
   createdAt: number
-  slackAccessToken: number
-  slackTeamId: number
-  slackTeamName: number
-  slackWebhookUrl: number
-  slackBotUserId: number
-  slackChannelId: number
-  slackConnectedAt: number
+  slackDigestEnabled: number
+  slackDigestTime: number
+  slackDigestChannel: number
+  slackNotifyLeave: number
   _all: number
 }
 
@@ -69,39 +60,30 @@ export type WorkspaceMinAggregateInputType = {
   id?: true
   name?: true
   createdAt?: true
-  slackAccessToken?: true
-  slackTeamId?: true
-  slackTeamName?: true
-  slackWebhookUrl?: true
-  slackBotUserId?: true
-  slackChannelId?: true
-  slackConnectedAt?: true
+  slackDigestEnabled?: true
+  slackDigestTime?: true
+  slackDigestChannel?: true
+  slackNotifyLeave?: true
 }
 
 export type WorkspaceMaxAggregateInputType = {
   id?: true
   name?: true
   createdAt?: true
-  slackAccessToken?: true
-  slackTeamId?: true
-  slackTeamName?: true
-  slackWebhookUrl?: true
-  slackBotUserId?: true
-  slackChannelId?: true
-  slackConnectedAt?: true
+  slackDigestEnabled?: true
+  slackDigestTime?: true
+  slackDigestChannel?: true
+  slackNotifyLeave?: true
 }
 
 export type WorkspaceCountAggregateInputType = {
   id?: true
   name?: true
   createdAt?: true
-  slackAccessToken?: true
-  slackTeamId?: true
-  slackTeamName?: true
-  slackWebhookUrl?: true
-  slackBotUserId?: true
-  slackChannelId?: true
-  slackConnectedAt?: true
+  slackDigestEnabled?: true
+  slackDigestTime?: true
+  slackDigestChannel?: true
+  slackNotifyLeave?: true
   _all?: true
 }
 
@@ -181,13 +163,10 @@ export type WorkspaceGroupByOutputType = {
   id: string
   name: string
   createdAt: Date
-  slackAccessToken: string | null
-  slackTeamId: string | null
-  slackTeamName: string | null
-  slackWebhookUrl: string | null
-  slackBotUserId: string | null
-  slackChannelId: string | null
-  slackConnectedAt: Date | null
+  slackDigestEnabled: boolean
+  slackDigestTime: string | null
+  slackDigestChannel: string | null
+  slackNotifyLeave: boolean
   _count: WorkspaceCountAggregateOutputType | null
   _min: WorkspaceMinAggregateOutputType | null
   _max: WorkspaceMaxAggregateOutputType | null
@@ -215,15 +194,13 @@ export type WorkspaceWhereInput = {
   id?: Prisma.StringFilter<"Workspace"> | string
   name?: Prisma.StringFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
-  slackAccessToken?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackTeamId?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackTeamName?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackWebhookUrl?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackBotUserId?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackChannelId?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackConnectedAt?: Prisma.DateTimeNullableFilter<"Workspace"> | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFilter<"Workspace"> | boolean
+  slackDigestTime?: Prisma.StringNullableFilter<"Workspace"> | string | null
+  slackDigestChannel?: Prisma.StringNullableFilter<"Workspace"> | string | null
+  slackNotifyLeave?: Prisma.BoolFilter<"Workspace"> | boolean
   users?: Prisma.UserListRelationFilter
   teams?: Prisma.TeamListRelationFilter
+  slackInstallation?: Prisma.XOR<Prisma.SlackInstallationNullableScalarRelationFilter, Prisma.SlackInstallationWhereInput> | null
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeListRelationFilter
   availabilityStatuses?: Prisma.UserAvailabilityStatusListRelationFilter
   workloadStatuses?: Prisma.UserWorkloadStatusListRelationFilter
@@ -235,15 +212,13 @@ export type WorkspaceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  slackAccessToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackTeamId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackTeamName?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackWebhookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackBotUserId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackChannelId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackConnectedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  slackDigestEnabled?: Prisma.SortOrder
+  slackDigestTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  slackDigestChannel?: Prisma.SortOrderInput | Prisma.SortOrder
+  slackNotifyLeave?: Prisma.SortOrder
   users?: Prisma.UserOrderByRelationAggregateInput
   teams?: Prisma.TeamOrderByRelationAggregateInput
+  slackInstallation?: Prisma.SlackInstallationOrderByWithRelationInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeOrderByRelationAggregateInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusOrderByRelationAggregateInput
   workloadStatuses?: Prisma.UserWorkloadStatusOrderByRelationAggregateInput
@@ -258,15 +233,13 @@ export type WorkspaceWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.WorkspaceWhereInput | Prisma.WorkspaceWhereInput[]
   name?: Prisma.StringFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
-  slackAccessToken?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackTeamId?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackTeamName?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackWebhookUrl?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackBotUserId?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackChannelId?: Prisma.StringNullableFilter<"Workspace"> | string | null
-  slackConnectedAt?: Prisma.DateTimeNullableFilter<"Workspace"> | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFilter<"Workspace"> | boolean
+  slackDigestTime?: Prisma.StringNullableFilter<"Workspace"> | string | null
+  slackDigestChannel?: Prisma.StringNullableFilter<"Workspace"> | string | null
+  slackNotifyLeave?: Prisma.BoolFilter<"Workspace"> | boolean
   users?: Prisma.UserListRelationFilter
   teams?: Prisma.TeamListRelationFilter
+  slackInstallation?: Prisma.XOR<Prisma.SlackInstallationNullableScalarRelationFilter, Prisma.SlackInstallationWhereInput> | null
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeListRelationFilter
   availabilityStatuses?: Prisma.UserAvailabilityStatusListRelationFilter
   workloadStatuses?: Prisma.UserWorkloadStatusListRelationFilter
@@ -278,13 +251,10 @@ export type WorkspaceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  slackAccessToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackTeamId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackTeamName?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackWebhookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackBotUserId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackChannelId?: Prisma.SortOrderInput | Prisma.SortOrder
-  slackConnectedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  slackDigestEnabled?: Prisma.SortOrder
+  slackDigestTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  slackDigestChannel?: Prisma.SortOrderInput | Prisma.SortOrder
+  slackNotifyLeave?: Prisma.SortOrder
   _count?: Prisma.WorkspaceCountOrderByAggregateInput
   _max?: Prisma.WorkspaceMaxOrderByAggregateInput
   _min?: Prisma.WorkspaceMinOrderByAggregateInput
@@ -297,28 +267,23 @@ export type WorkspaceScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Workspace"> | string
   name?: Prisma.StringWithAggregatesFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Workspace"> | Date | string
-  slackAccessToken?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null
-  slackTeamId?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null
-  slackTeamName?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null
-  slackWebhookUrl?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null
-  slackBotUserId?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null
-  slackChannelId?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null
-  slackConnectedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Workspace"> | Date | string | null
+  slackDigestEnabled?: Prisma.BoolWithAggregatesFilter<"Workspace"> | boolean
+  slackDigestTime?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null
+  slackDigestChannel?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null
+  slackNotifyLeave?: Prisma.BoolWithAggregatesFilter<"Workspace"> | boolean
 }
 
 export type WorkspaceCreateInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutWorkspaceInput
@@ -330,15 +295,13 @@ export type WorkspaceUncheckedCreateInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -350,15 +313,13 @@ export type WorkspaceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutWorkspaceNestedInput
@@ -370,15 +331,13 @@ export type WorkspaceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -390,78 +349,60 @@ export type WorkspaceCreateManyInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
 }
 
 export type WorkspaceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type WorkspaceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type WorkspaceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  slackAccessToken?: Prisma.SortOrder
-  slackTeamId?: Prisma.SortOrder
-  slackTeamName?: Prisma.SortOrder
-  slackWebhookUrl?: Prisma.SortOrder
-  slackBotUserId?: Prisma.SortOrder
-  slackChannelId?: Prisma.SortOrder
-  slackConnectedAt?: Prisma.SortOrder
+  slackDigestEnabled?: Prisma.SortOrder
+  slackDigestTime?: Prisma.SortOrder
+  slackDigestChannel?: Prisma.SortOrder
+  slackNotifyLeave?: Prisma.SortOrder
 }
 
 export type WorkspaceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  slackAccessToken?: Prisma.SortOrder
-  slackTeamId?: Prisma.SortOrder
-  slackTeamName?: Prisma.SortOrder
-  slackWebhookUrl?: Prisma.SortOrder
-  slackBotUserId?: Prisma.SortOrder
-  slackChannelId?: Prisma.SortOrder
-  slackConnectedAt?: Prisma.SortOrder
+  slackDigestEnabled?: Prisma.SortOrder
+  slackDigestTime?: Prisma.SortOrder
+  slackDigestChannel?: Prisma.SortOrder
+  slackNotifyLeave?: Prisma.SortOrder
 }
 
 export type WorkspaceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  slackAccessToken?: Prisma.SortOrder
-  slackTeamId?: Prisma.SortOrder
-  slackTeamName?: Prisma.SortOrder
-  slackWebhookUrl?: Prisma.SortOrder
-  slackBotUserId?: Prisma.SortOrder
-  slackChannelId?: Prisma.SortOrder
-  slackConnectedAt?: Prisma.SortOrder
+  slackDigestEnabled?: Prisma.SortOrder
+  slackDigestTime?: Prisma.SortOrder
+  slackDigestChannel?: Prisma.SortOrder
+  slackNotifyLeave?: Prisma.SortOrder
 }
 
 export type WorkspaceScalarRelationFilter = {
@@ -482,12 +423,26 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type WorkspaceCreateNestedOneWithoutSlackInstallationInput = {
+  create?: Prisma.XOR<Prisma.WorkspaceCreateWithoutSlackInstallationInput, Prisma.WorkspaceUncheckedCreateWithoutSlackInstallationInput>
+  connectOrCreate?: Prisma.WorkspaceCreateOrConnectWithoutSlackInstallationInput
+  connect?: Prisma.WorkspaceWhereUniqueInput
+}
+
+export type WorkspaceUpdateOneRequiredWithoutSlackInstallationNestedInput = {
+  create?: Prisma.XOR<Prisma.WorkspaceCreateWithoutSlackInstallationInput, Prisma.WorkspaceUncheckedCreateWithoutSlackInstallationInput>
+  connectOrCreate?: Prisma.WorkspaceCreateOrConnectWithoutSlackInstallationInput
+  upsert?: Prisma.WorkspaceUpsertWithoutSlackInstallationInput
+  connect?: Prisma.WorkspaceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WorkspaceUpdateToOneWithWhereWithoutSlackInstallationInput, Prisma.WorkspaceUpdateWithoutSlackInstallationInput>, Prisma.WorkspaceUncheckedUpdateWithoutSlackInstallationInput>
 }
 
 export type WorkspaceCreateNestedOneWithoutTeamsInput = {
@@ -590,18 +545,100 @@ export type WorkspaceUpdateOneRequiredWithoutFeedbackEntriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.WorkspaceUpdateToOneWithWhereWithoutFeedbackEntriesInput, Prisma.WorkspaceUpdateWithoutFeedbackEntriesInput>, Prisma.WorkspaceUncheckedUpdateWithoutFeedbackEntriesInput>
 }
 
+export type WorkspaceCreateWithoutSlackInstallationInput = {
+  id?: string
+  name: string
+  createdAt?: Date | string
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
+  users?: Prisma.UserCreateNestedManyWithoutWorkspaceInput
+  teams?: Prisma.TeamCreateNestedManyWithoutWorkspaceInput
+  leaveTypeSettings?: Prisma.WorkspaceLeaveTypeCreateNestedManyWithoutWorkspaceInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutWorkspaceInput
+  workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutWorkspaceInput
+  publicHolidays?: Prisma.PublicHolidayCreateNestedManyWithoutWorkspaceInput
+  feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutWorkspaceInput
+}
+
+export type WorkspaceUncheckedCreateWithoutSlackInstallationInput = {
+  id?: string
+  name: string
+  createdAt?: Date | string
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkspaceInput
+  teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+  leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedCreateNestedManyWithoutWorkspaceInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutWorkspaceInput
+  workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutWorkspaceInput
+  publicHolidays?: Prisma.PublicHolidayUncheckedCreateNestedManyWithoutWorkspaceInput
+  feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutWorkspaceInput
+}
+
+export type WorkspaceCreateOrConnectWithoutSlackInstallationInput = {
+  where: Prisma.WorkspaceWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorkspaceCreateWithoutSlackInstallationInput, Prisma.WorkspaceUncheckedCreateWithoutSlackInstallationInput>
+}
+
+export type WorkspaceUpsertWithoutSlackInstallationInput = {
+  update: Prisma.XOR<Prisma.WorkspaceUpdateWithoutSlackInstallationInput, Prisma.WorkspaceUncheckedUpdateWithoutSlackInstallationInput>
+  create: Prisma.XOR<Prisma.WorkspaceCreateWithoutSlackInstallationInput, Prisma.WorkspaceUncheckedCreateWithoutSlackInstallationInput>
+  where?: Prisma.WorkspaceWhereInput
+}
+
+export type WorkspaceUpdateToOneWithWhereWithoutSlackInstallationInput = {
+  where?: Prisma.WorkspaceWhereInput
+  data: Prisma.XOR<Prisma.WorkspaceUpdateWithoutSlackInstallationInput, Prisma.WorkspaceUncheckedUpdateWithoutSlackInstallationInput>
+}
+
+export type WorkspaceUpdateWithoutSlackInstallationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  users?: Prisma.UserUpdateManyWithoutWorkspaceNestedInput
+  teams?: Prisma.TeamUpdateManyWithoutWorkspaceNestedInput
+  leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUpdateManyWithoutWorkspaceNestedInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutWorkspaceNestedInput
+  workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutWorkspaceNestedInput
+  publicHolidays?: Prisma.PublicHolidayUpdateManyWithoutWorkspaceNestedInput
+  feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutWorkspaceNestedInput
+}
+
+export type WorkspaceUncheckedUpdateWithoutSlackInstallationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  users?: Prisma.UserUncheckedUpdateManyWithoutWorkspaceNestedInput
+  teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+  leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
+  workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
+  publicHolidays?: Prisma.PublicHolidayUncheckedUpdateManyWithoutWorkspaceNestedInput
+  feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutWorkspaceNestedInput
+}
+
 export type WorkspaceCreateWithoutTeamsInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutWorkspaceInput
@@ -613,14 +650,12 @@ export type WorkspaceUncheckedCreateWithoutTeamsInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -648,14 +683,12 @@ export type WorkspaceUpdateWithoutTeamsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutWorkspaceNestedInput
@@ -667,14 +700,12 @@ export type WorkspaceUncheckedUpdateWithoutTeamsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -686,14 +717,12 @@ export type WorkspaceCreateWithoutUsersInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   teams?: Prisma.TeamCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutWorkspaceInput
@@ -705,14 +734,12 @@ export type WorkspaceUncheckedCreateWithoutUsersInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -740,14 +767,12 @@ export type WorkspaceUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   teams?: Prisma.TeamUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutWorkspaceNestedInput
@@ -759,14 +784,12 @@ export type WorkspaceUncheckedUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -778,15 +801,13 @@ export type WorkspaceCreateWithoutLeaveTypeSettingsInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationCreateNestedOneWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutWorkspaceInput
   publicHolidays?: Prisma.PublicHolidayCreateNestedManyWithoutWorkspaceInput
@@ -797,15 +818,13 @@ export type WorkspaceUncheckedCreateWithoutLeaveTypeSettingsInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedCreateNestedOneWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutWorkspaceInput
   publicHolidays?: Prisma.PublicHolidayUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -832,15 +851,13 @@ export type WorkspaceUpdateWithoutLeaveTypeSettingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUpdateOneWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutWorkspaceNestedInput
   publicHolidays?: Prisma.PublicHolidayUpdateManyWithoutWorkspaceNestedInput
@@ -851,15 +868,13 @@ export type WorkspaceUncheckedUpdateWithoutLeaveTypeSettingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedUpdateOneWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
   publicHolidays?: Prisma.PublicHolidayUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -870,15 +885,13 @@ export type WorkspaceCreateWithoutAvailabilityStatusesInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutWorkspaceInput
   publicHolidays?: Prisma.PublicHolidayCreateNestedManyWithoutWorkspaceInput
@@ -889,15 +902,13 @@ export type WorkspaceUncheckedCreateWithoutAvailabilityStatusesInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutWorkspaceInput
   publicHolidays?: Prisma.PublicHolidayUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -924,15 +935,13 @@ export type WorkspaceUpdateWithoutAvailabilityStatusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutWorkspaceNestedInput
   publicHolidays?: Prisma.PublicHolidayUpdateManyWithoutWorkspaceNestedInput
@@ -943,15 +952,13 @@ export type WorkspaceUncheckedUpdateWithoutAvailabilityStatusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
   publicHolidays?: Prisma.PublicHolidayUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -962,15 +969,13 @@ export type WorkspaceCreateWithoutWorkloadStatusesInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutWorkspaceInput
   publicHolidays?: Prisma.PublicHolidayCreateNestedManyWithoutWorkspaceInput
@@ -981,15 +986,13 @@ export type WorkspaceUncheckedCreateWithoutWorkloadStatusesInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutWorkspaceInput
   publicHolidays?: Prisma.PublicHolidayUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -1016,15 +1019,13 @@ export type WorkspaceUpdateWithoutWorkloadStatusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutWorkspaceNestedInput
   publicHolidays?: Prisma.PublicHolidayUpdateManyWithoutWorkspaceNestedInput
@@ -1035,15 +1036,13 @@ export type WorkspaceUncheckedUpdateWithoutWorkloadStatusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
   publicHolidays?: Prisma.PublicHolidayUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -1054,15 +1053,13 @@ export type WorkspaceCreateWithoutPublicHolidaysInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutWorkspaceInput
@@ -1073,15 +1070,13 @@ export type WorkspaceUncheckedCreateWithoutPublicHolidaysInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -1108,15 +1103,13 @@ export type WorkspaceUpdateWithoutPublicHolidaysInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutWorkspaceNestedInput
@@ -1127,15 +1120,13 @@ export type WorkspaceUncheckedUpdateWithoutPublicHolidaysInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -1146,15 +1137,13 @@ export type WorkspaceCreateWithoutFeedbackEntriesInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutWorkspaceInput
@@ -1165,15 +1154,13 @@ export type WorkspaceUncheckedCreateWithoutFeedbackEntriesInput = {
   id?: string
   name: string
   createdAt?: Date | string
-  slackAccessToken?: string | null
-  slackTeamId?: string | null
-  slackTeamName?: string | null
-  slackWebhookUrl?: string | null
-  slackBotUserId?: string | null
-  slackChannelId?: string | null
-  slackConnectedAt?: Date | string | null
+  slackDigestEnabled?: boolean
+  slackDigestTime?: string | null
+  slackDigestChannel?: string | null
+  slackNotifyLeave?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutWorkspaceInput
   teams?: Prisma.TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedCreateNestedOneWithoutWorkspaceInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedCreateNestedManyWithoutWorkspaceInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutWorkspaceInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -1200,15 +1187,13 @@ export type WorkspaceUpdateWithoutFeedbackEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutWorkspaceNestedInput
@@ -1219,15 +1204,13 @@ export type WorkspaceUncheckedUpdateWithoutFeedbackEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  slackAccessToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackTeamName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackBotUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackChannelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slackConnectedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slackDigestEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackDigestTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDigestChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackNotifyLeave?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutWorkspaceNestedInput
   teams?: Prisma.TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+  slackInstallation?: Prisma.SlackInstallationUncheckedUpdateOneWithoutWorkspaceNestedInput
   leaveTypeSettings?: Prisma.WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -1323,15 +1306,13 @@ export type WorkspaceSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   name?: boolean
   createdAt?: boolean
-  slackAccessToken?: boolean
-  slackTeamId?: boolean
-  slackTeamName?: boolean
-  slackWebhookUrl?: boolean
-  slackBotUserId?: boolean
-  slackChannelId?: boolean
-  slackConnectedAt?: boolean
+  slackDigestEnabled?: boolean
+  slackDigestTime?: boolean
+  slackDigestChannel?: boolean
+  slackNotifyLeave?: boolean
   users?: boolean | Prisma.Workspace$usersArgs<ExtArgs>
   teams?: boolean | Prisma.Workspace$teamsArgs<ExtArgs>
+  slackInstallation?: boolean | Prisma.Workspace$slackInstallationArgs<ExtArgs>
   leaveTypeSettings?: boolean | Prisma.Workspace$leaveTypeSettingsArgs<ExtArgs>
   availabilityStatuses?: boolean | Prisma.Workspace$availabilityStatusesArgs<ExtArgs>
   workloadStatuses?: boolean | Prisma.Workspace$workloadStatusesArgs<ExtArgs>
@@ -1344,45 +1325,37 @@ export type WorkspaceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   name?: boolean
   createdAt?: boolean
-  slackAccessToken?: boolean
-  slackTeamId?: boolean
-  slackTeamName?: boolean
-  slackWebhookUrl?: boolean
-  slackBotUserId?: boolean
-  slackChannelId?: boolean
-  slackConnectedAt?: boolean
+  slackDigestEnabled?: boolean
+  slackDigestTime?: boolean
+  slackDigestChannel?: boolean
+  slackNotifyLeave?: boolean
 }, ExtArgs["result"]["workspace"]>
 
 export type WorkspaceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   createdAt?: boolean
-  slackAccessToken?: boolean
-  slackTeamId?: boolean
-  slackTeamName?: boolean
-  slackWebhookUrl?: boolean
-  slackBotUserId?: boolean
-  slackChannelId?: boolean
-  slackConnectedAt?: boolean
+  slackDigestEnabled?: boolean
+  slackDigestTime?: boolean
+  slackDigestChannel?: boolean
+  slackNotifyLeave?: boolean
 }, ExtArgs["result"]["workspace"]>
 
 export type WorkspaceSelectScalar = {
   id?: boolean
   name?: boolean
   createdAt?: boolean
-  slackAccessToken?: boolean
-  slackTeamId?: boolean
-  slackTeamName?: boolean
-  slackWebhookUrl?: boolean
-  slackBotUserId?: boolean
-  slackChannelId?: boolean
-  slackConnectedAt?: boolean
+  slackDigestEnabled?: boolean
+  slackDigestTime?: boolean
+  slackDigestChannel?: boolean
+  slackNotifyLeave?: boolean
 }
 
-export type WorkspaceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt" | "slackAccessToken" | "slackTeamId" | "slackTeamName" | "slackWebhookUrl" | "slackBotUserId" | "slackChannelId" | "slackConnectedAt", ExtArgs["result"]["workspace"]>
+export type WorkspaceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt" | "slackDigestEnabled" | "slackDigestTime" | "slackDigestChannel" | "slackNotifyLeave", ExtArgs["result"]["workspace"]>
 export type WorkspaceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Workspace$usersArgs<ExtArgs>
   teams?: boolean | Prisma.Workspace$teamsArgs<ExtArgs>
+  slackInstallation?: boolean | Prisma.Workspace$slackInstallationArgs<ExtArgs>
   leaveTypeSettings?: boolean | Prisma.Workspace$leaveTypeSettingsArgs<ExtArgs>
   availabilityStatuses?: boolean | Prisma.Workspace$availabilityStatusesArgs<ExtArgs>
   workloadStatuses?: boolean | Prisma.Workspace$workloadStatusesArgs<ExtArgs>
@@ -1398,6 +1371,7 @@ export type $WorkspacePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     users: Prisma.$UserPayload<ExtArgs>[]
     teams: Prisma.$TeamPayload<ExtArgs>[]
+    slackInstallation: Prisma.$SlackInstallationPayload<ExtArgs> | null
     leaveTypeSettings: Prisma.$WorkspaceLeaveTypePayload<ExtArgs>[]
     availabilityStatuses: Prisma.$UserAvailabilityStatusPayload<ExtArgs>[]
     workloadStatuses: Prisma.$UserWorkloadStatusPayload<ExtArgs>[]
@@ -1408,13 +1382,10 @@ export type $WorkspacePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     name: string
     createdAt: Date
-    slackAccessToken: string | null
-    slackTeamId: string | null
-    slackTeamName: string | null
-    slackWebhookUrl: string | null
-    slackBotUserId: string | null
-    slackChannelId: string | null
-    slackConnectedAt: Date | null
+    slackDigestEnabled: boolean
+    slackDigestTime: string | null
+    slackDigestChannel: string | null
+    slackNotifyLeave: boolean
   }, ExtArgs["result"]["workspace"]>
   composites: {}
 }
@@ -1811,6 +1782,7 @@ export interface Prisma__WorkspaceClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   users<T extends Prisma.Workspace$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workspace$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   teams<T extends Prisma.Workspace$teamsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workspace$teamsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  slackInstallation<T extends Prisma.Workspace$slackInstallationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workspace$slackInstallationArgs<ExtArgs>>): Prisma.Prisma__SlackInstallationClient<runtime.Types.Result.GetResult<Prisma.$SlackInstallationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   leaveTypeSettings<T extends Prisma.Workspace$leaveTypeSettingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workspace$leaveTypeSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkspaceLeaveTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   availabilityStatuses<T extends Prisma.Workspace$availabilityStatusesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workspace$availabilityStatusesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAvailabilityStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   workloadStatuses<T extends Prisma.Workspace$workloadStatusesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workspace$workloadStatusesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserWorkloadStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1848,13 +1820,10 @@ export interface WorkspaceFieldRefs {
   readonly id: Prisma.FieldRef<"Workspace", 'String'>
   readonly name: Prisma.FieldRef<"Workspace", 'String'>
   readonly createdAt: Prisma.FieldRef<"Workspace", 'DateTime'>
-  readonly slackAccessToken: Prisma.FieldRef<"Workspace", 'String'>
-  readonly slackTeamId: Prisma.FieldRef<"Workspace", 'String'>
-  readonly slackTeamName: Prisma.FieldRef<"Workspace", 'String'>
-  readonly slackWebhookUrl: Prisma.FieldRef<"Workspace", 'String'>
-  readonly slackBotUserId: Prisma.FieldRef<"Workspace", 'String'>
-  readonly slackChannelId: Prisma.FieldRef<"Workspace", 'String'>
-  readonly slackConnectedAt: Prisma.FieldRef<"Workspace", 'DateTime'>
+  readonly slackDigestEnabled: Prisma.FieldRef<"Workspace", 'Boolean'>
+  readonly slackDigestTime: Prisma.FieldRef<"Workspace", 'String'>
+  readonly slackDigestChannel: Prisma.FieldRef<"Workspace", 'String'>
+  readonly slackNotifyLeave: Prisma.FieldRef<"Workspace", 'Boolean'>
 }
     
 
@@ -2288,6 +2257,25 @@ export type Workspace$teamsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.TeamScalarFieldEnum | Prisma.TeamScalarFieldEnum[]
+}
+
+/**
+ * Workspace.slackInstallation
+ */
+export type Workspace$slackInstallationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SlackInstallation
+   */
+  select?: Prisma.SlackInstallationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SlackInstallation
+   */
+  omit?: Prisma.SlackInstallationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SlackInstallationInclude<ExtArgs> | null
+  where?: Prisma.SlackInstallationWhereInput
 }
 
 /**

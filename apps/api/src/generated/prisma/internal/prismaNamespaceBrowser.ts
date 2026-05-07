@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Workspace: 'Workspace',
+  SlackInstallation: 'SlackInstallation',
   Team: 'Team',
   User: 'User',
   LeaveRequest: 'LeaveRequest',
@@ -83,16 +84,31 @@ export const WorkspaceScalarFieldEnum = {
   id: 'id',
   name: 'name',
   createdAt: 'createdAt',
-  slackAccessToken: 'slackAccessToken',
-  slackTeamId: 'slackTeamId',
-  slackTeamName: 'slackTeamName',
-  slackWebhookUrl: 'slackWebhookUrl',
-  slackBotUserId: 'slackBotUserId',
-  slackChannelId: 'slackChannelId',
-  slackConnectedAt: 'slackConnectedAt'
+  slackDigestEnabled: 'slackDigestEnabled',
+  slackDigestTime: 'slackDigestTime',
+  slackDigestChannel: 'slackDigestChannel',
+  slackNotifyLeave: 'slackNotifyLeave'
 } as const
 
 export type WorkspaceScalarFieldEnum = (typeof WorkspaceScalarFieldEnum)[keyof typeof WorkspaceScalarFieldEnum]
+
+
+export const SlackInstallationScalarFieldEnum = {
+  id: 'id',
+  workspaceId: 'workspaceId',
+  teamId: 'teamId',
+  teamName: 'teamName',
+  botUserId: 'botUserId',
+  accessTokenEncrypted: 'accessTokenEncrypted',
+  scope: 'scope',
+  incomingWebhookUrl: 'incomingWebhookUrl',
+  incomingWebhookChannel: 'incomingWebhookChannel',
+  installedByUserId: 'installedByUserId',
+  connectedAt: 'connectedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SlackInstallationScalarFieldEnum = (typeof SlackInstallationScalarFieldEnum)[keyof typeof SlackInstallationScalarFieldEnum]
 
 
 export const TeamScalarFieldEnum = {
@@ -113,6 +129,8 @@ export const UserScalarFieldEnum = {
   role: 'role',
   isActive: 'isActive',
   createdAt: 'createdAt',
+  slackUserId: 'slackUserId',
+  slackDmChannel: 'slackDmChannel',
   workspaceId: 'workspaceId',
   teamId: 'teamId'
 } as const

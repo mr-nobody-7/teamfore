@@ -32,6 +32,8 @@ export type UserMinAggregateOutputType = {
   role: $Enums.Role | null
   isActive: boolean | null
   createdAt: Date | null
+  slackUserId: string | null
+  slackDmChannel: string | null
   workspaceId: string | null
   teamId: string | null
 }
@@ -44,6 +46,8 @@ export type UserMaxAggregateOutputType = {
   role: $Enums.Role | null
   isActive: boolean | null
   createdAt: Date | null
+  slackUserId: string | null
+  slackDmChannel: string | null
   workspaceId: string | null
   teamId: string | null
 }
@@ -56,6 +60,8 @@ export type UserCountAggregateOutputType = {
   role: number
   isActive: number
   createdAt: number
+  slackUserId: number
+  slackDmChannel: number
   workspaceId: number
   teamId: number
   _all: number
@@ -70,6 +76,8 @@ export type UserMinAggregateInputType = {
   role?: true
   isActive?: true
   createdAt?: true
+  slackUserId?: true
+  slackDmChannel?: true
   workspaceId?: true
   teamId?: true
 }
@@ -82,6 +90,8 @@ export type UserMaxAggregateInputType = {
   role?: true
   isActive?: true
   createdAt?: true
+  slackUserId?: true
+  slackDmChannel?: true
   workspaceId?: true
   teamId?: true
 }
@@ -94,6 +104,8 @@ export type UserCountAggregateInputType = {
   role?: true
   isActive?: true
   createdAt?: true
+  slackUserId?: true
+  slackDmChannel?: true
   workspaceId?: true
   teamId?: true
   _all?: true
@@ -179,6 +191,8 @@ export type UserGroupByOutputType = {
   role: $Enums.Role
   isActive: boolean
   createdAt: Date
+  slackUserId: string | null
+  slackDmChannel: string | null
   workspaceId: string
   teamId: string | null
   _count: UserCountAggregateOutputType | null
@@ -212,6 +226,8 @@ export type UserWhereInput = {
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  slackUserId?: Prisma.StringNullableFilter<"User"> | string | null
+  slackDmChannel?: Prisma.StringNullableFilter<"User"> | string | null
   workspaceId?: Prisma.StringFilter<"User"> | string
   teamId?: Prisma.StringNullableFilter<"User"> | string | null
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
@@ -231,6 +247,8 @@ export type UserOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  slackUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  slackDmChannel?: Prisma.SortOrderInput | Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   teamId?: Prisma.SortOrderInput | Prisma.SortOrder
   workspace?: Prisma.WorkspaceOrderByWithRelationInput
@@ -245,6 +263,7 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  slackUserId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -253,6 +272,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  slackDmChannel?: Prisma.StringNullableFilter<"User"> | string | null
   workspaceId?: Prisma.StringFilter<"User"> | string
   teamId?: Prisma.StringNullableFilter<"User"> | string | null
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
@@ -262,7 +282,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   workloadStatuses?: Prisma.UserWorkloadStatusListRelationFilter
   feedbackEntries?: Prisma.FeedbackEntryListRelationFilter
   approvedLeaveRequests?: Prisma.LeaveRequestListRelationFilter
-}, "id" | "email">
+}, "id" | "email" | "slackUserId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -272,6 +292,8 @@ export type UserOrderByWithAggregationInput = {
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  slackUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  slackDmChannel?: Prisma.SortOrderInput | Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   teamId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -290,6 +312,8 @@ export type UserScalarWhereWithAggregatesInput = {
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  slackUserId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  slackDmChannel?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   workspaceId?: Prisma.StringWithAggregatesFilter<"User"> | string
   teamId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
@@ -302,6 +326,8 @@ export type UserCreateInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
@@ -319,6 +345,8 @@ export type UserUncheckedCreateInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspaceId: string
   teamId?: string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
@@ -336,6 +364,8 @@ export type UserUpdateInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
@@ -353,6 +383,8 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -370,6 +402,8 @@ export type UserCreateManyInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspaceId: string
   teamId?: string | null
 }
@@ -382,6 +416,8 @@ export type UserUpdateManyMutationInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -392,6 +428,8 @@ export type UserUncheckedUpdateManyInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -414,6 +452,8 @@ export type UserCountOrderByAggregateInput = {
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  slackUserId?: Prisma.SortOrder
+  slackDmChannel?: Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   teamId?: Prisma.SortOrder
 }
@@ -426,6 +466,8 @@ export type UserMaxOrderByAggregateInput = {
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  slackUserId?: Prisma.SortOrder
+  slackDmChannel?: Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   teamId?: Prisma.SortOrder
 }
@@ -438,6 +480,8 @@ export type UserMinOrderByAggregateInput = {
   role?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  slackUserId?: Prisma.SortOrder
+  slackDmChannel?: Prisma.SortOrder
   workspaceId?: Prisma.SortOrder
   teamId?: Prisma.SortOrder
 }
@@ -540,10 +584,6 @@ export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type UserCreateNestedOneWithoutRequestedLeaveRequestsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutRequestedLeaveRequestsInput, Prisma.UserUncheckedCreateWithoutRequestedLeaveRequestsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutRequestedLeaveRequestsInput
@@ -624,6 +664,8 @@ export type UserCreateWithoutWorkspaceInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
@@ -640,6 +682,8 @@ export type UserUncheckedCreateWithoutWorkspaceInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   teamId?: string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
@@ -685,6 +729,8 @@ export type UserScalarWhereInput = {
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  slackUserId?: Prisma.StringNullableFilter<"User"> | string | null
+  slackDmChannel?: Prisma.StringNullableFilter<"User"> | string | null
   workspaceId?: Prisma.StringFilter<"User"> | string
   teamId?: Prisma.StringNullableFilter<"User"> | string | null
 }
@@ -697,6 +743,8 @@ export type UserCreateWithoutTeamInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutUsersInput
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
@@ -713,6 +761,8 @@ export type UserUncheckedCreateWithoutTeamInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspaceId: string
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
@@ -755,6 +805,8 @@ export type UserCreateWithoutRequestedLeaveRequestsInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
@@ -771,6 +823,8 @@ export type UserUncheckedCreateWithoutRequestedLeaveRequestsInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspaceId: string
   teamId?: string | null
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
@@ -792,6 +846,8 @@ export type UserCreateWithoutApprovedLeaveRequestsInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
@@ -808,6 +864,8 @@ export type UserUncheckedCreateWithoutApprovedLeaveRequestsInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspaceId: string
   teamId?: string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
@@ -840,6 +898,8 @@ export type UserUpdateWithoutRequestedLeaveRequestsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
@@ -856,6 +916,8 @@ export type UserUncheckedUpdateWithoutRequestedLeaveRequestsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
@@ -883,6 +945,8 @@ export type UserUpdateWithoutApprovedLeaveRequestsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
@@ -899,6 +963,8 @@ export type UserUncheckedUpdateWithoutApprovedLeaveRequestsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -915,6 +981,8 @@ export type UserCreateWithoutAvailabilityStatusesInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
@@ -931,6 +999,8 @@ export type UserUncheckedCreateWithoutAvailabilityStatusesInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspaceId: string
   teamId?: string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
@@ -963,6 +1033,8 @@ export type UserUpdateWithoutAvailabilityStatusesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
@@ -979,6 +1051,8 @@ export type UserUncheckedUpdateWithoutAvailabilityStatusesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -995,6 +1069,8 @@ export type UserCreateWithoutWorkloadStatusesInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
@@ -1011,6 +1087,8 @@ export type UserUncheckedCreateWithoutWorkloadStatusesInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspaceId: string
   teamId?: string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
@@ -1043,6 +1121,8 @@ export type UserUpdateWithoutWorkloadStatusesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
@@ -1059,6 +1139,8 @@ export type UserUncheckedUpdateWithoutWorkloadStatusesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -1075,6 +1157,8 @@ export type UserCreateWithoutFeedbackEntriesInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspace: Prisma.WorkspaceCreateNestedOneWithoutUsersInput
   team?: Prisma.TeamCreateNestedOneWithoutUsersInput
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
@@ -1091,6 +1175,8 @@ export type UserUncheckedCreateWithoutFeedbackEntriesInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspaceId: string
   teamId?: string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
@@ -1123,6 +1209,8 @@ export type UserUpdateWithoutFeedbackEntriesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutUsersNestedInput
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
@@ -1139,6 +1227,8 @@ export type UserUncheckedUpdateWithoutFeedbackEntriesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -1155,6 +1245,8 @@ export type UserCreateManyWorkspaceInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   teamId?: string | null
 }
 
@@ -1166,6 +1258,8 @@ export type UserUpdateWithoutWorkspaceInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
@@ -1182,6 +1276,8 @@ export type UserUncheckedUpdateWithoutWorkspaceInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
@@ -1198,6 +1294,8 @@ export type UserUncheckedUpdateManyWithoutWorkspaceInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -1209,6 +1307,8 @@ export type UserCreateManyTeamInput = {
   role?: $Enums.Role
   isActive?: boolean
   createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
   workspaceId: string
 }
 
@@ -1220,6 +1320,8 @@ export type UserUpdateWithoutTeamInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutUsersNestedInput
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
@@ -1236,6 +1338,8 @@ export type UserUncheckedUpdateWithoutTeamInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
@@ -1252,6 +1356,8 @@ export type UserUncheckedUpdateManyWithoutTeamInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -1330,6 +1436,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   role?: boolean
   isActive?: boolean
   createdAt?: boolean
+  slackUserId?: boolean
+  slackDmChannel?: boolean
   workspaceId?: boolean
   teamId?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
@@ -1350,6 +1458,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   isActive?: boolean
   createdAt?: boolean
+  slackUserId?: boolean
+  slackDmChannel?: boolean
   workspaceId?: boolean
   teamId?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
@@ -1364,6 +1474,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   isActive?: boolean
   createdAt?: boolean
+  slackUserId?: boolean
+  slackDmChannel?: boolean
   workspaceId?: boolean
   teamId?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
@@ -1378,11 +1490,13 @@ export type UserSelectScalar = {
   role?: boolean
   isActive?: boolean
   createdAt?: boolean
+  slackUserId?: boolean
+  slackDmChannel?: boolean
   workspaceId?: boolean
   teamId?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "isActive" | "createdAt" | "workspaceId" | "teamId", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "isActive" | "createdAt" | "slackUserId" | "slackDmChannel" | "workspaceId" | "teamId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
   team?: boolean | Prisma.User$teamArgs<ExtArgs>
@@ -1421,6 +1535,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     role: $Enums.Role
     isActive: boolean
     createdAt: Date
+    slackUserId: string | null
+    slackDmChannel: string | null
     workspaceId: string
     teamId: string | null
   }, ExtArgs["result"]["user"]>
@@ -1860,6 +1976,8 @@ export interface UserFieldRefs {
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly slackUserId: Prisma.FieldRef<"User", 'String'>
+  readonly slackDmChannel: Prisma.FieldRef<"User", 'String'>
   readonly workspaceId: Prisma.FieldRef<"User", 'String'>
   readonly teamId: Prisma.FieldRef<"User", 'String'>
 }

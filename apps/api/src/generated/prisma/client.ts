@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type Workspace = Prisma.WorkspaceModel
 /**
+ * Model SlackInstallation
+ * 
+ */
+export type SlackInstallation = Prisma.SlackInstallationModel
+/**
  * Model Team
  * 
  */

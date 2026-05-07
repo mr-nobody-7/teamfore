@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Workspace: 'Workspace',
+  SlackInstallation: 'SlackInstallation',
   Team: 'Team',
   User: 'User',
   LeaveRequest: 'LeaveRequest',
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "workspace" | "team" | "user" | "leaveRequest" | "auditLog" | "workspaceLeaveType" | "userAvailabilityStatus" | "userWorkloadStatus" | "publicHoliday" | "feedbackEntry"
+    modelProps: "workspace" | "slackInstallation" | "team" | "user" | "leaveRequest" | "auditLog" | "workspaceLeaveType" | "userAvailabilityStatus" | "userWorkloadStatus" | "publicHoliday" | "feedbackEntry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -484,6 +485,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.WorkspaceCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.WorkspaceCountAggregateOutputType> | number
+        }
+      }
+    }
+    SlackInstallation: {
+      payload: Prisma.$SlackInstallationPayload<ExtArgs>
+      fields: Prisma.SlackInstallationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SlackInstallationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SlackInstallationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload>
+        }
+        findFirst: {
+          args: Prisma.SlackInstallationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SlackInstallationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload>
+        }
+        findMany: {
+          args: Prisma.SlackInstallationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload>[]
+        }
+        create: {
+          args: Prisma.SlackInstallationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload>
+        }
+        createMany: {
+          args: Prisma.SlackInstallationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SlackInstallationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload>[]
+        }
+        delete: {
+          args: Prisma.SlackInstallationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload>
+        }
+        update: {
+          args: Prisma.SlackInstallationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload>
+        }
+        deleteMany: {
+          args: Prisma.SlackInstallationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SlackInstallationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SlackInstallationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload>[]
+        }
+        upsert: {
+          args: Prisma.SlackInstallationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SlackInstallationPayload>
+        }
+        aggregate: {
+          args: Prisma.SlackInstallationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSlackInstallation>
+        }
+        groupBy: {
+          args: Prisma.SlackInstallationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SlackInstallationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SlackInstallationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SlackInstallationCountAggregateOutputType> | number
         }
       }
     }
@@ -1196,16 +1271,31 @@ export const WorkspaceScalarFieldEnum = {
   id: 'id',
   name: 'name',
   createdAt: 'createdAt',
-  slackAccessToken: 'slackAccessToken',
-  slackTeamId: 'slackTeamId',
-  slackTeamName: 'slackTeamName',
-  slackWebhookUrl: 'slackWebhookUrl',
-  slackBotUserId: 'slackBotUserId',
-  slackChannelId: 'slackChannelId',
-  slackConnectedAt: 'slackConnectedAt'
+  slackDigestEnabled: 'slackDigestEnabled',
+  slackDigestTime: 'slackDigestTime',
+  slackDigestChannel: 'slackDigestChannel',
+  slackNotifyLeave: 'slackNotifyLeave'
 } as const
 
 export type WorkspaceScalarFieldEnum = (typeof WorkspaceScalarFieldEnum)[keyof typeof WorkspaceScalarFieldEnum]
+
+
+export const SlackInstallationScalarFieldEnum = {
+  id: 'id',
+  workspaceId: 'workspaceId',
+  teamId: 'teamId',
+  teamName: 'teamName',
+  botUserId: 'botUserId',
+  accessTokenEncrypted: 'accessTokenEncrypted',
+  scope: 'scope',
+  incomingWebhookUrl: 'incomingWebhookUrl',
+  incomingWebhookChannel: 'incomingWebhookChannel',
+  installedByUserId: 'installedByUserId',
+  connectedAt: 'connectedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SlackInstallationScalarFieldEnum = (typeof SlackInstallationScalarFieldEnum)[keyof typeof SlackInstallationScalarFieldEnum]
 
 
 export const TeamScalarFieldEnum = {
@@ -1226,6 +1316,8 @@ export const UserScalarFieldEnum = {
   role: 'role',
   isActive: 'isActive',
   createdAt: 'createdAt',
+  slackUserId: 'slackUserId',
+  slackDmChannel: 'slackDmChannel',
   workspaceId: 'workspaceId',
   teamId: 'teamId'
 } as const
@@ -1408,6 +1500,13 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Role'
  */
 export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -1418,13 +1517,6 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Role[]'
  */
 export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1635,6 +1727,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   workspace?: Prisma.WorkspaceOmit
+  slackInstallation?: Prisma.SlackInstallationOmit
   team?: Prisma.TeamOmit
   user?: Prisma.UserOmit
   leaveRequest?: Prisma.LeaveRequestOmit

@@ -23,6 +23,11 @@ export * from './enums.js';
  */
 export type Workspace = Prisma.WorkspaceModel
 /**
+ * Model SlackInstallation
+ * 
+ */
+export type SlackInstallation = Prisma.SlackInstallationModel
+/**
  * Model Team
  * 
  */

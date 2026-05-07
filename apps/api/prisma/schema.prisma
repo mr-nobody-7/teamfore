@@ -81,22 +81,38 @@ model Workspace {
   name      String
   createdAt DateTime @default(now())
 
-  // Slack integration
-  slackAccessToken String?
-  slackTeamId      String?
-  slackTeamName    String?
-  slackWebhookUrl  String?
-  slackBotUserId   String?
-  slackChannelId   String?   // default channel to post notifications
-  slackConnectedAt DateTime?
+  // Slack integration settings
+  slackDigestEnabled Boolean @default(false)
+  slackDigestTime    String? // HH:mm in UTC
+  slackDigestChannel String? // Slack channel ID
+  slackNotifyLeave   Boolean @default(true)
 
   users                User[]
   teams                Team[]
+  slackInstallation    SlackInstallation?
   leaveTypeSettings    WorkspaceLeaveType[]
   availabilityStatuses UserAvailabilityStatus[]
   workloadStatuses     UserWorkloadStatus[]
   publicHolidays       PublicHoliday[]
   feedbackEntries      FeedbackEntry[]
+}
+
+model SlackInstallation {
+  id                    String   @id @default(uuid())
+  workspace             Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId           String   @unique
+  teamId                String
+  teamName              String
+  botUserId             String
+  accessTokenEncrypted  String
+  scope                 String
+  incomingWebhookUrl    String?
+  incomingWebhookChannel String?
+  installedByUserId     String?
+  connectedAt           DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([teamId])
 }
 
 model Team {
@@ -118,6 +134,8 @@ model User {
   role         Role     @default(USER)
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
+  slackUserId  String?  @unique
+  slackDmChannel String?
 
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
   workspaceId String

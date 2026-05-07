@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { RoleGuard } from "@/components/auth/role-guard";
 import { PageContainer } from "@/components/layout/page-container";
+import { SlackConnectCard } from "@/components/settings/slack-connect";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -252,6 +253,8 @@ export default function SettingsPage() {
             </p>
           </CardContent>
         </Card>
+
+        <SlackConnectCard />
       </PageContainer>
 
       {/* ── Create Dialog ────────────────────────────────────────────────── */}

@@ -3,6 +3,8 @@ import {
   BellRing,
   CalendarCheck,
   CheckSquare,
+  ListChecks,
+  MessageSquareText,
   Shield,
   Users,
 } from "lucide-react";
@@ -56,6 +58,24 @@ const features = [
     title: "Email notifications",
     body: "Automatic alerts for request updates, approvals, and rejections — no more manual follow-ups.",
   },
+  {
+    icon: MessageSquareText,
+    gradient: "from-yellow-500/20 to-yellow-600/10",
+    border: "border-yellow-500/25",
+    iconColor: "text-yellow-400",
+    title: "Slack integration",
+    body: "Approve or reject leave requests directly from Slack. Your team gets notified the moment a decision is made.",
+    badge: "New",
+  },
+  {
+    icon: ListChecks,
+    gradient: "from-rose-500/20 to-rose-600/10",
+    border: "border-rose-500/25",
+    iconColor: "text-rose-400",
+    title: "Custom leave types",
+    body: "Configure sick leave, casual leave, WFH, and any custom type your policy needs — each with its own rules.",
+    badge: "New",
+  },
 ];
 
 export function FeaturesSection() {
@@ -75,7 +95,7 @@ export function FeaturesSection() {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
         {features.map((f) => {
           const Icon = f.icon;
           return (
@@ -84,12 +104,19 @@ export function FeaturesSection() {
               className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-border/80 hover:shadow-xl hover:shadow-black/25"
             >
               {/* Subtle top gradient */}
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
 
-              <div
-                className={`mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br border ${f.gradient} ${f.border} ${f.iconColor}`}
-              >
-                <Icon className="h-5 w-5" />
+              <div className="mb-4 flex items-start justify-between gap-2">
+                <div
+                  className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br border ${f.gradient} ${f.border} ${f.iconColor}`}
+                >
+                  <Icon className="h-5 w-5" />
+                </div>
+                {"badge" in f && f.badge && (
+                  <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-0.5 text-[10px] font-semibold text-violet-400">
+                    {f.badge}
+                  </span>
+                )}
               </div>
               <h3 className="mb-2 text-base font-semibold leading-snug">
                 {f.title}

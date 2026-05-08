@@ -14,6 +14,11 @@ const steps = [
     title: "Plan your sprint with confidence",
     body: "Open the team calendar and instantly see who's available. No more mid-sprint surprises or last-minute capacity scrambles.",
   },
+  {
+    number: "04",
+    title: "Get notified everywhere",
+    body: "Approvals, rejections, and reminders flow straight into Slack and email — so your team is always in sync without checking another app.",
+  },
 ];
 
 export function HowItWorksSection() {
@@ -36,7 +41,7 @@ export function HowItWorksSection() {
           </p>
         </div>
 
-        <div className="grid gap-10 md:grid-cols-3">
+        <div className="grid gap-10 md:grid-cols-4">
           {steps.map((step, i) => (
             <div key={step.number} className="relative flex flex-col gap-5">
               {/* Connector line */}

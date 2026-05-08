@@ -6,12 +6,14 @@ import { MarketingFooter } from "@/components/marketing/marketing-footer";
 import { MarketingNav } from "@/components/marketing/marketing-nav";
 import { PricingSection } from "@/components/marketing/pricing-section";
 import { ProblemSection } from "@/components/marketing/problem-section";
+import { StatsSection } from "@/components/marketing/stats-section";
 
 export default function Home() {
   return (
     <div className="bg-background text-foreground">
       <MarketingNav />
       <HeroSection />
+      <StatsSection />
       <ProblemSection />
       <FeaturesSection />
       <HowItWorksSection />

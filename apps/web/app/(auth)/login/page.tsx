@@ -43,6 +43,10 @@ export default function LoginPage() {
   const { isAuthenticated, isLoading: authLoading, refetch } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleGoogleSignIn = () => {
+    window.location.href = "/api/auth/google";
+  };
+
   // Already logged in → skip to dashboard
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -138,6 +142,24 @@ export default function LoginPage() {
 
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Signing in…" : "Sign in"}
+              </Button>
+
+              <div className="relative py-1">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={handleGoogleSignIn}
+              >
+                Continue with Google
               </Button>
             </form>
           </Form>

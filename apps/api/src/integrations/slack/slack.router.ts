@@ -15,6 +15,23 @@ import { slackService } from "./slack.service.js";
 
 export const slackRouter = Router();
 
+function normalizeOrigin(origin: string): string {
+  return origin.trim().replace(/\/$/, "");
+}
+
+function resolvePrimaryFrontendUrl(): string {
+  const fromClientUrl = process.env.CLIENT_URL ?? "";
+  const fromClientUrls = process.env.CLIENT_URLS ?? "";
+
+  const configured = `${fromClientUrl},${fromClientUrls}`
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map(normalizeOrigin);
+
+  return configured[0] ?? "http://localhost:3000";
+}
+
 slackRouter.get("/oauth/install", authenticate, authorize(["ADMIN"]), (req, res) => {
   const workspaceId = req.user?.workspaceId;
   if (!workspaceId) {
@@ -26,7 +43,7 @@ slackRouter.get("/oauth/install", authenticate, authorize(["ADMIN"]), (req, res)
 });
 
 slackRouter.get("/oauth/callback", async (req, res) => {
-  const frontendUrl = process.env.CLIENT_URL ?? "http://localhost:3000";
+  const frontendUrl = resolvePrimaryFrontendUrl();
   const code = String(req.query.code ?? "");
   const stateWorkspaceId = String(req.query.state ?? "");
 

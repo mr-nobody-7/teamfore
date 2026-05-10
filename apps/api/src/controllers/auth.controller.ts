@@ -17,8 +17,25 @@ const AUTH_COOKIE_OPTIONS = {
   sameSite: IS_PRODUCTION ? "none" : "strict",
 } as const;
 
+function normalizeOrigin(origin: string): string {
+  return origin.trim().replace(/\/$/, "");
+}
+
+function resolvePrimaryFrontendUrl(): string {
+  const fromClientUrl = process.env.CLIENT_URL ?? "";
+  const fromClientUrls = process.env.CLIENT_URLS ?? "";
+
+  const configured = `${fromClientUrl},${fromClientUrls}`
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map(normalizeOrigin);
+
+  return configured[0] ?? "http://localhost:3000";
+}
+
 function resolveDashboardRedirectUrl(): string {
-  const frontendUrl = process.env.CLIENT_URL ?? "http://localhost:3000";
+  const frontendUrl = resolvePrimaryFrontendUrl();
   return new URL("/dashboard", frontendUrl).toString();
 }
 
@@ -158,7 +175,7 @@ export const googleFailureController = (req: Request, res: Response) => {
     metadata: { provider: "google" },
   });
 
-  const frontendUrl = process.env.CLIENT_URL ?? "http://localhost:3000";
+  const frontendUrl = resolvePrimaryFrontendUrl();
   res.redirect(new URL("/login?error=google_oauth_failed", frontendUrl).toString());
 };
 

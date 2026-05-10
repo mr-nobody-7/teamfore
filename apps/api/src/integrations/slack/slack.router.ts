@@ -8,8 +8,8 @@ import {
   getSlackInstallUrl,
   storeInstallation,
 } from "./slack.oauth.js";
-import { handleSlackActions } from "./slack.actions.js";
-import { handleSlackCommand } from "./slack.commands.js";
+import { handleBlockAction, handleViewSubmission } from "./slack.actions.js";
+import { handleSlashCommand } from "./slack.commands.js";
 import { verifySlackSignature } from "./slack.middleware.js";
 import { slackService } from "./slack.service.js";
 
@@ -97,7 +97,7 @@ slackRouter.patch("/settings", authenticate, authorize(["ADMIN"]), async (req, r
 });
 
 slackRouter.post("/commands", verifySlackSignature, async (req, res) => {
-  await handleSlackCommand(req, res);
+  await handleSlashCommand(req, res);
 });
 
 slackRouter.post("/actions", verifySlackSignature, async (req, res) => {
@@ -108,5 +108,11 @@ slackRouter.post("/actions", verifySlackSignature, async (req, res) => {
   }
 
   req.body = payload;
-  await handleSlackActions(req, res);
+
+  if (payload.type === "view_submission") {
+    await handleViewSubmission(req, res);
+    return;
+  }
+
+  await handleBlockAction(req, res);
 });

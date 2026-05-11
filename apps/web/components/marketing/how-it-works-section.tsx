@@ -2,25 +2,25 @@ const steps = [
   {
     id: "01",
     title: "Sign up your workspace.",
-    body: "Google OAuth, then a workspace name. Workspaces are tenant-isolated by default.",
+    body: "Start with email or Google OAuth, then create a tenant-isolated workspace for your team.",
     time: "~ 30 sec",
   },
   {
     id: "02",
     title: "Invite the team.",
-    body: "Paste emails or share a link. Roles are assigned automatically and can be overridden.",
+    body: "Add teammates, assign them to teams, and set user, manager, or admin access.",
     time: "~ 1 min",
   },
   {
     id: "03",
     title: "Apply and approve.",
-    body: "Employees apply for leave, managers approve from Slack, email, or app in one click.",
+    body: "Employees apply for leave while managers review in-app and everyone gets updates in Slack and email.",
     time: "always-on",
   },
   {
     id: "04",
     title: "Plan with confidence.",
-    body: "Open the team calendar before sprint planning to see exactly where capacity is thin.",
+    body: "Open the team calendar before weekly planning to spot holidays, leave conflicts, and capacity warnings.",
     time: "every Monday",
   },
 ];
@@ -43,7 +43,7 @@ export function HowItWorksSection() {
           </div>
           <p className="max-w-3xl text-lg leading-relaxed text-zinc-400">
             No onboarding calls. No heavy setup. Sign up, invite your team, and
-            plan your sprint before your coffee gets cold.
+            plan your week before your coffee gets cold.
           </p>
         </div>
 

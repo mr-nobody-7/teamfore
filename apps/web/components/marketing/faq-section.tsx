@@ -2,7 +2,7 @@ const faqs = [
   {
     question: "How is TeamFore different from a generic HR tool?",
     answer:
-      "TeamFore is built for engineering managers planning capacity. The defaults, language, and workflows are designed for sprint planning, not HR operations.",
+      "TeamFore is built for engineering teams coordinating leave, approvals, availability, and weekly planning. The defaults, language, and workflows are designed for manager visibility, not bulky HR operations.",
   },
   {
     question: "Is the Free plan really free forever?",
@@ -17,7 +17,7 @@ const faqs = [
   {
     question: "Will my data be locked in?",
     answer:
-      "No. TeamFore supports exports and report extraction so teams can keep full ownership of their records.",
+      "No. Your team can review records in-app today through reports and analytics, and CSV export is marked as coming soon rather than hidden behind the UI.",
   },
   {
     question: "Do you support half-days and custom leave types?",

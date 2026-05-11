@@ -22,8 +22,9 @@ export function MarketingFooter() {
               </span>
             </Link>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-zinc-400">
-              Team availability intelligence for engineering managers who care
-              about shipping on time without burning teams out.
+              Leave management, approvals, team calendars, and daily
+              availability for engineering teams that want a calmer planning
+              surface.
             </p>
           </div>
 
@@ -129,7 +130,7 @@ export function MarketingFooter() {
         <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-8 text-xs text-zinc-500 md:flex-row md:items-center md:justify-between">
           <p>© 2026 TeamFore · Built by Vivekananda</p>
           <p className="font-mono tracking-[0.12em] uppercase">
-            Made for dev teams · From Bengaluru
+            Built for engineering teams · From Bengaluru
           </p>
         </div>
       </div>

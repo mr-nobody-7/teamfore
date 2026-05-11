@@ -12,13 +12,13 @@ export function CtaSection() {
               Ready when you are
             </p>
             <h2 className="mt-4 font-display text-4xl leading-[0.98] tracking-tight text-zinc-100 sm:text-5xl md:text-7xl">
-              Your team is planning
+              Your team is coordinating
               <br />
-              sprints <em className="text-violet-300">right now</em>.
+              time off <em className="text-violet-300">right now</em>.
             </h2>
             <p className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-zinc-400">
-              Do not let leave chaos derail your next delivery. Get TeamFore set
-              up in under two minutes, completely free.
+              Do not let leave chaos derail next week&apos;s plan. Get TeamFore
+              set up in minutes, completely free.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">

@@ -1,8 +1,7 @@
 "use client";
 
-import { LogOut, Menu, Moon, Sun, User } from "lucide-react";
+import { LogOut, Menu, User } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useTheme } from "next-themes";
 import { toast } from "sonner";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -40,7 +39,6 @@ export function Navbar({
   onMenuClick,
 }: NavbarProps) {
   const router = useRouter();
-  const { resolvedTheme, setTheme } = useTheme();
 
   const handleLogout = async () => {
     try {
@@ -76,18 +74,6 @@ export function Navbar({
       </div>
 
       <div className="ml-auto flex items-center gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          className="relative border-border/70 bg-card/70"
-          aria-label="Toggle theme"
-          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-        >
-          <Sun className="h-5 w-5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-5 w-5 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-        </Button>
-
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

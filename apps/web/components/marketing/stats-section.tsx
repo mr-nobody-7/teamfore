@@ -1,7 +1,7 @@
 const stats = [
   { value: "50+", label: "Teams using TeamFore" },
   { value: "< 2 min", label: "Setup time" },
-  { value: "4 roles", label: "Employee · Manager · Admin · Owner" },
+  { value: "3 roles", label: "User · Manager · Admin" },
   { value: "100%", label: "Data isolation per workspace" },
 ];
 

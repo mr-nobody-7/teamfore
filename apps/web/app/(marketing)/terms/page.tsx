@@ -1,4 +1,6 @@
+import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { MarketingFooter } from "@/components/marketing/marketing-footer";
 import { MarketingNav } from "@/components/marketing/marketing-nav";
 
@@ -9,19 +11,28 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="bg-background text-foreground">
+    <div className="bg-linear-to-b from-[#14111d] via-[#0f0c17] to-[#0a0813] text-white min-h-screen">
       <MarketingNav />
-      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-36">
+      <main className="mx-auto w-full max-w-3xl px-6 pb-24 pt-28">
+        {/* Back button */}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors mb-8"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to home
+        </Link>
+
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
           Terms of Service
         </h1>
-        <p className="mt-3 text-sm text-muted-foreground">
+        <p className="mt-3 text-sm text-zinc-400">
           Last updated: April 27, 2026
         </p>
 
-        <div className="mt-10 space-y-10 text-sm leading-relaxed text-muted-foreground">
+        <div className="mt-10 space-y-10 text-sm leading-relaxed text-zinc-300">
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               1. Acceptance of terms
             </h2>
             <p>
@@ -33,7 +44,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               2. Description of service
             </h2>
             <p>
@@ -45,7 +56,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               3. Your account
             </h2>
             <ul className="list-disc space-y-2 pl-5">
@@ -69,7 +80,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               4. Acceptable use
             </h2>
             <p className="mb-3">You agree not to:</p>
@@ -98,7 +109,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               5. Workspace responsibilities
             </h2>
             <p>
@@ -111,14 +122,14 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               6. Data and privacy
             </h2>
             <p>
               Your use of the Service is also governed by our{" "}
               <a
                 href="/privacy"
-                className="text-foreground underline underline-offset-2 hover:text-muted-foreground"
+                className="text-white underline underline-offset-2 hover:text-zinc-300"
               >
                 Privacy Policy
               </a>
@@ -128,7 +139,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               7. Third-party services
             </h2>
             <p>
@@ -141,7 +152,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               8. Availability and modifications
             </h2>
             <p>
@@ -154,7 +165,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               9. Disclaimer of warranties
             </h2>
             <p>
@@ -167,7 +178,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               10. Limitation of liability
             </h2>
             <p>
@@ -180,7 +191,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               11. Termination
             </h2>
             <p>
@@ -192,7 +203,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               12. Governing law
             </h2>
             <p>
@@ -203,14 +214,14 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-base font-semibold text-foreground">
+            <h2 className="mb-3 text-base font-semibold text-white">
               13. Contact
             </h2>
             <p>
               For any questions about these Terms, contact us at:{" "}
               <a
                 href="mailto:vivekanandagodi@gmail.com"
-                className="text-foreground underline underline-offset-2 hover:text-muted-foreground"
+                className="text-white underline underline-offset-2 hover:text-zinc-300"
               >
                 vivekanandagodi@gmail.com
               </a>

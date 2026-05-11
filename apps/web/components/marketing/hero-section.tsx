@@ -182,8 +182,8 @@ export function HeroSection() {
 
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-zinc-400 sm:mt-7 sm:text-lg">
             TeamFore is team availability intelligence for engineering managers.
-            Leave requests, capacity, and sprint readiness in one calm surface
-            that your team will actually open on Monday.
+            Leave requests, approvals, public holidays, and daily availability
+            in one calm surface that your team will actually open on Monday.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-2.5 sm:mt-10 sm:gap-3">

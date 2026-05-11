@@ -12,7 +12,7 @@ import { TrustStrip } from "@/components/marketing/trust-strip";
 
 export default function Home() {
   return (
-    <div className="bg-background text-foreground">
+    <div className="dark bg-background text-foreground">
       <MarketingNav />
       <HeroSection />
       <TrustStrip />

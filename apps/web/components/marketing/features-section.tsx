@@ -34,12 +34,14 @@ const heatCells = [
 function Card({
   className,
   tag,
+  badge,
   title,
   body,
   children,
 }: {
   className?: string;
   tag: string;
+  badge?: string;
   title: string;
   body: string;
   children?: React.ReactNode;
@@ -48,9 +50,16 @@ function Card({
     <article
       className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#1f1b2b] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 sm:p-7 ${className ?? ""}`}
     >
-      <p className="font-mono text-[10px] tracking-[0.16em] text-violet-300 uppercase">
-        {tag}
-      </p>
+      <div className="flex items-start justify-between gap-3">
+        <p className="font-mono text-[10px] tracking-[0.16em] text-violet-300 uppercase">
+          {tag}
+        </p>
+        {badge ? (
+          <span className="rounded-full border border-white/12 bg-white/5 px-2.5 py-1 font-mono text-[10px] tracking-[0.12em] text-zinc-400 uppercase">
+            {badge}
+          </span>
+        ) : null}
+      </div>
       <h3 className="mt-3 font-display text-3xl leading-[1.05] tracking-tight text-zinc-100 sm:text-4xl">
         {title}
       </h3>
@@ -87,7 +96,7 @@ export function FeaturesSection() {
             className="lg:col-span-4"
             tag="01 - Team planning calendar"
             title="See everyone&apos;s week in one heatmap."
-            body="Vacations, holidays, half-days, WFH, and custom statuses laid out across the team."
+            body="Vacations, public holidays, half-days, remote days, and team availability laid out across the week."
           >
             <div>
               <div className="grid grid-cols-10 gap-1">
@@ -120,7 +129,7 @@ export function FeaturesSection() {
             className="lg:col-span-2"
             tag="02 - Approvals"
             title="One-click approve. Full audit trail."
-            body="Managers approve from Slack, email, or in-app, with complete event history."
+            body="Managers approve in-app, while Slack and email keep everyone informed with a complete event history."
           >
             <div className="flex flex-wrap items-center gap-1.5 text-xs">
               <span className="rounded-full border border-emerald-500/40 bg-emerald-500/15 px-3 py-1 text-emerald-300">
@@ -177,15 +186,14 @@ export function FeaturesSection() {
           <Card
             className="lg:col-span-3"
             tag="04 - Role-based access"
-            title="Four roles. Real isolation."
-            body="Multi-tenant from day one. Each role sees exactly what it needs."
+            title="Three roles. Real isolation."
+            body="Multi-workspace from day one. Users, managers, and admins only see what they should."
           >
-            <div className="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
+            <div className="grid grid-cols-1 gap-2 text-xs sm:grid-cols-3">
               {[
-                ["Owner", "Full", "Billing & tenant"],
                 ["Admin", "Org", "Settings & teams"],
-                ["Manager", "Team", "Approvals"],
-                ["Employee", "Self", "Apply & view"],
+                ["Manager", "Team", "Approvals & reports"],
+                ["User", "Self", "Apply & view"],
               ].map(([role, level, desc]) => (
                 <div
                   key={role}
@@ -207,7 +215,7 @@ export function FeaturesSection() {
             className="lg:col-span-2"
             tag="05 - Custom leave types"
             title="Sick. Casual. WFH."
-            body="Configure leave categories with their own rules and approval behavior."
+            body="Configure leave categories that match your policy, language, and reporting needs."
           >
             <div className="flex flex-wrap gap-2 text-xs text-zinc-400">
               {["Casual", "Sick", "Earned", "Comp Off", "WFH", "+ Custom"].map(
@@ -227,23 +235,24 @@ export function FeaturesSection() {
             className="lg:col-span-2"
             tag="06 - Slack and Email"
             title="Approve from where your team already is."
-            body="Approve, reject, or check team status without context switching."
+            body="Send leave updates, daily digests, and quick status lookups without losing the thread."
           >
             <div className="flex flex-wrap gap-2 text-xs">
               <span className="rounded-full border border-violet-500/40 bg-violet-500/15 px-3 py-1 text-violet-300">
-                /leave apply
+                /whos-out
               </span>
               <span className="rounded-full border border-emerald-500/40 bg-emerald-500/15 px-3 py-1 text-emerald-300">
-                /team today
+                /my-leaves
               </span>
             </div>
           </Card>
 
           <Card
             className="lg:col-span-2"
-            tag="07 - Reports and export"
-            title="Patterns, trends, and clean CSV."
-            body="Track leave behavior and export what HR or payroll needs."
+            tag="07 - Reports and analytics"
+            badge="CSV export coming soon"
+            title="Patterns, trends, and team visibility."
+            body="Track leave behavior, workload, and approvals in one reporting view."
           >
             <div className="grid grid-cols-2 gap-2.5">
               <div className="rounded-xl border border-white/10 bg-[#161320] p-3">

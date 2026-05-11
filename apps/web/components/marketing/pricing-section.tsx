@@ -1,26 +1,30 @@
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import Link from "next/link";
 
 const freeFeatures = [
-  "Up to 10 users",
-  "Full leave management and approvals",
-  "Team planning calendar",
-  "Public holiday calendar",
-  "Role-based access (4 roles)",
-  "Email notifications",
-  "Reports and CSV export",
-  "Audit logs",
+  { label: "Up to 10 users", comingSoon: false },
+  { label: "Full leave management and approvals", comingSoon: false },
+  { label: "Half-day leave support", comingSoon: false },
+  { label: "Team calendar with public holidays", comingSoon: false },
+  { label: "Role-based access (3 roles)", comingSoon: false },
+  {
+    label: "Slack notifications, digest, and slash commands",
+    comingSoon: false,
+  },
+  { label: "Email notifications", comingSoon: false },
+  { label: "Reports and analytics", comingSoon: false },
+  { label: "CSV export", comingSoon: true },
+  { label: "Audit logs", comingSoon: false },
 ];
 
 const proFeatures = [
-  "Everything in Free",
-  "Unlimited users",
-  "Sprint capacity view",
-  "Slack integration and sync",
-  "Public REST API",
-  "SSO (Google + SAML)",
-  "Priority support",
-  "Custom approval chains",
+  { label: "Everything in Free", comingSoon: false },
+  { label: "Unlimited users", comingSoon: true },
+  { label: "Sprint capacity view", comingSoon: true },
+  { label: "Public REST API", comingSoon: true },
+  { label: "SSO (Google + SAML)", comingSoon: true },
+  { label: "Priority support", comingSoon: true },
+  { label: "Custom approval chains", comingSoon: true },
 ];
 
 export function PricingSection() {
@@ -64,11 +68,22 @@ export function PricingSection() {
             <ul className="mt-6 space-y-2.5">
               {freeFeatures.map((feature) => (
                 <li
-                  key={feature}
-                  className="flex items-start gap-2.5 text-sm text-zinc-200"
+                  key={feature.label}
+                  className={`flex items-start gap-2.5 text-sm ${
+                    feature.comingSoon ? "text-zinc-500" : "text-zinc-200"
+                  }`}
                 >
-                  <Check className="mt-0.5 h-4 w-4 text-violet-300" />
-                  <span>{feature}</span>
+                  {feature.comingSoon ? (
+                    <X className="mt-0.5 h-4 w-4 text-zinc-600" />
+                  ) : (
+                    <Check className="mt-0.5 h-4 w-4 text-violet-300" />
+                  )}
+                  <span>
+                    {feature.label}
+                    {feature.comingSoon ? (
+                      <span className="ml-2 text-zinc-500">Coming soon</span>
+                    ) : null}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -100,15 +115,24 @@ export function PricingSection() {
             </p>
 
             <ul className="mt-6 space-y-2.5">
-              {proFeatures.map((feature, index) => (
+              {proFeatures.map((feature) => (
                 <li
-                  key={feature}
-                  className={`flex items-start gap-2.5 text-sm ${index === 0 ? "text-zinc-200" : "text-zinc-500"}`}
+                  key={feature.label}
+                  className={`flex items-start gap-2.5 text-sm ${
+                    feature.comingSoon ? "text-zinc-500" : "text-zinc-200"
+                  }`}
                 >
-                  <Check
-                    className={`mt-0.5 h-4 w-4 ${index === 0 ? "text-violet-300" : "text-zinc-600"}`}
-                  />
-                  <span>{feature}</span>
+                  {feature.comingSoon ? (
+                    <X className="mt-0.5 h-4 w-4 text-zinc-600" />
+                  ) : (
+                    <Check className="mt-0.5 h-4 w-4 text-violet-300" />
+                  )}
+                  <span>
+                    {feature.label}
+                    {feature.comingSoon ? (
+                      <span className="ml-2 text-zinc-500">Coming soon</span>
+                    ) : null}
+                  </span>
                 </li>
               ))}
             </ul>

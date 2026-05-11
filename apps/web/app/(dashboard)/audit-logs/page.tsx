@@ -7,7 +7,6 @@ import {
   ChevronDown,
   ChevronUp,
   Clock,
-  Filter,
   Globe,
   Shield,
   User,
@@ -52,11 +51,13 @@ const ACTION_CATEGORY: Record<string, ActionCategory> = {
 };
 
 const CATEGORY_STYLES: Record<ActionCategory, string> = {
-  auth: "bg-blue-500/15 text-blue-400 border-blue-500/25",
-  team: "bg-purple-500/15 text-purple-400 border-purple-500/25",
-  leave: "bg-emerald-500/15 text-emerald-400 border-emerald-500/25",
-  user: "bg-amber-500/15 text-amber-400 border-amber-500/25",
-  settings: "bg-cyan-500/15 text-cyan-400 border-cyan-500/25",
+  auth: "border-sky-500/50 bg-sky-500/10 text-sky-700 dark:border-sky-900/50 dark:bg-sky-950/20 dark:text-sky-200",
+  team: "border-iris-500/50 bg-iris-500/10 text-iris-700 dark:border-iris-900/50 dark:bg-iris-950/20 dark:text-iris-200",
+  leave:
+    "border-mint-500/50 bg-mint-500/10 text-mint-700 dark:border-mint-900/50 dark:bg-mint-950/20 dark:text-mint-200",
+  user: "border-amber-500/50 bg-amber-500/10 text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-200",
+  settings:
+    "border-rose-500/50 bg-rose-500/10 text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/20 dark:text-rose-200",
 };
 
 const FAILED_ACTIONS = new Set(["USER_LOGIN_FAILED"]);
@@ -99,11 +100,11 @@ const ACTIONS = [
 ] as const;
 
 const DOT_COLOR: Record<ActionCategory, string> = {
-  auth: "bg-blue-400",
-  team: "bg-purple-400",
-  leave: "bg-emerald-400",
+  auth: "bg-sky-400",
+  team: "bg-iris-400",
+  leave: "bg-mint-400",
   user: "bg-amber-400",
-  settings: "bg-cyan-400",
+  settings: "bg-rose-400",
 };
 
 const PAGE_SIZE = 25;
@@ -113,7 +114,7 @@ const PAGE_SIZE = 25;
 function ActionBadge({ action }: { action: string }) {
   const category = ACTION_CATEGORY[action] ?? "user";
   const style = FAILED_ACTIONS.has(action)
-    ? "bg-red-500/15 text-red-400 border-red-500/25"
+    ? "border-coral-500/50 bg-coral-500/10 text-coral-700 dark:border-coral-900/50 dark:bg-coral-950/20 dark:text-coral-200"
     : CATEGORY_STYLES[category];
   return (
     <span
@@ -147,7 +148,7 @@ function LogRow({ log }: { log: AuditLog }) {
   const [expanded, setExpanded] = useState(false);
   const category = ACTION_CATEGORY[log.action] ?? "user";
   const dotColor = FAILED_ACTIONS.has(log.action)
-    ? "bg-red-400"
+    ? "bg-coral-400"
     : DOT_COLOR[category];
   const hasMetadata = log.metadata && Object.keys(log.metadata).length > 0;
   const hasExtra =
@@ -281,55 +282,26 @@ export default function AuditLogsPage() {
       }
     >
       <PageContainer className="flex flex-col gap-6">
-        {/* Header */}
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Audit Logs</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Full history of authentication, user management, team, and leave
-              events.
-            </p>
+        {/* Editorial Header */}
+        <div>
+          <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            Audit logs · {data?.total ?? 0} events · last 30 days
           </div>
-          {data && (
-            <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm">
-              <Activity className="h-4 w-4 text-muted-foreground" />
-              <span className="text-muted-foreground">Total events:</span>
-              <span className="font-semibold">
-                {data.total.toLocaleString()}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Category legend */}
-        <div className="flex flex-wrap gap-2 text-xs">
-          {(
-            [
-              ["auth", "Authentication"],
-              ["leave", "Leave"],
-              ["user", "User"],
-              ["team", "Team"],
-              ["settings", "Settings"],
-            ] as const
-          ).map(([cat, label]) => (
-            <span
-              key={cat}
-              className={`inline-flex items-center rounded-md border px-2 py-0.5 font-medium ${CATEGORY_STYLES[cat]}`}
-            >
-              {label}
-            </span>
-          ))}
-          <span className="inline-flex items-center rounded-md border border-red-500/25 bg-red-500/15 px-2 py-0.5 font-medium text-red-400">
-            Failed
-          </span>
+          <h1 className="font-serif text-3xl font-normal italic leading-tight tracking-tight">
+            Every action, kept{" "}
+            <span className="not-italic text-blue-600">honest.</span>
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Authentication, leave, user, team, and settings events — searchable
+            for compliance.
+          </p>
         </div>
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3">
-          <Filter className="h-4 w-4 text-muted-foreground" />
           <Select value={action} onValueChange={handleActionChange}>
             <SelectTrigger className="w-56">
-              <SelectValue placeholder="Filter action" />
+              <SelectValue placeholder="All actions" />
             </SelectTrigger>
             <SelectContent>
               {ACTIONS.map((item) => (
@@ -351,14 +323,14 @@ export default function AuditLogsPage() {
 
         {/* Log list */}
         <Card>
-          <CardHeader className="pb-4">
+          <CardHeader className="pb-4 border-b">
             <CardTitle className="text-base">
               {data
                 ? `${data.logs.length} of ${data.total.toLocaleString()} events`
                 : "Events"}
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-4">
             {isLoading ? (
               <div className="space-y-2">
                 {Array.from({ length: 6 }).map((_, i) => (

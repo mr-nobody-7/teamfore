@@ -373,7 +373,9 @@ export const getReportsAnalytics = async ({
     );
     const endMonthIndex = Math.min(
       11,
-      leave.endDate.getUTCFullYear() > usageYear ? 11 : leave.endDate.getUTCMonth(),
+      leave.endDate.getUTCFullYear() > usageYear
+        ? 11
+        : leave.endDate.getUTCMonth(),
     );
 
     if (startMonthIndex <= endMonthIndex) {

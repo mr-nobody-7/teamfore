@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 import * as React from "react";
 
@@ -30,8 +31,29 @@ function isTypingTarget(target: EventTarget | null): boolean {
 }
 
 function ThemeHotkey() {
+  const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
+
+  const isProductRoute = React.useMemo(
+    () =>
+      [
+        "/dashboard",
+        "/calendar",
+        "/leaves",
+        "/reports",
+        "/teams",
+        "/users",
+        "/settings",
+        "/audit-logs",
+      ].some((route) => pathname === route || pathname.startsWith(`${route}/`)),
+    [pathname],
+  );
+
   React.useEffect(() => {
+    if (!isProductRoute) {
+      return;
+    }
+
     function onKeyDown(event: KeyboardEvent) {
       if (event.defaultPrevented || event.repeat) return;
       if (event.metaKey || event.ctrlKey || event.altKey) return;
@@ -41,6 +63,6 @@ function ThemeHotkey() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [resolvedTheme, setTheme]);
+  }, [isProductRoute, resolvedTheme, setTheme]);
   return null;
 }

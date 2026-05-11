@@ -30,7 +30,9 @@ export function getSlackInstallUrl(workspaceId: string): string {
   return `https://slack.com/oauth/v2/authorize?${params.toString()}`;
 }
 
-export async function exchangeCodeForTokens(code: string): Promise<SlackInstallationData> {
+export async function exchangeCodeForTokens(
+  code: string,
+): Promise<SlackInstallationData> {
   const client = new WebClient();
   const result = await client.oauth.v2.access({
     client_id: requiredEnv("SLACK_CLIENT_ID"),
@@ -39,7 +41,12 @@ export async function exchangeCodeForTokens(code: string): Promise<SlackInstalla
     redirect_uri: requiredEnv("SLACK_REDIRECT_URI"),
   });
 
-  if (!result.ok || !result.access_token || !result.team?.id || !result.team?.name) {
+  if (
+    !result.ok ||
+    !result.access_token ||
+    !result.team?.id ||
+    !result.team?.name
+  ) {
     throw new Error(`Slack OAuth failed: ${result.error ?? "unknown_error"}`);
   }
 

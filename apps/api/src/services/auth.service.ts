@@ -4,8 +4,8 @@ import { prisma } from "../lib/db.js";
 import type {
   LoginInput,
   RegisterInput,
-  RegisterWorkspaceInput,
   RegisterResult,
+  RegisterWorkspaceInput,
 } from "../types/index.js";
 import {
   AppError,
@@ -28,9 +28,9 @@ export class InvalidCredentialsError extends AppError {
 
 const ALL_WORKSPACE_LEAVE_TYPES: { type: string; label: string }[] = [
   { type: "VACATION", label: "Earned Leave" },
-  { type: "SICK",     label: "Sick Leave"   },
-  { type: "PERSONAL", label: "Comp Off"     },
-  { type: "CASUAL",   label: "Casual Leave" },
+  { type: "SICK", label: "Sick Leave" },
+  { type: "PERSONAL", label: "Comp Off" },
+  { type: "CASUAL", label: "Casual Leave" },
 ];
 
 function isEmailUniqueConstraintError(error: unknown): boolean {
@@ -49,7 +49,8 @@ function isEmailUniqueConstraintError(error: unknown): boolean {
 
   if (Array.isArray(target)) {
     return target.some(
-      (field) => typeof field === "string" && field.toLowerCase().includes("email"),
+      (field) =>
+        typeof field === "string" && field.toLowerCase().includes("email"),
     );
   }
 
@@ -91,10 +92,30 @@ export const registerUserService = async (
 
       await tx.workspaceLeaveType.createMany({
         data: [
-          { workspaceId: workspace.id, type: "VACATION", label: "Earned Leave", isActive: true },
-          { workspaceId: workspace.id, type: "SICK", label: "Sick Leave", isActive: true },
-          { workspaceId: workspace.id, type: "PERSONAL", label: "Comp Off", isActive: true },
-          { workspaceId: workspace.id, type: "CASUAL", label: "Casual Leave", isActive: true },
+          {
+            workspaceId: workspace.id,
+            type: "VACATION",
+            label: "Earned Leave",
+            isActive: true,
+          },
+          {
+            workspaceId: workspace.id,
+            type: "SICK",
+            label: "Sick Leave",
+            isActive: true,
+          },
+          {
+            workspaceId: workspace.id,
+            type: "PERSONAL",
+            label: "Comp Off",
+            isActive: true,
+          },
+          {
+            workspaceId: workspace.id,
+            type: "CASUAL",
+            label: "Casual Leave",
+            isActive: true,
+          },
         ],
         skipDuplicates: true,
       });

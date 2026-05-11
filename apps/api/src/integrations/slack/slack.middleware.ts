@@ -11,7 +11,11 @@ function requiredEnv(name: string): string {
   return value;
 }
 
-export function verifySlackSignature(req: Request, res: Response, next: NextFunction): void {
+export function verifySlackSignature(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
   const signature = req.header("x-slack-signature");
   const timestamp = req.header("x-slack-request-timestamp");
 
@@ -21,7 +25,10 @@ export function verifySlackSignature(req: Request, res: Response, next: NextFunc
   }
 
   const tsNum = Number(timestamp);
-  if (!Number.isFinite(tsNum) || Math.abs(Date.now() / 1000 - tsNum) > MAX_DRIFT_SECONDS) {
+  if (
+    !Number.isFinite(tsNum) ||
+    Math.abs(Date.now() / 1000 - tsNum) > MAX_DRIFT_SECONDS
+  ) {
     res.status(401).send("Stale Slack request");
     return;
   }

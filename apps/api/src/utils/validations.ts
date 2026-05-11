@@ -64,7 +64,11 @@ export const applyLeaveSchema = z.object({
   end_session: z.enum(["FULL_DAY", "FIRST_HALF", "SECOND_HALF"], {
     error: "Invalid end session",
   }),
-  type: z.string().trim().min(1, "Leave type is required").max(100, "Invalid leave type"),
+  type: z
+    .string()
+    .trim()
+    .min(1, "Leave type is required")
+    .max(100, "Invalid leave type"),
   reason: z
     .string()
     .trim()
@@ -107,23 +111,28 @@ export const availabilityBoardQuerySchema = z.object({
   team_id: z.string().optional(),
 });
 
-export const setMyAvailabilitySchema = z.object({
-  status: z
-    .enum([
-      "AVAILABLE",
-      "ON_LEAVE",
-      "WORKING_REMOTELY",
-      "HALF_DAY",
-      "BUSY",
-      "FOCUS_TIME",
-    ])
-    .optional(),
-  workload: z.enum(["LIGHT", "NORMAL", "HEAVY"]).optional(),
-  date: z.string().date().optional(),
-}).refine((value) => value.status !== undefined || value.workload !== undefined, {
-  message: "At least one of status or workload is required",
-  path: ["status"],
-});
+export const setMyAvailabilitySchema = z
+  .object({
+    status: z
+      .enum([
+        "AVAILABLE",
+        "ON_LEAVE",
+        "WORKING_REMOTELY",
+        "HALF_DAY",
+        "BUSY",
+        "FOCUS_TIME",
+      ])
+      .optional(),
+    workload: z.enum(["LIGHT", "NORMAL", "HEAVY"]).optional(),
+    date: z.string().date().optional(),
+  })
+  .refine(
+    (value) => value.status !== undefined || value.workload !== undefined,
+    {
+      message: "At least one of status or workload is required",
+      path: ["status"],
+    },
+  );
 
 export const listPublicHolidaysSchema = z
   .object({
@@ -192,18 +201,20 @@ export const createLeaveTypeSchema = z.object({
     .max(50, "Label must be less than 50 characters"),
 });
 
-export const updateLeaveTypeSchema = z.object({
-  label: z
-    .string()
-    .trim()
-    .min(1, "Label is required")
-    .max(50, "Label must be less than 50 characters")
-    .optional(),
-  isActive: z.boolean().optional(),
-}).refine((v) => v.label !== undefined || v.isActive !== undefined, {
-  message: "At least one field (label or isActive) must be provided",
-  path: ["label"],
-});
+export const updateLeaveTypeSchema = z
+  .object({
+    label: z
+      .string()
+      .trim()
+      .min(1, "Label is required")
+      .max(50, "Label must be less than 50 characters")
+      .optional(),
+    isActive: z.boolean().optional(),
+  })
+  .refine((v) => v.label !== undefined || v.isActive !== undefined, {
+    message: "At least one field (label or isActive) must be provided",
+    path: ["label"],
+  });
 
 export const createFeedbackSchema = z.object({
   message: z
@@ -286,15 +297,14 @@ export const updateMyProfileSchema = z.object({
     .max(100, "Name must be less than 100 characters"),
 });
 
-export const updateMyPasswordSchema = z
-  .object({
-    currentPassword: z
-      .string()
-      .min(8, "Current password must be at least 8 characters long"),
-    newPassword: z
-      .string()
-      .min(8, "New password must be at least 8 characters long"),
-  });
+export const updateMyPasswordSchema = z.object({
+  currentPassword: z
+    .string()
+    .min(8, "Current password must be at least 8 characters long"),
+  newPassword: z
+    .string()
+    .min(8, "New password must be at least 8 characters long"),
+});
 
 export const listAuditLogsSchema = z.object({
   action: z

@@ -21,7 +21,11 @@ function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
-function logCommandError(command: string, workspaceId: string, error: unknown): void {
+function logCommandError(
+  command: string,
+  workspaceId: string,
+  error: unknown,
+): void {
   console.error(
     `[slack:${command}] ${getErrorMessage(error)} | workspaceId=${workspaceId} | command=${command}`,
   );
@@ -144,7 +148,9 @@ async function handleWhosOut(
         workspaceId,
         date: { gte: startOfDay, lte: endOfDay },
         status: { not: "AVAILABLE" },
-        ...(leaveUserIds.size > 0 ? { userId: { notIn: [...leaveUserIds] } } : {}),
+        ...(leaveUserIds.size > 0
+          ? { userId: { notIn: [...leaveUserIds] } }
+          : {}),
       },
       select: {
         status: true,
@@ -304,7 +310,8 @@ async function handleMyLeaves(
     let text: string;
 
     if (leaves.length === 0) {
-      text = "You have no upcoming approved leaves. Apply at teamfore.com/leaves";
+      text =
+        "You have no upcoming approved leaves. Apply at teamfore.com/leaves";
     } else {
       const lines = leaves.map((l) => {
         const label = leaveTypeLabel.get(l.type) ?? l.type;
@@ -340,39 +347,40 @@ async function handleTeamStatus(
     const endOfDay = new Date(today);
     endOfDay.setHours(23, 59, 59, 999);
 
-    const [users, availabilities, leaves, workloads, leaveTypes] = await Promise.all([
-      prisma.user.findMany({
-        where: { workspaceId, isActive: true },
-        select: { id: true, name: true },
-      }),
-      prisma.userAvailabilityStatus.findMany({
-        where: {
-          workspaceId,
-          date: { gte: startOfDay, lte: endOfDay },
-        },
-        select: { userId: true, status: true },
-      }),
-      prisma.leaveRequest.findMany({
-        where: {
-          user: { workspaceId },
-          status: "APPROVED",
-          startDate: { lte: endOfDay },
-          endDate: { gte: startOfDay },
-        },
-        select: { userId: true, type: true },
-      }),
-      prisma.userWorkloadStatus.findMany({
-        where: {
-          workspaceId,
-          date: { gte: startOfDay, lte: endOfDay },
-        },
-        select: { userId: true, workload: true },
-      }),
-      prisma.workspaceLeaveType.findMany({
-        where: { workspaceId },
-        select: { type: true, label: true },
-      }),
-    ]);
+    const [users, availabilities, leaves, workloads, leaveTypes] =
+      await Promise.all([
+        prisma.user.findMany({
+          where: { workspaceId, isActive: true },
+          select: { id: true, name: true },
+        }),
+        prisma.userAvailabilityStatus.findMany({
+          where: {
+            workspaceId,
+            date: { gte: startOfDay, lte: endOfDay },
+          },
+          select: { userId: true, status: true },
+        }),
+        prisma.leaveRequest.findMany({
+          where: {
+            user: { workspaceId },
+            status: "APPROVED",
+            startDate: { lte: endOfDay },
+            endDate: { gte: startOfDay },
+          },
+          select: { userId: true, type: true },
+        }),
+        prisma.userWorkloadStatus.findMany({
+          where: {
+            workspaceId,
+            date: { gte: startOfDay, lte: endOfDay },
+          },
+          select: { userId: true, workload: true },
+        }),
+        prisma.workspaceLeaveType.findMany({
+          where: { workspaceId },
+          select: { type: true, label: true },
+        }),
+      ]);
 
     if (users.length === 0) {
       await postToResponseUrl(
@@ -386,152 +394,163 @@ async function handleTeamStatus(
       return;
     }
 
-  // ── Step 2: Build lookup maps ──────────────────────────────────────────────
+    // ── Step 2: Build lookup maps ──────────────────────────────────────────────
 
-  const availMap = new Map(availabilities.map((a) => [a.userId, a.status]));
-  const leaveMap = new Map(leaves.map((l) => [l.userId, l.type]));
-  const workloadMap = new Map(workloads.map((w) => [w.userId, w.workload]));
-  const leaveTypeLabel = new Map(leaveTypes.map((lt) => [lt.type, lt.label]));
+    const availMap = new Map(availabilities.map((a) => [a.userId, a.status]));
+    const leaveMap = new Map(leaves.map((l) => [l.userId, l.type]));
+    const workloadMap = new Map(workloads.map((w) => [w.userId, w.workload]));
+    const leaveTypeLabel = new Map(leaveTypes.map((lt) => [lt.type, lt.label]));
 
-  type EffectiveStatus =
-    | "ON_LEAVE"
-    | "WORKING_REMOTELY"
-    | "FOCUS_TIME"
-    | "BUSY"
-    | "HALF_DAY"
-    | "AVAILABLE";
+    type EffectiveStatus =
+      | "ON_LEAVE"
+      | "WORKING_REMOTELY"
+      | "FOCUS_TIME"
+      | "BUSY"
+      | "HALF_DAY"
+      | "AVAILABLE";
 
-  const GROUP_ORDER: EffectiveStatus[] = [
-    "ON_LEAVE",
-    "WORKING_REMOTELY",
-    "FOCUS_TIME",
-    "BUSY",
-    "HALF_DAY",
-    "AVAILABLE",
-  ];
+    const GROUP_ORDER: EffectiveStatus[] = [
+      "ON_LEAVE",
+      "WORKING_REMOTELY",
+      "FOCUS_TIME",
+      "BUSY",
+      "HALF_DAY",
+      "AVAILABLE",
+    ];
 
-  const GROUP_EMOJI: Record<EffectiveStatus, string> = {
-    ON_LEAVE: "🏖️",
-    WORKING_REMOTELY: "🏠",
-    FOCUS_TIME: "🔆",
-    BUSY: "🔴",
-    HALF_DAY: "🌗",
-    AVAILABLE: "🟢",
-  };
+    const GROUP_EMOJI: Record<EffectiveStatus, string> = {
+      ON_LEAVE: "🏖️",
+      WORKING_REMOTELY: "🏠",
+      FOCUS_TIME: "🔆",
+      BUSY: "🔴",
+      HALF_DAY: "🌗",
+      AVAILABLE: "🟢",
+    };
 
-  const GROUP_LABEL: Record<EffectiveStatus, string> = {
-    ON_LEAVE: "On leave",
-    WORKING_REMOTELY: "Working remotely",
-    FOCUS_TIME: "Focus time",
-    BUSY: "Busy",
-    HALF_DAY: "Half day",
-    AVAILABLE: "Available",
-  };
+    const GROUP_LABEL: Record<EffectiveStatus, string> = {
+      ON_LEAVE: "On leave",
+      WORKING_REMOTELY: "Working remotely",
+      FOCUS_TIME: "Focus time",
+      BUSY: "Busy",
+      HALF_DAY: "Half day",
+      AVAILABLE: "Available",
+    };
 
-  // ── Step 3: Determine effective status and group ───────────────────────────
+    // ── Step 3: Determine effective status and group ───────────────────────────
 
-  const groups = new Map<EffectiveStatus, { name: string; leaveLabel: string | undefined; heavy: boolean }[]>(
-    GROUP_ORDER.map((s) => [s, []]),
-  );
+    const groups = new Map<
+      EffectiveStatus,
+      { name: string; leaveLabel: string | undefined; heavy: boolean }[]
+    >(GROUP_ORDER.map((s) => [s, []]));
 
-  for (const user of users) {
-    let status: EffectiveStatus;
-    let leaveLabel: string | undefined;
+    for (const user of users) {
+      let status: EffectiveStatus;
+      let leaveLabel: string | undefined;
 
-    if (leaveMap.has(user.id)) {
-      status = "ON_LEAVE";
-      const leaveType = leaveMap.get(user.id);
-      leaveLabel = leaveType !== undefined ? (leaveTypeLabel.get(leaveType) ?? leaveType) : undefined;
-    } else {
-      const avail = availMap.get(user.id);
-      status = (avail as EffectiveStatus | undefined) ?? "AVAILABLE";
+      if (leaveMap.has(user.id)) {
+        status = "ON_LEAVE";
+        const leaveType = leaveMap.get(user.id);
+        leaveLabel =
+          leaveType !== undefined
+            ? (leaveTypeLabel.get(leaveType) ?? leaveType)
+            : undefined;
+      } else {
+        const avail = availMap.get(user.id);
+        status = (avail as EffectiveStatus | undefined) ?? "AVAILABLE";
+      }
+
+      const workload = workloadMap.get(user.id);
+      const heavy = workload === "HEAVY";
+
+      const bucket = groups.get(status);
+      if (bucket) {
+        bucket.push({ name: user.name, leaveLabel, heavy });
+      }
     }
 
-    const workload = workloadMap.get(user.id);
-    const heavy = workload === "HEAVY";
+    // ── Step 4: Build Block Kit message ───────────────────────────────────────
 
-    const bucket = groups.get(status);
-    if (bucket) {
-      bucket.push({ name: user.name, leaveLabel, heavy });
-    }
-  }
+    const totalUsers = users.length;
+    const availableCount = groups.get("AVAILABLE")?.length ?? 0;
+    const capacityPct =
+      totalUsers === 0 ? 100 : Math.round((availableCount / totalUsers) * 100);
+    const capacityEmoji =
+      capacityPct >= 80 ? "🟢" : capacityPct >= 50 ? "🟡" : "🔴";
 
-  // ── Step 4: Build Block Kit message ───────────────────────────────────────
-
-  const totalUsers = users.length;
-  const availableCount = groups.get("AVAILABLE")?.length ?? 0;
-  const capacityPct =
-    totalUsers === 0 ? 100 : Math.round((availableCount / totalUsers) * 100);
-  const capacityEmoji = capacityPct >= 80 ? "🟢" : capacityPct >= 50 ? "🟡" : "🔴";
-
-  const dayLabel = today.toLocaleDateString("en-IN", {
-    weekday: "long",
-    day: "numeric",
-    month: "short",
-  });
-
-  const blocks: SlackBlock[] = [];
-
-  // Header
-  blocks.push({
-    type: "header",
-    text: { type: "plain_text", text: `📊 Team Status — ${dayLabel}`, emoji: true },
-  });
-
-  // Status sections
-  const nonEmptyGroups = GROUP_ORDER.filter((s) => (groups.get(s)?.length ?? 0) > 0);
-  const allAvailable =
-    nonEmptyGroups.length === 1 && nonEmptyGroups[0] === "AVAILABLE";
-
-  if (allAvailable) {
-    blocks.push({
-      type: "section",
-      text: { type: "mrkdwn", text: "✅ Everyone is available today!" },
+    const dayLabel = today.toLocaleDateString("en-IN", {
+      weekday: "long",
+      day: "numeric",
+      month: "short",
     });
-  } else {
-    for (const status of GROUP_ORDER) {
-      const members = groups.get(status);
-      if (!members || members.length === 0) continue;
 
-      const emoji = GROUP_EMOJI[status];
-      const label = GROUP_LABEL[status];
+    const blocks: SlackBlock[] = [];
 
-      const nameList = members
-        .map((m) => {
-          let entry = m.name;
-          if (status === "ON_LEAVE" && m.leaveLabel) {
-            entry += ` (${m.leaveLabel})`;
-          }
-          if (m.heavy) {
-            entry += " ⚠️";
-          }
-          return entry;
-        })
-        .join(" · ");
+    // Header
+    blocks.push({
+      type: "header",
+      text: {
+        type: "plain_text",
+        text: `📊 Team Status — ${dayLabel}`,
+        emoji: true,
+      },
+    });
 
+    // Status sections
+    const nonEmptyGroups = GROUP_ORDER.filter(
+      (s) => (groups.get(s)?.length ?? 0) > 0,
+    );
+    const allAvailable =
+      nonEmptyGroups.length === 1 && nonEmptyGroups[0] === "AVAILABLE";
+
+    if (allAvailable) {
       blocks.push({
         type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `${emoji} *${label} (${members.length})*\n${nameList}`,
-        },
+        text: { type: "mrkdwn", text: "✅ Everyone is available today!" },
       });
+    } else {
+      for (const status of GROUP_ORDER) {
+        const members = groups.get(status);
+        if (!members || members.length === 0) continue;
+
+        const emoji = GROUP_EMOJI[status];
+        const label = GROUP_LABEL[status];
+
+        const nameList = members
+          .map((m) => {
+            let entry = m.name;
+            if (status === "ON_LEAVE" && m.leaveLabel) {
+              entry += ` (${m.leaveLabel})`;
+            }
+            if (m.heavy) {
+              entry += " ⚠️";
+            }
+            return entry;
+          })
+          .join(" · ");
+
+        blocks.push({
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `${emoji} *${label} (${members.length})*\n${nameList}`,
+          },
+        });
+      }
     }
-  }
 
-  // Divider
-  blocks.push({ type: "divider" });
+    // Divider
+    blocks.push({ type: "divider" });
 
-  // Context footer
-  blocks.push({
-    type: "context",
-    elements: [
-      {
-        type: "mrkdwn",
-        text: `Team capacity: *${capacityPct}%* · ${capacityEmoji} · View standup board at teamfore.com/team`,
-      },
-    ],
-  });
+    // Context footer
+    blocks.push({
+      type: "context",
+      elements: [
+        {
+          type: "mrkdwn",
+          text: `Team capacity: *${capacityPct}%* · ${capacityEmoji} · View standup board at teamfore.com/team`,
+        },
+      ],
+    });
 
     await postToResponseUrl(
       payload.response_url,
@@ -658,103 +677,103 @@ async function handleApplyLeave(
             slackUserId: payload.user_id,
           }),
           blocks: [
-        {
-          type: "input",
-          block_id: "leave_type_block",
-          label: {
-            type: "plain_text",
-            text: "Leave type",
-          },
-          element: {
-            type: "static_select",
-            action_id: "leave_type_select",
-            options: leaveTypeOptions,
-          },
-        },
-        {
-          type: "input",
-          block_id: "start_date_block",
-          label: {
-            type: "plain_text",
-            text: "Start date",
-          },
-          element: {
-            type: "datepicker",
-            action_id: "start_date_picker",
-            initial_date: initialDate,
-          },
-        },
-        {
-          type: "input",
-          block_id: "end_date_block",
-          label: {
-            type: "plain_text",
-            text: "End date",
-          },
-          element: {
-            type: "datepicker",
-            action_id: "end_date_picker",
-            initial_date: initialDate,
-          },
-        },
-        {
-          type: "input",
-          block_id: "session_block",
-          label: {
-            type: "plain_text",
-            text: "Session",
-          },
-          element: {
-            type: "static_select",
-            action_id: "session_select",
-            options: [
-              {
-                text: {
-                  type: "plain_text",
-                  text: "Full Day",
-                },
-                value: "FULL_DAY",
-              },
-              {
-                text: {
-                  type: "plain_text",
-                  text: "First Half",
-                },
-                value: "FIRST_HALF",
-              },
-              {
-                text: {
-                  type: "plain_text",
-                  text: "Second Half",
-                },
-                value: "SECOND_HALF",
-              },
-            ],
-            initial_option: {
-              text: {
+            {
+              type: "input",
+              block_id: "leave_type_block",
+              label: {
                 type: "plain_text",
-                text: "Full Day",
+                text: "Leave type",
               },
-              value: "FULL_DAY",
+              element: {
+                type: "static_select",
+                action_id: "leave_type_select",
+                options: leaveTypeOptions,
+              },
             },
-          },
-        },
-        {
-          type: "input",
-          block_id: "reason_block",
-          optional: true,
-          label: {
-            type: "plain_text",
-            text: "Reason",
-          },
-          element: {
-            type: "plain_text_input",
-            action_id: "reason_input",
-            multiline: true,
-            max_length: 500,
-          },
-        },
-      ],
+            {
+              type: "input",
+              block_id: "start_date_block",
+              label: {
+                type: "plain_text",
+                text: "Start date",
+              },
+              element: {
+                type: "datepicker",
+                action_id: "start_date_picker",
+                initial_date: initialDate,
+              },
+            },
+            {
+              type: "input",
+              block_id: "end_date_block",
+              label: {
+                type: "plain_text",
+                text: "End date",
+              },
+              element: {
+                type: "datepicker",
+                action_id: "end_date_picker",
+                initial_date: initialDate,
+              },
+            },
+            {
+              type: "input",
+              block_id: "session_block",
+              label: {
+                type: "plain_text",
+                text: "Session",
+              },
+              element: {
+                type: "static_select",
+                action_id: "session_select",
+                options: [
+                  {
+                    text: {
+                      type: "plain_text",
+                      text: "Full Day",
+                    },
+                    value: "FULL_DAY",
+                  },
+                  {
+                    text: {
+                      type: "plain_text",
+                      text: "First Half",
+                    },
+                    value: "FIRST_HALF",
+                  },
+                  {
+                    text: {
+                      type: "plain_text",
+                      text: "Second Half",
+                    },
+                    value: "SECOND_HALF",
+                  },
+                ],
+                initial_option: {
+                  text: {
+                    type: "plain_text",
+                    text: "Full Day",
+                  },
+                  value: "FULL_DAY",
+                },
+              },
+            },
+            {
+              type: "input",
+              block_id: "reason_block",
+              optional: true,
+              label: {
+                type: "plain_text",
+                text: "Reason",
+              },
+              element: {
+                type: "plain_text_input",
+                action_id: "reason_input",
+                multiline: true,
+                max_length: 500,
+              },
+            },
+          ],
         },
       });
     } catch (error) {
@@ -778,7 +797,10 @@ async function handleApplyLeave(
 
 // ── Main handler ───────────────────────────────────────────────────────────────
 
-export async function handleSlashCommand(req: Request, res: Response): Promise<void> {
+export async function handleSlashCommand(
+  req: Request,
+  res: Response,
+): Promise<void> {
   const payload = req.body as SlackCommandPayload;
 
   let resolved: Awaited<ReturnType<typeof resolveWorkspace>>;
@@ -831,7 +853,9 @@ export async function handleSlashCommand(req: Request, res: Response): Promise<v
         break;
 
       default:
-        res.status(200).json({ response_type: "ephemeral", text: "Unknown command" });
+        res
+          .status(200)
+          .json({ response_type: "ephemeral", text: "Unknown command" });
     }
   } catch (error) {
     logCommandError(payload.command || "unknown", workspaceId, error);

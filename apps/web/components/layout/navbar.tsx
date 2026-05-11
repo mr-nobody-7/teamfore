@@ -52,24 +52,35 @@ export function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background/95 px-6 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border/70 bg-background/85 px-6 backdrop-blur-xl supports-backdrop-filter:bg-background/65">
       {/* Left slot — page title / breadcrumbs added per-page via portal */}
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        className="md:hidden"
-        aria-label="Open sidebar"
-        onClick={onMenuClick}
-      >
-        <Menu className="h-5 w-5" />
-      </Button>
-
-      <div className="ml-auto flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <Button
           type="button"
           variant="ghost"
           size="icon"
+          className="md:hidden"
+          aria-label="Open sidebar"
+          onClick={onMenuClick}
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+        <div className="hidden sm:block">
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+            TeamFore Console
+          </p>
+          <p className="font-display text-lg leading-none text-foreground">
+            Workforce Control Surface
+          </p>
+        </div>
+      </div>
+
+      <div className="ml-auto flex items-center gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          className="relative border-border/70 bg-card/70"
           aria-label="Toggle theme"
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
         >
@@ -81,11 +92,11 @@ export function Navbar({
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="relative h-9 w-9 rounded-full p-0"
+              className="relative h-9 w-9 rounded-full border border-border/60 bg-card/80 p-0"
               aria-label="User menu"
             >
               <Avatar className="h-9 w-9">
-                <AvatarFallback className="bg-primary text-sm text-primary-foreground">
+                <AvatarFallback className="bg-linear-to-br from-primary to-cyan-400 text-sm text-primary-foreground">
                   {getInitials(userName)}
                 </AvatarFallback>
               </Avatar>

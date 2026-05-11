@@ -48,4 +48,3 @@ router.delete(
 );
 
 export { router as settingsRoutes };
-

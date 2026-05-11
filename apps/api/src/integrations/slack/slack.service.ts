@@ -55,7 +55,10 @@ export class SlackService {
     };
   }
 
-  async sendMessage(workspaceId: string, options: SlackMessageOptions): Promise<void> {
+  async sendMessage(
+    workspaceId: string,
+    options: SlackMessageOptions,
+  ): Promise<void> {
     const client = await this.getClient(workspaceId);
     if (!client) {
       return;

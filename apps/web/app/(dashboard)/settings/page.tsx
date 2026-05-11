@@ -7,7 +7,6 @@ import { toast } from "sonner";
 
 import { RoleGuard } from "@/components/auth/role-guard";
 import { PageContainer } from "@/components/layout/page-container";
-import { SlackConnectCard } from "@/components/settings/slack-connect";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -137,124 +136,181 @@ export default function SettingsPage() {
       }
     >
       <PageContainer className="flex flex-col gap-6">
+        {/* Editorial Header */}
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Workspace-level leave configuration.
+          <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            Settings · workspace · acme
+          </div>
+          <h1 className="font-serif text-3xl font-normal italic leading-tight tracking-tight">
+            Tune the rules.{" "}
+            <span className="not-italic text-blue-600">Once.</span>
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Leave types, accruals, integrations, and policies — workspace-wide.
           </p>
         </div>
 
-        {/* ── Leave Types Card ─────────────────────────────────────────── */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0">
-            <CardTitle>Leave Types</CardTitle>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => {
-                setNewLabel("");
-                setCreateOpen(true);
-              }}
-            >
-              <Plus className="mr-1.5 h-4 w-4" />
-              Add custom type
-            </Button>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {isLoading && (
-              <p className="text-sm text-muted-foreground">Loading…</p>
-            )}
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Left Column: Leave Types & Threshold */}
+          <div className="lg:col-span-2 space-y-6">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                <CardTitle className="text-base">Leave types</CardTitle>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    setNewLabel("");
+                    setCreateOpen(true);
+                  }}
+                >
+                  <Plus className="mr-1.5 h-4 w-4" />
+                  Add type
+                </Button>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {isLoading && (
+                  <p className="text-sm text-muted-foreground">Loading…</p>
+                )}
 
-            {!isLoading && leaveTypes.length === 0 && (
-              <p className="text-sm text-muted-foreground">
-                No leave types configured.
-              </p>
-            )}
+                {!isLoading && leaveTypes.length === 0 && (
+                  <p className="text-sm text-muted-foreground">
+                    No leave types configured.
+                  </p>
+                )}
 
-            {leaveTypes.map((lt) => (
-              <div
-                key={lt.id}
-                className="flex items-center justify-between rounded-md border p-3"
-              >
-                {/* Label + badges */}
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">{lt.label}</span>
-                  {lt.isCustom && (
-                    <Badge variant="secondary" className="text-xs">
-                      Custom
-                    </Badge>
-                  )}
+                {leaveTypes.map((lt) => (
+                  <div
+                    key={lt.id}
+                    className="flex items-center justify-between rounded-lg border px-3 py-2 transition-colors hover:bg-muted/30"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">{lt.label}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {lt.isCustom ? "Custom type" : "Built-in"}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      {lt.isCustom && (
+                        <>
+                          <button
+                            type="button"
+                            className="text-muted-foreground hover:text-foreground"
+                            title="Rename"
+                            onClick={() => {
+                              setEditLabel(lt.label);
+                              setEditTarget(lt);
+                            }}
+                          >
+                            <PencilLine className="h-4 w-4" />
+                          </button>
+                          <button
+                            type="button"
+                            className="text-muted-foreground hover:text-destructive"
+                            title="Delete"
+                            onClick={() => setDeleteTarget(lt)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </>
+                      )}
+                      <Switch
+                        checked={lt.isActive}
+                        disabled={toggleMutation.isPending}
+                        onCheckedChange={(checked) =>
+                          toggleMutation.mutate({
+                            id: lt.id,
+                            isActive: checked,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Conflict threshold</CardTitle>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Warn when team capacity falls below
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-4">
+                  <div className="relative flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="absolute h-full bg-gradient-to-r from-blue-500 to-blue-600"
+                      style={{ width: "50%" }}
+                    />
+                  </div>
+                  <div className="font-mono text-xl font-medium w-12 text-right">
+                    50%
+                  </div>
                 </div>
+              </CardContent>
+            </Card>
+          </div>
 
-                {/* Controls */}
-                <div className="flex items-center gap-3">
-                  <Badge variant={lt.isActive ? "default" : "outline"}>
-                    {lt.isActive ? "Enabled" : "Disabled"}
+          {/* Right Column: Integrations */}
+          <div className="lg:col-span-1 space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Integrations</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between rounded-lg border px-3 py-2">
+                  <div>
+                    <div className="text-sm font-medium">Slack</div>
+                    <div className="text-xs text-muted-foreground">
+                      Connected · #standup
+                    </div>
+                  </div>
+                  <Badge
+                    variant="default"
+                    className="bg-emerald-600 text-white text-xs"
+                  >
+                    CONNECTED
                   </Badge>
-
-                  {/* Toggle */}
-                  <Switch
-                    checked={lt.isActive}
-                    disabled={
-                      toggleMutation.isPending ||
-                      (lt.isActive &&
-                        leaveTypes.filter((x) => x.isActive).length <= 1)
-                    }
-                    onCheckedChange={(checked) =>
-                      toggleMutation.mutate({ id: lt.id, isActive: checked })
-                    }
-                  />
-
-                  {/* Rename (custom only) */}
-                  {lt.isCustom && (
-                    <button
-                      type="button"
-                      className="text-muted-foreground hover:text-foreground"
-                      title="Rename"
-                      onClick={() => {
-                        setEditLabel(lt.label);
-                        setEditTarget(lt);
-                      }}
-                    >
-                      <PencilLine className="h-4 w-4" />
-                    </button>
-                  )}
-
-                  {/* Delete (custom only) */}
-                  {lt.isCustom && (
-                    <button
-                      type="button"
-                      className="text-muted-foreground hover:text-destructive"
-                      title="Delete"
-                      onClick={() => setDeleteTarget(lt)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  )}
                 </div>
-              </div>
-            ))}
+                <div className="flex items-center justify-between rounded-lg border px-3 py-2">
+                  <div>
+                    <div className="text-sm font-medium">Google Calendar</div>
+                    <div className="text-xs text-muted-foreground">
+                      2-way sync
+                    </div>
+                  </div>
+                  <Badge
+                    variant="default"
+                    className="bg-emerald-600 text-white text-xs"
+                  >
+                    CONNECTED
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
 
-            <p className="pt-1 text-xs text-muted-foreground">
-              Disabled types are hidden when submitting new leave requests.
-              Built-in types cannot be deleted.
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* ── Conflict Threshold Card ──────────────────────────────────── */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Conflict Threshold</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm">
-              Current warning threshold: <strong>50%</strong> team overlap.
-            </p>
-          </CardContent>
-        </Card>
-
-        <SlackConnectCard />
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Plan & billing</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div>
+                  <div className="text-sm font-medium">Free Plan</div>
+                  <div className="text-xs text-muted-foreground">
+                    14 of 20 seats used
+                  </div>
+                </div>
+                <Button size="sm" variant="outline" className="w-full">
+                  Manage billing
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </PageContainer>
 
       {/* ── Create Dialog ────────────────────────────────────────────────── */}

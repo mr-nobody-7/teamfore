@@ -8,7 +8,11 @@ import type {
   UpdateMyProfileInput,
   UpdateUserInput,
 } from "../types/index.js";
-import { BadRequestError, ConflictError, NotFoundError } from "../utils/errors.js";
+import {
+  BadRequestError,
+  ConflictError,
+  NotFoundError,
+} from "../utils/errors.js";
 
 export const listUsers = async (workspaceId: string, query: ListUsersQuery) => {
   const where: {
@@ -48,7 +52,10 @@ export const listUsers = async (workspaceId: string, query: ListUsersQuery) => {
   return { users, total, page: query.page, limit: query.limit };
 };
 
-export const createUser = async (workspaceId: string, input: CreateUserInput) => {
+export const createUser = async (
+  workspaceId: string,
+  input: CreateUserInput,
+) => {
   const [team, existing] = await Promise.all([
     input.team_id
       ? prisma.team.findFirst({

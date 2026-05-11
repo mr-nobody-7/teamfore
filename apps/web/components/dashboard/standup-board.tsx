@@ -55,9 +55,9 @@ export function StandupBoard({
       .map((member) => member.name) ?? [];
 
   return (
-    <Card>
+    <Card className="border-border/70 bg-card/75">
       <CardHeader>
-        <CardTitle className="text-base font-semibold">
+        <CardTitle className="font-display text-3xl leading-none tracking-tight">
           Team Standup Board
         </CardTitle>
         <p className="text-xs text-muted-foreground">
@@ -78,8 +78,8 @@ export function StandupBoard({
             ))}
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-3">
-            <div>
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3.5">
               <h3 className="mb-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
                 Who&apos;s available today ({availableMembers.length})
               </h3>
@@ -89,14 +89,14 @@ export function StandupBoard({
               />
             </div>
 
-            <div>
+            <div className="rounded-xl border border-rose-500/20 bg-rose-500/5 p-3.5">
               <h3 className="mb-2 text-sm font-semibold text-rose-700 dark:text-rose-300">
                 Who&apos;s off today ({offMembers.length})
               </h3>
               <MemberList names={offMembers} emptyLabel="No one off today" />
             </div>
 
-            <div>
+            <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-3.5">
               <h3 className="mb-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
                 Who&apos;s remote ({remoteMembers.length})
               </h3>

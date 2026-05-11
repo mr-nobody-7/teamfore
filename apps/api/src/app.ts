@@ -1,10 +1,10 @@
+import { apiReference } from "@scalar/express-api-reference";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import passport from "passport";
-import { apiReference } from "@scalar/express-api-reference";
 import { configureGoogleStrategy } from "./auth/strategies/google.strategy.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { apiRateLimit, authRateLimit } from "./middleware/security.js";
@@ -16,8 +16,8 @@ import { feedbackRoutes } from "./routes/feedback.routes.js";
 import { holidayRoutes } from "./routes/holiday.routes.js";
 import { leaveRoutes } from "./routes/leave.routes.js";
 import { reportsRoutes } from "./routes/reports.routes.js";
-import { slackRoutes } from "./routes/slack.routes.js";
 import { settingsRoutes } from "./routes/settings.routes.js";
+import { slackRoutes } from "./routes/slack.routes.js";
 import { teamRoutes } from "./routes/team.routes.js";
 import { userRoutes } from "./routes/user.routes.js";
 

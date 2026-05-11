@@ -60,7 +60,9 @@ async function getOrCreateOnboardingWorkspaceId(): Promise<string> {
   return created.id;
 }
 
-async function findOrCreateGoogleUser(profile: Profile): Promise<GoogleAuthUser> {
+async function findOrCreateGoogleUser(
+  profile: Profile,
+): Promise<GoogleAuthUser> {
   const email = profile.emails?.[0]?.value?.trim().toLowerCase();
   if (!email) {
     throw new Error("Google account email is required");

@@ -13,6 +13,7 @@ import {
   UserCog,
   Users,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { UserRole } from "@/hooks/use-role";
@@ -124,22 +125,37 @@ export function Sidebar({
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r bg-sidebar transition-transform duration-200 ease-out md:z-40",
+        "fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-sidebar-border/70 bg-sidebar/95 backdrop-blur-xl transition-transform duration-200 ease-out md:z-40",
         isMobileOpen ? "translate-x-0" : "-translate-x-full",
         "md:translate-x-0",
       )}
     >
       {/* Logo */}
-      <div className="flex h-16 items-center gap-3 border-b px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-          <span className="text-sm font-bold text-primary-foreground">T</span>
+      <div className="flex h-18 items-center gap-3 border-b border-sidebar-border/70 px-6">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-primary/15 to-cyan-400/20 p-2 shadow-lg shadow-primary/20 ring-1 ring-primary/25">
+          <Image
+            src="/brand/mark-64.svg"
+            alt="TeamFore mark"
+            width={24}
+            height={24}
+            className="h-6 w-6"
+            priority
+          />
         </div>
-        <span className="text-lg font-semibold tracking-tight">TeamFore</span>
+        <div>
+          <span className="font-display text-xl tracking-tight">TeamFore</span>
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            Operations OS
+          </p>
+        </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
-        <ul className="space-y-1">
+      <nav className="flex-1 overflow-y-auto px-4 py-5">
+        <p className="mb-3 px-3 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground/90">
+          Workspace
+        </p>
+        <ul className="space-y-1.5">
           {filtered.map((item) => {
             const isActive =
               pathname === item.href ||
@@ -151,13 +167,18 @@ export function Sidebar({
                   href={item.href}
                   onClick={onMobileClose}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
                     isActive
-                      ? "bg-primary/10 text-primary"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                      ? "bg-linear-to-r from-primary/30 to-primary/10 text-foreground shadow-lg shadow-black/15 ring-1 ring-primary/20"
+                      : "text-sidebar-foreground/85 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                   )}
                 >
-                  <item.icon className="h-4 w-4 shrink-0" />
+                  <item.icon
+                    className={cn(
+                      "h-4 w-4 shrink-0 transition-transform group-hover:scale-105",
+                      isActive ? "text-primary" : "text-muted-foreground",
+                    )}
+                  />
                   {item.label}
                 </Link>
               </li>
@@ -168,10 +189,10 @@ export function Sidebar({
 
       {/* User info at bottom */}
       {userName && (
-        <div className="border-t p-4">
-          <p className="truncate text-sm font-medium">{userName}</p>
+        <div className="border-t border-sidebar-border/70 p-4">
+          <p className="truncate text-sm font-semibold">{userName}</p>
           {userEmail && (
-            <p className="truncate text-xs text-muted-foreground">
+            <p className="truncate text-xs text-muted-foreground/90">
               {userEmail}
             </p>
           )}

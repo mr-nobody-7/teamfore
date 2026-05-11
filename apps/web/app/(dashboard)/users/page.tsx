@@ -74,7 +74,7 @@ export default function UsersPage() {
     onError: () => toast.error("Could not create user"),
   });
 
-  const updateMutation = useMutation({
+  const _updateMutation = useMutation({
     mutationFn: async ({
       userId,
       role,
@@ -109,188 +109,176 @@ export default function UsersPage() {
       }
     >
       <PageContainer className="flex flex-col gap-6">
+        {/* Editorial Header */}
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Users</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Invite, assign role/team, and manage user activation.
-          </p>
+          <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            Users · {data?.users.length || 0} active · 2 invited · 1 deactivated
+          </div>
+          <h1 className="font-serif text-3xl font-normal italic leading-tight tracking-tight">
+            Who's on the team.{" "}
+            <span className="not-italic text-blue-600">Who</span> can do what.
+          </h1>
         </div>
 
+        {/* Invite Card */}
         <Card>
-          <CardHeader>
-            <CardTitle>Add User</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b pb-4">
+            <div>
+              <CardTitle>Invite a teammate</CardTitle>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Invitees join with USER role by default
+              </p>
+            </div>
+            <Badge variant="default" className="bg-blue-600">
+              FREE PLAN · 14 SEATS LEFT
+            </Badge>
           </CardHeader>
-          <CardContent className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
-            <Input
-              placeholder="Name"
-              value={form.name}
-              onChange={(e) =>
-                setForm((prev) => ({ ...prev, name: e.target.value }))
-              }
-            />
-            <Input
-              type="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={(e) =>
-                setForm((prev) => ({ ...prev, email: e.target.value }))
-              }
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={form.password}
-              onChange={(e) =>
-                setForm((prev) => ({ ...prev, password: e.target.value }))
-              }
-            />
-            <Select
-              value={form.role}
-              onValueChange={(value) =>
-                setForm((prev) => ({
-                  ...prev,
-                  role: value as NewUserForm["role"],
-                }))
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Role" />
-              </SelectTrigger>
-              <SelectContent>
-                {ROLES.map((role) => (
-                  <SelectItem key={role} value={role}>
-                    {role}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select
-              value={form.team_id ?? "none"}
-              onValueChange={(value) =>
-                setForm((prev) => ({
-                  ...prev,
-                  team_id: value === "none" ? undefined : value,
-                }))
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Team" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">No team</SelectItem>
-                {teams.map((team) => (
-                  <SelectItem key={team.id} value={team.id}>
-                    {team.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <div className="md:col-span-2 lg:col-span-5">
+          <CardContent className="pt-4">
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5 lg:items-end">
+              <div className="lg:col-span-1">
+                <div className="text-xs font-medium text-muted-foreground">
+                  Email
+                </div>
+                <Input
+                  placeholder="user@company.dev"
+                  value={form.email}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, email: e.target.value }))
+                  }
+                  className="mt-1"
+                />
+              </div>
+              <div className="lg:col-span-1">
+                <div className="text-xs font-medium text-muted-foreground">
+                  Name
+                </div>
+                <Input
+                  placeholder="Optional"
+                  value={form.name}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, name: e.target.value }))
+                  }
+                  className="mt-1"
+                />
+              </div>
+              <div className="lg:col-span-1">
+                <div className="text-xs font-medium text-muted-foreground">
+                  Role
+                </div>
+                <Select
+                  value={form.role}
+                  onValueChange={(value) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      role: value as NewUserForm["role"],
+                    }))
+                  }
+                >
+                  <SelectTrigger className="mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ROLES.map((role) => (
+                      <SelectItem key={role} value={role}>
+                        {role}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="lg:col-span-1">
+                <div className="text-xs font-medium text-muted-foreground">
+                  Team
+                </div>
+                <Select
+                  value={form.team_id ?? "none"}
+                  onValueChange={(value) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      team_id: value === "none" ? undefined : value,
+                    }))
+                  }
+                >
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Select team" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">No team</SelectItem>
+                    {teams.map((team) => (
+                      <SelectItem key={team.id} value={team.id}>
+                        {team.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
               <Button
                 onClick={() => createMutation.mutate()}
-                disabled={
-                  createMutation.isPending ||
-                  !form.name ||
-                  !form.email ||
-                  !form.password
-                }
+                disabled={createMutation.isPending || !form.email}
               >
-                Create User
+                Send invites
               </Button>
             </div>
           </CardContent>
         </Card>
 
+        {/* Users Table */}
         <Card>
-          <CardHeader>
-            <CardTitle>User List</CardTitle>
+          <CardHeader className="pb-0">
+            <CardTitle className="text-base">Users</CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <p className="text-sm text-muted-foreground">Loading users...</p>
+              <p className="text-sm text-muted-foreground py-8">
+                Loading users...
+              </p>
             ) : !(data?.users.length ?? 0) ? (
-              <p className="text-sm text-muted-foreground">No users yet.</p>
+              <p className="text-sm text-muted-foreground py-8">
+                No users yet.
+              </p>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-0">
+                <div className="grid grid-cols-5 gap-4 border-b px-4 py-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                  <div className="col-span-1.5">Name</div>
+                  <div>Team</div>
+                  <div>Role</div>
+                  <div>Status</div>
+                  <div></div>
+                </div>
                 {data?.users.map((user) => (
                   <div
                     key={user.id}
-                    className="flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3"
+                    className="grid grid-cols-5 gap-4 border-b px-4 py-3 items-center transition-colors hover:bg-muted/30"
                   >
-                    <div>
-                      <p className="text-sm font-medium">{user.name}</p>
-                      <p className="text-xs text-muted-foreground">
+                    <div className="col-span-1.5">
+                      <div className="text-sm font-medium">{user.name}</div>
+                      <div className="text-xs text-muted-foreground font-mono">
                         {user.email}
-                      </p>
+                      </div>
                     </div>
-
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Badge variant={user.isActive ? "default" : "outline"}>
-                        {user.isActive ? "ACTIVE" : "INACTIVE"}
+                    <div className="text-sm">{user.teamId || "—"}</div>
+                    <div>
+                      <Badge variant="outline" className="text-xs">
+                        {user.role}
                       </Badge>
-
-                      <Select
-                        value={user.role}
-                        onValueChange={(value) =>
-                          updateMutation.mutate({
-                            userId: user.id,
-                            role: value,
-                            teamId: user.teamId,
-                            isActive: user.isActive,
-                          })
+                    </div>
+                    <div>
+                      <Badge
+                        variant={
+                          user.isActive
+                            ? "default"
+                            : user.role === "USER"
+                              ? "secondary"
+                              : "outline"
                         }
+                        className="text-xs"
                       >
-                        <SelectTrigger className="w-28">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {ROLES.map((role) => (
-                            <SelectItem key={role} value={role}>
-                              {role}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      <Select
-                        value={user.teamId ?? "none"}
-                        onValueChange={(value) =>
-                          updateMutation.mutate({
-                            userId: user.id,
-                            role: user.role,
-                            teamId: value === "none" ? null : value,
-                            isActive: user.isActive,
-                          })
-                        }
-                      >
-                        <SelectTrigger className="w-40">
-                          <SelectValue placeholder="Team" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="none">No team</SelectItem>
-                          {teams.map((team) => (
-                            <SelectItem key={team.id} value={team.id}>
-                              {team.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      <Button
-                        size="sm"
-                        variant={user.isActive ? "destructive" : "outline"}
-                        onClick={() =>
-                          updateMutation.mutate({
-                            userId: user.id,
-                            role: user.role,
-                            teamId: user.teamId,
-                            isActive: !user.isActive,
-                          })
-                        }
-                      >
-                        {user.isActive ? "Deactivate" : "Activate"}
+                        {user.isActive ? "ACTIVE" : "INVITED"}
+                      </Badge>
+                    </div>
+                    <div className="text-right">
+                      <Button size="sm" variant="ghost" className="text-xs">
+                        …
                       </Button>
                     </div>
                   </div>

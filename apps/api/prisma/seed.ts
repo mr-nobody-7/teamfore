@@ -1,13 +1,13 @@
 import "dotenv/config";
 import bcrypt from "bcrypt";
-import { prisma } from "../src/lib/db.js";
 import type {
   AuditAction,
   LeaveStatus,
   LeaveType,
+  Prisma,
   Session,
 } from "../src/generated/prisma/client.js";
-import { Prisma } from "../src/generated/prisma/client.js";
+import { prisma } from "../src/lib/db.js";
 
 // ── Data pools ────────────────────────────────────────────────────────────────
 
@@ -237,7 +237,12 @@ async function main() {
       workspaceId: workspace.id,
       targetId: admin.id,
       targetType: "User",
-      metadata: { email: admin.email, name: admin.name, role: "ADMIN", workspaceName },
+      metadata: {
+        email: admin.email,
+        name: admin.name,
+        role: "ADMIN",
+        workspaceName,
+      },
     });
     totalUsers++;
 
@@ -272,7 +277,12 @@ async function main() {
         workspaceId: workspace.id,
         targetId: manager.id,
         targetType: "User",
-        metadata: { email: manager.email, name: manager.name, role: "MANAGER", teamName: team.name },
+        metadata: {
+          email: manager.email,
+          name: manager.name,
+          role: "MANAGER",
+          teamName: team.name,
+        },
       });
       totalUsers++;
 
@@ -295,7 +305,12 @@ async function main() {
           workspaceId: workspace.id,
           targetId: member.id,
           targetType: "User",
-          metadata: { email: member.email, name: member.name, role: "USER", teamName: team.name },
+          metadata: {
+            email: member.email,
+            name: member.name,
+            role: "USER",
+            teamName: team.name,
+          },
         });
         members.push(member);
         totalUsers++;
@@ -348,7 +363,8 @@ async function main() {
           // LEAVE_APPROVED / LEAVE_REJECTED entry when applicable
           if (status === "APPROVED" || status === "REJECTED") {
             auditLogs.push({
-              action: status === "APPROVED" ? "LEAVE_APPROVED" : "LEAVE_REJECTED",
+              action:
+                status === "APPROVED" ? "LEAVE_APPROVED" : "LEAVE_REJECTED",
               userId: manager.id,
               workspaceId: workspace.id,
               targetId: leave.id,

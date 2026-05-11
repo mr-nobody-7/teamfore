@@ -58,9 +58,7 @@ export const listWorkspaceLeaveTypes = async (workspaceId: string) => {
 
   return {
     leaveTypes: rows,
-    enabledTypes: rows
-      .filter((row) => row.isActive)
-      .map((row) => row.type),
+    enabledTypes: rows.filter((row) => row.isActive).map((row) => row.type),
   };
 };
 
@@ -140,9 +138,7 @@ export const updateWorkspaceLeaveType = async (
       where: { workspaceId, isActive: true },
     });
     if (activeCount <= 1) {
-      throw new BadRequestError(
-        "At least one leave type must remain enabled",
-      );
+      throw new BadRequestError("At least one leave type must remain enabled");
     }
   }
 
@@ -186,9 +182,7 @@ export const deleteWorkspaceLeaveType = async (
     where: { workspaceId, isActive: true },
   });
   if (row.isActive && activeCount <= 1) {
-    throw new BadRequestError(
-      "At least one leave type must remain enabled",
-    );
+    throw new BadRequestError("At least one leave type must remain enabled");
   }
 
   await prisma.workspaceLeaveType.delete({ where: { id } });
@@ -220,4 +214,3 @@ export const getLabelMapForWorkspace = async (workspaceId: string) => {
   });
   return Object.fromEntries(rows.map((r) => [r.type, r.label]));
 };
-

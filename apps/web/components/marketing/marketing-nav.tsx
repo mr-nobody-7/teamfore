@@ -1,6 +1,7 @@
 "use client";
 
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -18,42 +19,49 @@ export function MarketingNav() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-white/5 bg-background/80 shadow-xl shadow-black/20 backdrop-blur-xl"
+          ? "border-b border-white/10 bg-[#14111d]/80 shadow-xl shadow-black/20 backdrop-blur-xl"
           : ""
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
-            <Zap className="h-4 w-4 text-white" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 p-1.5 backdrop-blur">
+            <Image
+              src="/brand/mark-64.svg"
+              alt="TeamFore mark"
+              width={20}
+              height={20}
+              className="h-5 w-5"
+              priority
+            />
           </div>
-          <span className="font-bold tracking-tight">TeamFore</span>
+          <span className="font-display text-xl tracking-tight">TeamFore</span>
         </Link>
 
         {/* Desktop nav links */}
         <div className="hidden items-center gap-7 md:flex">
           <a
             href="#features"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
           >
             Features
           </a>
           <a
-            href="#how-it-works"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            href="#how"
+            className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
           >
             How it works
           </a>
           <a
             href="#pricing"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
           >
             Pricing
           </a>
           <Link
             href="/changelog"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
           >
             Changelog
           </Link>
@@ -63,13 +71,13 @@ export function MarketingNav() {
         <div className="hidden items-center gap-3 md:flex">
           <Link
             href="/login"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
           >
             Sign in
           </Link>
           <Link
             href="/register"
-            className="inline-flex items-center rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition-all hover:-translate-y-px hover:from-violet-500 hover:to-indigo-500 hover:shadow-violet-500/40"
+            className="inline-flex items-center rounded-lg bg-linear-to-b from-violet-400 to-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-[0_14px_30px_-14px_rgba(124,58,237,0.75)] transition-transform hover:-translate-y-px"
           >
             Get started free
           </Link>
@@ -78,7 +86,7 @@ export function MarketingNav() {
         {/* Mobile menu toggle */}
         <button
           type="button"
-          className="rounded-md p-1.5 text-muted-foreground transition-colors hover:text-foreground md:hidden"
+          className="rounded-md p-1.5 text-zinc-400 transition-colors hover:text-zinc-100 md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -88,27 +96,27 @@ export function MarketingNav() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="border-t border-white/5 bg-background/95 px-6 py-5 backdrop-blur-xl md:hidden">
+        <div className="border-t border-white/10 bg-[#14111d]/95 px-6 py-5 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-5">
-            <a href="#features" className="text-sm text-muted-foreground">
+            <a href="#features" className="text-sm text-zinc-400">
               Features
             </a>
-            <a href="#how-it-works" className="text-sm text-muted-foreground">
+            <a href="#how" className="text-sm text-zinc-400">
               How it works
             </a>
-            <a href="#pricing" className="text-sm text-muted-foreground">
+            <a href="#pricing" className="text-sm text-zinc-400">
               Pricing
             </a>
-            <Link href="/changelog" className="text-sm text-muted-foreground">
+            <Link href="/changelog" className="text-sm text-zinc-400">
               Changelog
             </Link>
-            <div className="flex flex-col gap-3 border-t border-white/5 pt-4">
-              <Link href="/login" className="text-sm text-muted-foreground">
+            <div className="flex flex-col gap-3 border-t border-white/10 pt-4">
+              <Link href="/login" className="text-sm text-zinc-400">
                 Sign in
               </Link>
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white"
+                className="inline-flex items-center justify-center rounded-lg bg-linear-to-b from-violet-400 to-violet-600 px-4 py-2.5 text-sm font-semibold text-white"
               >
                 Get started free
               </Link>

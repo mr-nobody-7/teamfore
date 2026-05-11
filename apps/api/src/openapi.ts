@@ -42,7 +42,8 @@ export const openApiSpec = {
         type: "apiKey",
         in: "cookie",
         name: "token",
-        description: "JWT token stored in an HttpOnly cookie. Set automatically after login.",
+        description:
+          "JWT token stored in an HttpOnly cookie. Set automatically after login.",
       },
     },
     schemas: {
@@ -204,8 +205,16 @@ export const openApiSpec = {
                 required: ["name", "email", "password"],
                 properties: {
                   name: { type: "string", example: "Alice Admin" },
-                  email: { type: "string", format: "email", example: "alice@acme.com" },
-                  password: { type: "string", minLength: 8, example: "S3cur3P@ss" },
+                  email: {
+                    type: "string",
+                    format: "email",
+                    example: "alice@acme.com",
+                  },
+                  password: {
+                    type: "string",
+                    minLength: 8,
+                    example: "S3cur3P@ss",
+                  },
                 },
               },
             },
@@ -221,7 +230,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { user: { $ref: "#/components/schemas/User" } },
+                      properties: {
+                        user: { $ref: "#/components/schemas/User" },
+                      },
                     },
                   ],
                 },
@@ -258,7 +269,9 @@ export const openApiSpec = {
           "201": {
             description: "Workspace registered",
             content: {
-              "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } },
+              "application/json": {
+                schema: { $ref: "#/components/schemas/SuccessResponse" },
+              },
             },
           },
           "400": { $ref: "#/components/responses/ValidationError" },
@@ -278,7 +291,11 @@ export const openApiSpec = {
                 type: "object",
                 required: ["email", "password"],
                 properties: {
-                  email: { type: "string", format: "email", example: "alice@acme.com" },
+                  email: {
+                    type: "string",
+                    format: "email",
+                    example: "alice@acme.com",
+                  },
                   password: { type: "string", example: "S3cur3P@ss" },
                 },
               },
@@ -301,7 +318,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { user: { $ref: "#/components/schemas/User" } },
+                      properties: {
+                        user: { $ref: "#/components/schemas/User" },
+                      },
                     },
                   ],
                 },
@@ -329,7 +348,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { user: { $ref: "#/components/schemas/User" } },
+                      properties: {
+                        user: { $ref: "#/components/schemas/User" },
+                      },
                     },
                   ],
                 },
@@ -349,7 +370,9 @@ export const openApiSpec = {
           "200": {
             description: "Logged out successfully",
             content: {
-              "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } },
+              "application/json": {
+                schema: { $ref: "#/components/schemas/SuccessResponse" },
+              },
             },
           },
         },
@@ -374,7 +397,10 @@ export const openApiSpec = {
                     {
                       type: "object",
                       properties: {
-                        users: { type: "array", items: { $ref: "#/components/schemas/User" } },
+                        users: {
+                          type: "array",
+                          items: { $ref: "#/components/schemas/User" },
+                        },
                       },
                     },
                   ],
@@ -419,7 +445,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { user: { $ref: "#/components/schemas/User" } },
+                      properties: {
+                        user: { $ref: "#/components/schemas/User" },
+                      },
                     },
                   ],
                 },
@@ -462,7 +490,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { user: { $ref: "#/components/schemas/User" } },
+                      properties: {
+                        user: { $ref: "#/components/schemas/User" },
+                      },
                     },
                   ],
                 },
@@ -498,7 +528,9 @@ export const openApiSpec = {
           "200": {
             description: "Password changed",
             content: {
-              "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } },
+              "application/json": {
+                schema: { $ref: "#/components/schemas/SuccessResponse" },
+              },
             },
           },
           "400": { $ref: "#/components/responses/ValidationError" },
@@ -513,7 +545,12 @@ export const openApiSpec = {
         operationId: "updateUser",
         security: [{ cookieAuth: [] }],
         parameters: [
-          { name: "id", in: "path", required: true, schema: { type: "string" } },
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+          },
         ],
         requestBody: {
           required: true,
@@ -540,7 +577,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { user: { $ref: "#/components/schemas/User" } },
+                      properties: {
+                        user: { $ref: "#/components/schemas/User" },
+                      },
                     },
                   ],
                 },
@@ -560,13 +599,20 @@ export const openApiSpec = {
         operationId: "deactivateUser",
         security: [{ cookieAuth: [] }],
         parameters: [
-          { name: "id", in: "path", required: true, schema: { type: "string" } },
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+          },
         ],
         responses: {
           "200": {
             description: "User deactivated",
             content: {
-              "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } },
+              "application/json": {
+                schema: { $ref: "#/components/schemas/SuccessResponse" },
+              },
             },
           },
           "401": { $ref: "#/components/responses/Unauthorized" },
@@ -640,8 +686,16 @@ export const openApiSpec = {
                 required: ["type", "startDate", "endDate"],
                 properties: {
                   type: { $ref: "#/components/schemas/LeaveType" },
-                  startDate: { type: "string", format: "date", example: "2026-06-01" },
-                  endDate: { type: "string", format: "date", example: "2026-06-05" },
+                  startDate: {
+                    type: "string",
+                    format: "date",
+                    example: "2026-06-01",
+                  },
+                  endDate: {
+                    type: "string",
+                    format: "date",
+                    example: "2026-06-05",
+                  },
                   reason: { type: "string", example: "Family vacation" },
                 },
               },
@@ -658,7 +712,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { leave: { $ref: "#/components/schemas/LeaveRequest" } },
+                      properties: {
+                        leave: { $ref: "#/components/schemas/LeaveRequest" },
+                      },
                     },
                   ],
                 },
@@ -678,7 +734,12 @@ export const openApiSpec = {
         operationId: "updateLeaveStatus",
         security: [{ cookieAuth: [] }],
         parameters: [
-          { name: "id", in: "path", required: true, schema: { type: "string" } },
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+          },
         ],
         requestBody: {
           required: true,
@@ -707,7 +768,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { leave: { $ref: "#/components/schemas/LeaveRequest" } },
+                      properties: {
+                        leave: { $ref: "#/components/schemas/LeaveRequest" },
+                      },
                     },
                   ],
                 },
@@ -727,7 +790,12 @@ export const openApiSpec = {
         operationId: "cancelLeave",
         security: [{ cookieAuth: [] }],
         parameters: [
-          { name: "id", in: "path", required: true, schema: { type: "string" } },
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+          },
         ],
         responses: {
           "200": {
@@ -739,7 +807,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { leave: { $ref: "#/components/schemas/LeaveRequest" } },
+                      properties: {
+                        leave: { $ref: "#/components/schemas/LeaveRequest" },
+                      },
                     },
                   ],
                 },
@@ -777,7 +847,9 @@ export const openApiSpec = {
                             properties: {
                               userId: { type: "string" },
                               name: { type: "string" },
-                              status: { $ref: "#/components/schemas/AvailabilityStatus" },
+                              status: {
+                                $ref: "#/components/schemas/AvailabilityStatus",
+                              },
                               note: { type: "string", nullable: true },
                             },
                           },
@@ -818,7 +890,9 @@ export const openApiSpec = {
           "200": {
             description: "Availability updated",
             content: {
-              "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } },
+              "application/json": {
+                schema: { $ref: "#/components/schemas/SuccessResponse" },
+              },
             },
           },
           "401": { $ref: "#/components/responses/Unauthorized" },
@@ -858,7 +932,9 @@ export const openApiSpec = {
           "201": {
             description: "Feedback recorded",
             content: {
-              "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } },
+              "application/json": {
+                schema: { $ref: "#/components/schemas/SuccessResponse" },
+              },
             },
           },
           "400": { $ref: "#/components/responses/ValidationError" },
@@ -879,7 +955,8 @@ export const openApiSpec = {
             name: "year",
             in: "query",
             schema: { type: "integer", example: 2026 },
-            description: "Year to fetch holidays for (defaults to current year)",
+            description:
+              "Year to fetch holidays for (defaults to current year)",
           },
         ],
         responses: {
@@ -1069,7 +1146,9 @@ export const openApiSpec = {
           "200": {
             description: "Settings updated",
             content: {
-              "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } },
+              "application/json": {
+                schema: { $ref: "#/components/schemas/SuccessResponse" },
+              },
             },
           },
           "401": { $ref: "#/components/responses/Unauthorized" },
@@ -1096,7 +1175,10 @@ export const openApiSpec = {
                     {
                       type: "object",
                       properties: {
-                        teams: { type: "array", items: { $ref: "#/components/schemas/Team" } },
+                        teams: {
+                          type: "array",
+                          items: { $ref: "#/components/schemas/Team" },
+                        },
                       },
                     },
                   ],
@@ -1137,7 +1219,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { team: { $ref: "#/components/schemas/Team" } },
+                      properties: {
+                        team: { $ref: "#/components/schemas/Team" },
+                      },
                     },
                   ],
                 },
@@ -1156,7 +1240,12 @@ export const openApiSpec = {
         operationId: "updateTeam",
         security: [{ cookieAuth: [] }],
         parameters: [
-          { name: "id", in: "path", required: true, schema: { type: "string" } },
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+          },
         ],
         requestBody: {
           required: true,
@@ -1182,7 +1271,9 @@ export const openApiSpec = {
                     { $ref: "#/components/schemas/SuccessResponse" },
                     {
                       type: "object",
-                      properties: { team: { $ref: "#/components/schemas/Team" } },
+                      properties: {
+                        team: { $ref: "#/components/schemas/Team" },
+                      },
                     },
                   ],
                 },
@@ -1200,13 +1291,20 @@ export const openApiSpec = {
         operationId: "deleteTeam",
         security: [{ cookieAuth: [] }],
         parameters: [
-          { name: "id", in: "path", required: true, schema: { type: "string" } },
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+          },
         ],
         responses: {
           "200": {
             description: "Team deleted",
             content: {
-              "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } },
+              "application/json": {
+                schema: { $ref: "#/components/schemas/SuccessResponse" },
+              },
             },
           },
           "401": { $ref: "#/components/responses/Unauthorized" },

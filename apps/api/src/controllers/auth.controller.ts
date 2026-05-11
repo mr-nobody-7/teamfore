@@ -1,14 +1,14 @@
 import type { NextFunction, Request, Response } from "express";
+import type { GoogleAuthUser } from "../auth/strategies/google.strategy.js";
 import {
-  loginService,
   getMeService,
+  loginService,
   registerUserService,
   registerWorkspaceService,
 } from "../services/auth.service.js";
-import { sendSuccess } from "../utils/response.js";
 import { createAuditLog } from "../utils/audit.js";
 import { generateToken } from "../utils/jwt.js";
-import type { GoogleAuthUser } from "../auth/strategies/google.strategy.js";
+import { sendSuccess } from "../utils/response.js";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 const AUTH_COOKIE_OPTIONS = {
@@ -68,7 +68,12 @@ export const registerController = async (
       },
     });
 
-    sendSuccess(res, { user: result.user }, "User registered successfully", 201);
+    sendSuccess(
+      res,
+      { user: result.user },
+      "User registered successfully",
+      201,
+    );
   } catch (error) {
     next(error);
   }
@@ -98,7 +103,12 @@ export const registerWorkspaceController = async (
     });
 
     issueAuthCookie(res, result.token);
-    sendSuccess(res, { user: result.user }, "Workspace created successfully", 201);
+    sendSuccess(
+      res,
+      { user: result.user },
+      "Workspace created successfully",
+      201,
+    );
   } catch (error) {
     next(error);
   }
@@ -176,7 +186,9 @@ export const googleFailureController = (req: Request, res: Response) => {
   });
 
   const frontendUrl = resolvePrimaryFrontendUrl();
-  res.redirect(new URL("/login?error=google_oauth_failed", frontendUrl).toString());
+  res.redirect(
+    new URL("/login?error=google_oauth_failed", frontendUrl).toString(),
+  );
 };
 
 export const meController = async (

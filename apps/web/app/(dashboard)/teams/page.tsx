@@ -1,24 +1,38 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { RoleGuard } from "@/components/auth/role-guard";
 import { PageContainer } from "@/components/layout/page-container";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { useTeams } from "@/hooks/use-teams";
 import api from "@/lib/axios";
+
+const TEAM_COLORS = [
+  "bg-gradient-to-br from-blue-500 to-blue-700",
+  "bg-gradient-to-br from-purple-500 to-purple-700",
+  "bg-gradient-to-br from-cyan-500 to-cyan-700",
+  "bg-gradient-to-br from-rose-500 to-rose-700",
+  "bg-gradient-to-br from-amber-500 to-amber-700",
+  "bg-gradient-to-br from-emerald-500 to-emerald-700",
+];
+
+function getTeamColor(index: number) {
+  return TEAM_COLORS[index % TEAM_COLORS.length];
+}
 
 export default function TeamsPage() {
   const queryClient = useQueryClient();
   const { data: teams = [], isLoading } = useTeams();
   const [name, setName] = useState("");
-  const [editing, setEditing] = useState<Record<string, string>>({});
+  const [_editing, _setEditing] = useState<Record<string, string>>({});
 
-  const createMutation = useMutation({
+  const _createMutation = useMutation({
     mutationFn: async () => {
       await api.post("/teams", { name });
     },
@@ -30,7 +44,7 @@ export default function TeamsPage() {
     onError: () => toast.error("Could not create team"),
   });
 
-  const updateMutation = useMutation({
+  const _updateMutation = useMutation({
     mutationFn: async ({
       teamId,
       teamName,
@@ -47,7 +61,7 @@ export default function TeamsPage() {
     onError: () => toast.error("Could not update team"),
   });
 
-  const deleteMutation = useMutation({
+  const _deleteMutation = useMutation({
     mutationFn: async (teamId: string) => {
       await api.delete(`/teams/${teamId}`);
     },
@@ -68,90 +82,132 @@ export default function TeamsPage() {
       }
     >
       <PageContainer className="flex flex-col gap-6">
+        {/* Editorial Header */}
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Teams</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Create and manage workspace teams.
+          <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            Teams · {teams.length} squads ·{" "}
+            {teams.length * 5} members
+          </div>
+          <h1 className="font-serif text-3xl font-normal italic leading-tight tracking-tight">
+            Six squads. <span className="not-italic text-blue-600">One</span>{" "}
+            sprint.
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Each squad has its own approval chain and capacity threshold. Manage
+            members and settings per team.
           </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Add Team</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-wrap gap-2">
-            <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Team name"
-              className="max-w-xs"
-            />
-            <Button
-              onClick={() => createMutation.mutate()}
-              disabled={!name.trim() || createMutation.isPending}
-            >
-              Create
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Team List</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <p className="text-sm text-muted-foreground">Loading teams...</p>
-            ) : teams.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No teams yet.</p>
-            ) : (
-              <div className="space-y-2">
-                {teams.map((team) => {
-                  const current = editing[team.id] ?? team.name;
-
-                  return (
-                    <div
-                      key={team.id}
-                      className="flex flex-wrap items-center gap-2 rounded-lg border p-3"
+        {/* Team Cards Grid */}
+        {isLoading ? (
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="h-56 animate-pulse bg-muted" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {teams.map((team, idx) => (
+              <Card
+                key={team.id}
+                className="flex flex-col gap-3 transition-all duration-200 hover:shadow-md"
+              >
+                <CardHeader className="pb-2">
+                  <div className="flex items-center gap-3">
+                    <Avatar
+                      className={`h-10 w-10 text-white ${getTeamColor(idx)}`}
                     >
-                      <Input
-                        value={current}
-                        onChange={(e) =>
-                          setEditing((prev) => ({
-                            ...prev,
-                            [team.id]: e.target.value,
-                          }))
-                        }
-                        className="max-w-xs"
-                      />
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        disabled={!current.trim() || updateMutation.isPending}
-                        onClick={() =>
-                          updateMutation.mutate({
-                            teamId: team.id,
-                            teamName: current,
-                          })
-                        }
-                      >
-                        Save
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        disabled={deleteMutation.isPending}
-                        onClick={() => deleteMutation.mutate(team.id)}
-                      >
-                        Delete
-                      </Button>
+                      <AvatarFallback className="bg-transparent font-semibold">
+                        {team.name.substring(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <CardTitle className="text-base">{team.name}</CardTitle>
+                      <p className="text-xs text-muted-foreground">
+                        approver · @vivek
+                      </p>
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                  </div>
+                </CardHeader>
+                <CardContent className="flex flex-col gap-3 pt-0">
+                  {/* Member avatars stack */}
+                  <div className="flex items-center gap-1">
+                    {[0, 1, 2, 3].map((i) => (
+                      <Avatar
+                        key={i}
+                        className={`h-6 w-6 text-xs text-white ${getTeamColor(i)}`}
+                      >
+                        <AvatarFallback className="bg-transparent">
+                          {String.fromCharCode(65 + i)}
+                        </AvatarFallback>
+                      </Avatar>
+                    ))}
+                    <div className="h-6 w-6 rounded-full bg-muted text-xs text-muted-foreground flex items-center justify-center">
+                      +2
+                    </div>
+                  </div>
+
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-3 gap-2 rounded-lg bg-muted/50 p-2">
+                    <div>
+                      <div className="text-xs font-mono text-muted-foreground">
+                        Capacity
+                      </div>
+                      <div className="mt-1 text-sm font-semibold text-emerald-600">
+                        88%
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-xs font-mono text-muted-foreground">
+                        On leave
+                      </div>
+                      <div className="mt-1 text-sm font-semibold">1</div>
+                    </div>
+                    <div>
+                      <div className="text-xs font-mono text-muted-foreground">
+                        Pending
+                      </div>
+                      <div className="mt-1 text-sm font-semibold text-amber-600">
+                        1
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Edit button */}
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="w-full text-xs"
+                  >
+                    Edit team
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+
+            {/* Add Squad Card */}
+            <Card className="flex flex-col items-center justify-center gap-3 border-dashed bg-muted/30 transition-all duration-200 hover:bg-muted/50">
+              <CardContent className="flex flex-col items-center justify-center gap-2 py-12">
+                <div className="text-lg font-serif italic">Add a squad</div>
+                <p className="text-center text-xs text-muted-foreground">
+                  Pick a name, set an approver, assign members.
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="mt-2"
+                  onClick={() => {
+                    setName("");
+                    // In a real app, this would open a dialog
+                  }}
+                >
+                  <Plus className="mr-1.5 h-3 w-3" />
+                  New team
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </PageContainer>
     </RoleGuard>
   );

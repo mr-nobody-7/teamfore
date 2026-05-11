@@ -8,6 +8,7 @@
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -119,6 +120,96 @@
   --sidebar-ring: oklch(0.541 0.281 293.009);
 }
 
+.product-theme {
+  --background: oklch(0.18 0.015 268.2);
+  --foreground: oklch(0.95 0.01 265.5);
+  --card: oklch(0.23 0.018 267.9);
+  --card-foreground: oklch(0.95 0.01 265.5);
+  --popover: oklch(0.23 0.018 267.9);
+  --popover-foreground: oklch(0.95 0.01 265.5);
+  --primary: oklch(0.7 0.2 285.7);
+  --primary-foreground: oklch(0.19 0.01 267.4);
+  --secondary: oklch(0.3 0.014 268.8);
+  --secondary-foreground: oklch(0.93 0.01 266.1);
+  --muted: oklch(0.28 0.012 268.8);
+  --muted-foreground: oklch(0.74 0.012 267.1);
+  --accent: oklch(0.34 0.02 283.9);
+  --accent-foreground: oklch(0.96 0.01 265.4);
+  --destructive: oklch(0.72 0.195 24.6);
+  --destructive-foreground: oklch(0.96 0.006 266);
+  --border: oklch(0.37 0.018 268.1);
+  --input: oklch(0.37 0.018 268.1);
+  --ring: oklch(0.7 0.2 285.7);
+  --sidebar: oklch(0.2 0.017 268);
+  --sidebar-foreground: oklch(0.95 0.01 265.5);
+  --sidebar-primary: oklch(0.7 0.2 285.7);
+  --sidebar-primary-foreground: oklch(0.19 0.01 267.4);
+  --sidebar-accent: oklch(0.3 0.014 268.8);
+  --sidebar-accent-foreground: oklch(0.93 0.01 266.1);
+  --sidebar-border: oklch(0.37 0.018 268.1);
+  --sidebar-ring: oklch(0.7 0.2 285.7);
+}
+
+.light .product-theme {
+  --background: oklch(0.986 0.005 262.74);
+  --foreground: oklch(0.268 0.02 267.26);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.268 0.02 267.26);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.268 0.02 267.26);
+  --primary: oklch(0.57 0.19 280.78);
+  --primary-foreground: oklch(0.98 0.01 267.5);
+  --secondary: oklch(0.95 0.01 262.4);
+  --secondary-foreground: oklch(0.38 0.03 269.1);
+  --muted: oklch(0.944 0.009 261.9);
+  --muted-foreground: oklch(0.49 0.024 268.5);
+  --accent: oklch(0.936 0.015 279.3);
+  --accent-foreground: oklch(0.36 0.031 274.3);
+  --destructive: oklch(0.63 0.215 25.9);
+  --destructive-foreground: oklch(0.99 0.004 264.2);
+  --border: oklch(0.9 0.012 266.9);
+  --input: oklch(0.9 0.012 266.9);
+  --ring: oklch(0.57 0.19 280.78);
+  --sidebar: oklch(0.965 0.007 264.1);
+  --sidebar-foreground: oklch(0.31 0.022 269);
+  --sidebar-primary: oklch(0.57 0.19 280.78);
+  --sidebar-primary-foreground: oklch(0.98 0.01 267.5);
+  --sidebar-accent: oklch(0.925 0.012 262.8);
+  --sidebar-accent-foreground: oklch(0.33 0.028 272.2);
+  --sidebar-border: oklch(0.89 0.012 266.9);
+  --sidebar-ring: oklch(0.57 0.19 280.78);
+}
+
+.dark .product-theme {
+  --background: oklch(0.18 0.015 268.2);
+  --foreground: oklch(0.95 0.01 265.5);
+  --card: oklch(0.23 0.018 267.9);
+  --card-foreground: oklch(0.95 0.01 265.5);
+  --popover: oklch(0.23 0.018 267.9);
+  --popover-foreground: oklch(0.95 0.01 265.5);
+  --primary: oklch(0.7 0.2 285.7);
+  --primary-foreground: oklch(0.19 0.01 267.4);
+  --secondary: oklch(0.3 0.014 268.8);
+  --secondary-foreground: oklch(0.93 0.01 266.1);
+  --muted: oklch(0.28 0.012 268.8);
+  --muted-foreground: oklch(0.74 0.012 267.1);
+  --accent: oklch(0.34 0.02 283.9);
+  --accent-foreground: oklch(0.96 0.01 265.4);
+  --destructive: oklch(0.72 0.195 24.6);
+  --destructive-foreground: oklch(0.96 0.006 266);
+  --border: oklch(0.37 0.018 268.1);
+  --input: oklch(0.37 0.018 268.1);
+  --ring: oklch(0.7 0.2 285.7);
+  --sidebar: oklch(0.2 0.017 268);
+  --sidebar-foreground: oklch(0.95 0.01 265.5);
+  --sidebar-primary: oklch(0.7 0.2 285.7);
+  --sidebar-primary-foreground: oklch(0.19 0.01 267.4);
+  --sidebar-accent: oklch(0.3 0.014 268.8);
+  --sidebar-accent-foreground: oklch(0.93 0.01 266.1);
+  --sidebar-border: oklch(0.37 0.018 268.1);
+  --sidebar-ring: oklch(0.7 0.2 285.7);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -132,5 +223,8 @@
   }
   html {
     @apply font-sans;
+  }
+  .font-display {
+    font-family: var(--font-display), Georgia, serif;
   }
 }

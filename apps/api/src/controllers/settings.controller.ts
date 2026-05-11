@@ -142,4 +142,3 @@ export const deleteLeaveTypeController = async (
     next(error);
   }
 };
-

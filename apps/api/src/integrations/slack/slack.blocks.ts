@@ -1,7 +1,9 @@
 import type { Block, KnownBlock } from "@slack/web-api";
 import type { SlackApprovalPayload } from "./slack.types.js";
 
-export function buildLeaveAppliedBlocks(payload: SlackApprovalPayload): (KnownBlock | Block)[] {
+export function buildLeaveAppliedBlocks(
+  payload: SlackApprovalPayload,
+): (KnownBlock | Block)[] {
   return [
     {
       type: "header",

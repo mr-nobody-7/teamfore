@@ -1,132 +1,279 @@
-import {
-  BarChart3,
-  BellRing,
-  CalendarCheck,
-  CheckSquare,
-  ListChecks,
-  MessageSquareText,
-  Shield,
-  Users,
-} from "lucide-react";
+const heatCells = [
+  "",
+  "l1",
+  "l2",
+  "l1",
+  "",
+  "l3",
+  "l4",
+  "l2",
+  "l1",
+  "",
+  "l2",
+  "l3",
+  "l1",
+  "",
+  "l1",
+  "l4",
+  "l3",
+  "l1",
+  "",
+  "l2",
+  "l1",
+  "",
+  "l2",
+  "l3",
+  "l4",
+  "l2",
+  "l1",
+  "",
+  "l3",
+  "l1",
+].map((tone, idx) => ({ id: `h${idx + 1}`, tone }));
 
-const features = [
-  {
-    icon: CheckSquare,
-    gradient: "from-violet-500/20 to-violet-600/10",
-    border: "border-violet-500/25",
-    iconColor: "text-violet-400",
-    title: "Leave requests & approvals",
-    body: "Employees apply and managers approve with full team context. Half-day support built in.",
-  },
-  {
-    icon: CalendarCheck,
-    gradient: "from-indigo-500/20 to-indigo-600/10",
-    border: "border-indigo-500/25",
-    iconColor: "text-indigo-400",
-    title: "Team planning calendar",
-    body: "See everyone's leaves, public holidays, and availability in one heatmap. No more tab-switching.",
-  },
-  {
-    icon: Users,
-    gradient: "from-purple-500/20 to-purple-600/10",
-    border: "border-purple-500/25",
-    iconColor: "text-purple-400",
-    title: "Availability & workload",
-    body: "Daily standup visibility. Know who's heads-down and who can take on more work this sprint.",
-  },
-  {
-    icon: Shield,
-    gradient: "from-blue-500/20 to-blue-600/10",
-    border: "border-blue-500/25",
-    iconColor: "text-blue-400",
-    title: "Role-based access",
-    body: "Employee, manager, and admin roles with full tenant isolation. Your data stays yours.",
-  },
-  {
-    icon: BarChart3,
-    gradient: "from-cyan-500/20 to-cyan-600/10",
-    border: "border-cyan-500/25",
-    iconColor: "text-cyan-400",
-    title: "Analytics & CSV export",
-    body: "Usage trends, team summaries, and export for HR and payroll integration.",
-  },
-  {
-    icon: BellRing,
-    gradient: "from-emerald-500/20 to-emerald-600/10",
-    border: "border-emerald-500/25",
-    iconColor: "text-emerald-400",
-    title: "Email notifications",
-    body: "Automatic alerts for request updates, approvals, and rejections — no more manual follow-ups.",
-  },
-  {
-    icon: MessageSquareText,
-    gradient: "from-yellow-500/20 to-yellow-600/10",
-    border: "border-yellow-500/25",
-    iconColor: "text-yellow-400",
-    title: "Slack integration",
-    body: "Approve or reject leave requests directly from Slack. Your team gets notified the moment a decision is made.",
-    badge: "New",
-  },
-  {
-    icon: ListChecks,
-    gradient: "from-rose-500/20 to-rose-600/10",
-    border: "border-rose-500/25",
-    iconColor: "text-rose-400",
-    title: "Custom leave types",
-    body: "Configure sick leave, casual leave, WFH, and any custom type your policy needs — each with its own rules.",
-    badge: "New",
-  },
-];
+function Card({
+  className,
+  tag,
+  title,
+  body,
+  children,
+}: {
+  className?: string;
+  tag: string;
+  title: string;
+  body: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <article
+      className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#1f1b2b] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 sm:p-7 ${className ?? ""}`}
+    >
+      <p className="font-mono text-[10px] tracking-[0.16em] text-violet-300 uppercase">
+        {tag}
+      </p>
+      <h3 className="mt-3 font-display text-3xl leading-[1.05] tracking-tight text-zinc-100 sm:text-4xl">
+        {title}
+      </h3>
+      <p className="mt-3 text-sm leading-relaxed text-zinc-400">{body}</p>
+      {children ? <div className="mt-auto pt-6">{children}</div> : null}
+    </article>
+  );
+}
 
 export function FeaturesSection() {
   return (
     // biome-ignore lint/correctness/useUniqueElementIds: static anchor id for in-page nav
-    <section id="features" className="mx-auto w-full max-w-6xl px-6 py-20">
-      <div className="mb-12 max-w-2xl">
-        <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          Features
-        </span>
-        <h2 className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">
-          Everything your team needs
-        </h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
-          Built for dev teams who want to coordinate leave and availability
-          without the chaos.
-        </p>
-      </div>
+    <section id="features" className="px-4 pb-18 pt-3 sm:px-6 sm:pb-24 sm:pt-4">
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="mb-10 grid gap-6 sm:mb-14 sm:gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-end lg:gap-16">
+          <div>
+            <p className="font-mono text-[11px] tracking-[0.18em] text-zinc-500 uppercase">
+              What&apos;s inside
+            </p>
+            <h2 className="mt-4 font-display text-4xl leading-[0.95] tracking-tight text-zinc-100 sm:text-5xl md:text-6xl">
+              Everything your team
+              <br />
+              needs. <em className="text-violet-300">Nothing</em> it does not.
+            </h2>
+          </div>
+          <p className="max-w-3xl text-lg leading-relaxed text-zinc-400">
+            Built for dev teams that want to coordinate availability without
+            ceremony. Eight features, each earning its place.
+          </p>
+        </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-        {features.map((f) => {
-          const Icon = f.icon;
-          return (
-            <article
-              key={f.title}
-              className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-border/80 hover:shadow-xl hover:shadow-black/25"
-            >
-              {/* Subtle top gradient */}
-              <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
-
-              <div className="mb-4 flex items-start justify-between gap-2">
-                <div
-                  className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br border ${f.gradient} ${f.border} ${f.iconColor}`}
-                >
-                  <Icon className="h-5 w-5" />
-                </div>
-                {"badge" in f && f.badge && (
-                  <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-0.5 text-[10px] font-semibold text-violet-400">
-                    {f.badge}
-                  </span>
-                )}
+        <div className="grid gap-4 lg:grid-cols-6">
+          <Card
+            className="lg:col-span-4"
+            tag="01 - Team planning calendar"
+            title="See everyone&apos;s week in one heatmap."
+            body="Vacations, holidays, half-days, WFH, and custom statuses laid out across the team."
+          >
+            <div>
+              <div className="grid grid-cols-10 gap-1">
+                {heatCells.map((cell) => (
+                  <i
+                    key={cell.id}
+                    className={
+                      cell.tone === "l4"
+                        ? "h-4 rounded-sm bg-violet-400"
+                        : cell.tone === "l3"
+                          ? "h-4 rounded-sm bg-violet-500/85"
+                          : cell.tone === "l2"
+                            ? "h-4 rounded-sm bg-violet-500/65"
+                            : cell.tone === "l1"
+                              ? "h-4 rounded-sm bg-violet-500/40"
+                              : "h-4 rounded-sm bg-zinc-800"
+                    }
+                  />
+                ))}
               </div>
-              <h3 className="mb-2 text-base font-semibold leading-snug">
-                {f.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {f.body}
-              </p>
-            </article>
-          );
-        })}
+              <div className="mt-2 flex justify-between font-mono text-[10px] tracking-[0.1em] text-zinc-500 uppercase">
+                <span>Week 19</span>
+                <span>Week 20</span>
+                <span>Week 21</span>
+              </div>
+            </div>
+          </Card>
+
+          <Card
+            className="lg:col-span-2"
+            tag="02 - Approvals"
+            title="One-click approve. Full audit trail."
+            body="Managers approve from Slack, email, or in-app, with complete event history."
+          >
+            <div className="flex flex-wrap items-center gap-1.5 text-xs">
+              <span className="rounded-full border border-emerald-500/40 bg-emerald-500/15 px-3 py-1 text-emerald-300">
+                Submitted
+              </span>
+              <span className="text-zinc-500">-&gt;</span>
+              <span className="rounded-full border border-violet-500/45 bg-violet-500/20 px-3 py-1 text-zinc-100">
+                In review
+              </span>
+              <span className="text-zinc-500">-&gt;</span>
+              <span className="rounded-full border border-white/12 px-3 py-1 text-zinc-400">
+                Approved
+              </span>
+            </div>
+          </Card>
+
+          <Card
+            className="lg:col-span-3"
+            tag="03 - Standup board"
+            title="Daily availability, no questions asked."
+            body="See who is available, remote, or off without posting another morning Slack question."
+          >
+            <div className="space-y-2 text-sm text-zinc-300">
+              {[
+                {
+                  n: "PS",
+                  name: "Priya",
+                  status: "Available",
+                  c: "text-emerald-300",
+                },
+                { n: "AK", name: "Arjun", status: "Remote", c: "text-sky-300" },
+                { n: "MR", name: "Meera", status: "Sick", c: "text-rose-300" },
+              ].map((row) => (
+                <div
+                  key={row.n}
+                  className="flex items-center justify-between border-t border-white/10 pt-2 first:border-none first:pt-0"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-zinc-700 text-[10px] font-semibold text-white">
+                      {row.n}
+                    </span>
+                    {row.name}
+                  </div>
+                  <span
+                    className={`font-mono text-[10px] tracking-[0.1em] uppercase ${row.c}`}
+                  >
+                    {row.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card
+            className="lg:col-span-3"
+            tag="04 - Role-based access"
+            title="Four roles. Real isolation."
+            body="Multi-tenant from day one. Each role sees exactly what it needs."
+          >
+            <div className="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
+              {[
+                ["Owner", "Full", "Billing & tenant"],
+                ["Admin", "Org", "Settings & teams"],
+                ["Manager", "Team", "Approvals"],
+                ["Employee", "Self", "Apply & view"],
+              ].map(([role, level, desc]) => (
+                <div
+                  key={role}
+                  className="rounded-xl border border-white/10 bg-[#161320] p-2.5"
+                >
+                  <p className="font-mono text-[10px] tracking-[0.14em] text-violet-300 uppercase">
+                    {role}
+                  </p>
+                  <p className="mt-1 font-display text-2xl text-zinc-100">
+                    {level}
+                  </p>
+                  <p className="text-[11px] text-zinc-500">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card
+            className="lg:col-span-2"
+            tag="05 - Custom leave types"
+            title="Sick. Casual. WFH."
+            body="Configure leave categories with their own rules and approval behavior."
+          >
+            <div className="flex flex-wrap gap-2 text-xs text-zinc-400">
+              {["Casual", "Sick", "Earned", "Comp Off", "WFH", "+ Custom"].map(
+                (chip) => (
+                  <span
+                    key={chip}
+                    className="rounded-full border border-white/10 bg-[#161320] px-3 py-1"
+                  >
+                    {chip}
+                  </span>
+                ),
+              )}
+            </div>
+          </Card>
+
+          <Card
+            className="lg:col-span-2"
+            tag="06 - Slack and Email"
+            title="Approve from where your team already is."
+            body="Approve, reject, or check team status without context switching."
+          >
+            <div className="flex flex-wrap gap-2 text-xs">
+              <span className="rounded-full border border-violet-500/40 bg-violet-500/15 px-3 py-1 text-violet-300">
+                /leave apply
+              </span>
+              <span className="rounded-full border border-emerald-500/40 bg-emerald-500/15 px-3 py-1 text-emerald-300">
+                /team today
+              </span>
+            </div>
+          </Card>
+
+          <Card
+            className="lg:col-span-2"
+            tag="07 - Reports and export"
+            title="Patterns, trends, and clean CSV."
+            body="Track leave behavior and export what HR or payroll needs."
+          >
+            <div className="grid grid-cols-2 gap-2.5">
+              <div className="rounded-xl border border-white/10 bg-[#161320] p-3">
+                <p className="font-mono text-[10px] tracking-[0.14em] text-zinc-500 uppercase">
+                  Avg days / qtr
+                </p>
+                <p className="mt-1 font-display text-4xl text-zinc-100">4.2</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-[#161320] p-3">
+                <p className="font-mono text-[10px] tracking-[0.14em] text-zinc-500 uppercase">
+                  Approval SLA
+                </p>
+                <p className="mt-1 font-display text-4xl text-zinc-100">3.6h</p>
+              </div>
+            </div>
+          </Card>
+
+          <Card
+            className="lg:col-span-2"
+            tag="08 - Audit logs"
+            title="Every action, recorded honestly."
+            body="Authentication, user changes, leave events, and policy edits in one immutable trail."
+          >
+            <div className="space-y-1 font-mono text-[10px] tracking-[0.08em] text-zinc-500">
+              <p>10 May 11:20 - login - 43.204.x</p>
+              <p>09 May 18:02 - approved - MR-219</p>
+              <p>08 May 09:47 - settings - ...</p>
+            </div>
+          </Card>
+        </div>
       </div>
     </section>
   );

@@ -6,6 +6,11 @@ import { createFeedbackSchema } from "../utils/validations.js";
 
 const router = Router();
 
-router.post("/", authenticate, validate(createFeedbackSchema), createFeedbackController);
+router.post(
+  "/",
+  authenticate,
+  validate(createFeedbackSchema),
+  createFeedbackController,
+);
 
 export { router as feedbackRoutes };

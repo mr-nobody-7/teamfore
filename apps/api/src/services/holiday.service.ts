@@ -1,6 +1,9 @@
 import type { Prisma } from "../generated/prisma/client.js";
 import { prisma } from "../lib/db.js";
-import type { HolidayCategoryValue, ListPublicHolidaysQuery } from "../types/index.js";
+import type {
+  HolidayCategoryValue,
+  ListPublicHolidaysQuery,
+} from "../types/index.js";
 import { BadRequestError } from "../utils/errors.js";
 
 interface ListPublicHolidaysParams {
@@ -81,7 +84,9 @@ function normalizeRange(query: ListPublicHolidaysQuery) {
   }
 
   const now = new Date();
-  const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  const monthStart = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1),
+  );
   const monthEnd = new Date(
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 0, 23, 59, 59, 999),
   );
@@ -111,7 +116,8 @@ function buildSystemHolidayOccurrences({
     ...NATIONAL_RULES,
     ...COMPANY_RULES,
     ...REGIONAL_RULES.filter(
-      (rule) => !rule.region || !normalizedRegion || rule.region === normalizedRegion,
+      (rule) =>
+        !rule.region || !normalizedRegion || rule.region === normalizedRegion,
     ),
   ];
 
@@ -126,7 +132,9 @@ function buildSystemHolidayOccurrences({
 
   for (let year = fromYear; year <= toYear; year += 1) {
     for (const rule of rules) {
-      const date = new Date(Date.UTC(year, rule.month - 1, rule.day, 0, 0, 0, 0));
+      const date = new Date(
+        Date.UTC(year, rule.month - 1, rule.day, 0, 0, 0, 0),
+      );
       if (date < from || date > to) {
         continue;
       }
@@ -195,7 +203,10 @@ export const listPublicHolidays = async ({
     source: "CUSTOM" as const,
   }));
 
-  const dedupe = new Map<string, (typeof customHolidays)[number] | (typeof systemHolidays)[number]>();
+  const dedupe = new Map<
+    string,
+    (typeof customHolidays)[number] | (typeof systemHolidays)[number]
+  >();
   for (const holiday of [...systemHolidays, ...customHolidays]) {
     const key = `${holiday.date}|${holiday.name}|${holiday.category}|${holiday.region ?? ""}`;
     dedupe.set(key, holiday);

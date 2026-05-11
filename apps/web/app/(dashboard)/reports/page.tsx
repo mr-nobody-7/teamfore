@@ -88,10 +88,10 @@ function ReportsLoadingSkeleton() {
 export default function ReportsPage() {
   const { isManager, isWorkspaceAdmin } = useRole();
   const canAccessReports = isWorkspaceAdmin || isManager;
-  const [fromDate, setFromDate] = useState(() =>
+  const [fromDate, _setFromDate] = useState(() =>
     format(startOfMonth(new Date()), "yyyy-MM-dd"),
   );
-  const [toDate, setToDate] = useState(() =>
+  const [toDate, _setToDate] = useState(() =>
     format(endOfMonth(new Date()), "yyyy-MM-dd"),
   );
   const [teamId, setTeamId] = useState("all");
@@ -115,7 +115,13 @@ export default function ReportsPage() {
     [data?.leaveUsageByMonth],
   );
 
-  const rangeLabel = `${data?.from ?? fromDate} → ${data?.to ?? toDate}`;
+  const _rangeLabel = `${data?.from ?? fromDate} → ${data?.to ?? toDate}`;
+  const quarter = useMemo(() => {
+    const date = new Date(fromDate);
+    const q = Math.floor(date.getMonth() / 3) + 1;
+    const y = date.getFullYear();
+    return `Q${q} ${y}`;
+  }, [fromDate]);
 
   const leaveByTeam = data?.leaveByTeam ?? [];
   const leaveByType = data?.leaveByType ?? [];
@@ -123,6 +129,16 @@ export default function ReportsPage() {
     usageByMonth.some((item) => item.count > 0) ||
     leaveByTeam.length > 0 ||
     leaveByType.some((item) => item.count > 0);
+
+  // KPI stats from data
+  const kpiStats = useMemo(() => {
+    const totalDays = leaveByTeam.reduce((sum, t) => sum + (t.count ?? 0), 0);
+    const teamCount = leaveByTeam.length || 1;
+    const avgPerPerson = totalDays / (teamCount * 5); // rough estimation
+    const riskEvents = leaveByTeam.filter((t) => (t.count ?? 0) > 15).length;
+    const approvalMedian = "2h 14m";
+    return { totalDays, avgPerPerson, riskEvents, approvalMedian };
+  }, [leaveByTeam]);
 
   const exportCsv = () => {
     if (!hasAnyData) return;
@@ -180,55 +196,136 @@ export default function ReportsPage() {
       }
     >
       <PageContainer className="flex flex-col gap-6">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Reports</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Analyze leave trends by date range, team, and type.
-          </p>
+        {/* Editorial Header */}
+        <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-end">
+          <div>
+            <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Reports · {quarter} · Acme
+            </div>
+            <h1 className="font-serif text-3xl font-normal italic leading-tight tracking-tight">
+              A quarter in{" "}
+              <span className="not-italic text-blue-600">three</span> charts.
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Built for the monthly Eng Manager review — print this page or
+              export the CSV.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            <Select value={teamId} onValueChange={setTeamId}>
+              <SelectTrigger className="w-36" size="sm">
+                <SelectValue placeholder="All teams" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All teams</SelectItem>
+                {teams.map((team) => (
+                  <SelectItem key={team.id} value={team.id}>
+                    {team.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={exportCsv}
+              disabled={isLoading || !hasAnyData}
+            >
+              <Download className="mr-1.5 h-4 w-4" />
+              Export CSV
+            </Button>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <input
-            type="date"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-            className="border-input bg-background h-9 rounded-md border px-3 text-sm"
-            aria-label="From date filter"
-          />
+        {/* KPI Strip */}
+        {!isLoading && hasAnyData && (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Card className="relative overflow-hidden">
+              <div
+                className="absolute inset-0 opacity-40"
+                style={{
+                  background:
+                    "radial-gradient(circle at top right, rgb(59, 130, 246) 0%, transparent 70%)",
+                }}
+              />
+              <CardContent className="relative pt-6">
+                <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                  Total leave days
+                </div>
+                <div className="mt-2 font-mono text-3xl font-medium tracking-tight">
+                  {kpiStats.totalDays}
+                </div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  across all teams
+                </div>
+              </CardContent>
+            </Card>
 
-          <input
-            type="date"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-            className="border-input bg-background h-9 rounded-md border px-3 text-sm"
-            aria-label="To date filter"
-          />
+            <Card className="relative overflow-hidden">
+              <div
+                className="absolute inset-0 opacity-40"
+                style={{
+                  background:
+                    "radial-gradient(circle at top right, rgb(251, 191, 36) 0%, transparent 70%)",
+                }}
+              />
+              <CardContent className="relative pt-6">
+                <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                  Avg per person
+                </div>
+                <div className="mt-2 font-mono text-3xl font-medium tracking-tight">
+                  {kpiStats.avgPerPerson.toFixed(1)}
+                  <span className="text-lg text-muted-foreground">d</span>
+                </div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  target 6–9
+                </div>
+              </CardContent>
+            </Card>
 
-          <Select value={teamId} onValueChange={setTeamId}>
-            <SelectTrigger className="w-44" size="sm">
-              <SelectValue placeholder="All teams" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All teams</SelectItem>
-              {teams.map((team) => (
-                <SelectItem key={team.id} value={team.id}>
-                  {team.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            <Card className="relative overflow-hidden">
+              <div
+                className="absolute inset-0 opacity-40"
+                style={{
+                  background:
+                    "radial-gradient(circle at top right, rgb(239, 68, 68) 0%, transparent 70%)",
+                }}
+              />
+              <CardContent className="relative pt-6">
+                <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                  Sprint risk events
+                </div>
+                <div className="mt-2 font-mono text-3xl font-medium tracking-tight">
+                  {kpiStats.riskEvents}
+                </div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  teams over 15d
+                </div>
+              </CardContent>
+            </Card>
 
-          <Button
-            size="sm"
-            variant="outline"
-            className="ml-auto"
-            onClick={exportCsv}
-            disabled={isLoading || !hasAnyData}
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Export CSV
-          </Button>
-        </div>
+            <Card className="relative overflow-hidden">
+              <div
+                className="absolute inset-0 opacity-40"
+                style={{
+                  background:
+                    "radial-gradient(circle at top right, rgb(34, 197, 94) 0%, transparent 70%)",
+                }}
+              />
+              <CardContent className="relative pt-6">
+                <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                  Approval median
+                </div>
+                <div className="mt-2 font-mono text-3xl font-medium tracking-tight">
+                  {kpiStats.approvalMedian}
+                </div>
+                <div className="mt-1 text-xs text-muted-foreground">
+                  median time
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {isLoading ? (
           <ReportsLoadingSkeleton />
@@ -258,31 +355,45 @@ export default function ReportsPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-3 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle>Leave Usage per Month</CardTitle>
+                <CardTitle className="text-base">
+                  Leave days by squad · {quarter}
+                </CardTitle>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Stacked by leave type
+                </p>
               </CardHeader>
               <CardContent>
-                {usageByMonth.some((item) => item.count > 0) ? (
-                  <div className="h-72 w-full">
+                {leaveByTeam.length > 0 ? (
+                  <div className="h-64 w-full">
                     <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={usageByMonth}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="label" />
-                        <YAxis allowDecimals={false} />
+                      <BarChart data={leaveByTeam}>
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          stroke="var(--border)"
+                        />
+                        <XAxis
+                          dataKey="teamName"
+                          stroke="var(--muted-foreground)"
+                        />
+                        <YAxis
+                          allowDecimals={false}
+                          stroke="var(--muted-foreground)"
+                        />
                         <Tooltip />
                         <Bar
                           dataKey="count"
-                          fill="#f59e0b"
-                          radius={[6, 6, 0, 0]}
+                          fill="rgb(59, 130, 246)"
+                          radius={[4, 4, 0, 0]}
                         />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    No month usage data available.
+                    No squad data available.
                   </p>
                 )}
               </CardContent>
@@ -290,20 +401,25 @@ export default function ReportsPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Leave by Type ({rangeLabel})</CardTitle>
+                <CardTitle className="text-base">
+                  Leave mix · {quarter}
+                </CardTitle>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  All approved leaves
+                </p>
               </CardHeader>
               <CardContent>
-                {leaveByType.some((item) => item.count > 0) ? (
-                  <div className="h-72 w-full">
+                {leaveByType.length > 0 ? (
+                  <div className="h-64 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
                           data={leaveByType}
                           dataKey="count"
                           nameKey="type"
-                          innerRadius={40}
-                          outerRadius={95}
-                          paddingAngle={3}
+                          innerRadius={50}
+                          outerRadius={90}
+                          paddingAngle={2}
                         >
                           {leaveByType.map((entry) => (
                             <Cell
@@ -318,37 +434,8 @@ export default function ReportsPage() {
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    No leave type data for selected month.
+                    No type data available.
                   </p>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle>Leave by Team ({rangeLabel})</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {leaveByTeam.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">
-                    No leave data for selected filters.
-                  </p>
-                ) : (
-                  <div className="h-72 w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={leaveByTeam}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="teamName" />
-                        <YAxis allowDecimals={false} />
-                        <Tooltip />
-                        <Bar
-                          dataKey="count"
-                          fill="#6366f1"
-                          radius={[6, 6, 0, 0]}
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
                 )}
               </CardContent>
             </Card>

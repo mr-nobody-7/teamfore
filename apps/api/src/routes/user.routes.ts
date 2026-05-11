@@ -20,7 +20,12 @@ import {
 
 const router = Router();
 
-router.put("/me", authenticate, validate(updateMyProfileSchema), updateMyProfileController);
+router.put(
+  "/me",
+  authenticate,
+  validate(updateMyProfileSchema),
+  updateMyProfileController,
+);
 router.put(
   "/me/password",
   authenticate,

@@ -11,6 +11,11 @@ import { setMyAvailabilitySchema } from "../utils/validations.js";
 const router = Router();
 
 router.get("/board", authenticate, getAvailabilityBoardController);
-router.put("/me", authenticate, validate(setMyAvailabilitySchema), setMyAvailabilityController);
+router.put(
+  "/me",
+  authenticate,
+  validate(setMyAvailabilitySchema),
+  setMyAvailabilityController,
+);
 
 export { router as availabilityRoutes };

@@ -11,7 +11,11 @@ function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
-function logActionError(command: string, workspaceId: string, error: unknown): void {
+function logActionError(
+  command: string,
+  workspaceId: string,
+  error: unknown,
+): void {
   console.error(
     `[slack:${command}] ${getErrorMessage(error)} | workspaceId=${workspaceId} | command=${command}`,
   );
@@ -69,7 +73,10 @@ async function findManagerBySlack(req: Request) {
   }
 }
 
-export async function handleSlackActions(req: Request, res: Response): Promise<void> {
+export async function handleSlackActions(
+  req: Request,
+  res: Response,
+): Promise<void> {
   const command = "block_action";
   try {
     const action = req.body.actions?.[0];
@@ -81,7 +88,9 @@ export async function handleSlackActions(req: Request, res: Response): Promise<v
 
     const manager = await findManagerBySlack(req);
     if (!manager) {
-      res.status(200).json({ text: "Only managers/admins can perform this action." });
+      res
+        .status(200)
+        .json({ text: "Only managers/admins can perform this action." });
       return;
     }
 
@@ -120,7 +129,10 @@ export async function handleSlackActions(req: Request, res: Response): Promise<v
   }
 }
 
-export async function handleBlockAction(req: Request, res: Response): Promise<void> {
+export async function handleBlockAction(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     await handleSlackActions(req, res);
   } catch (error) {
@@ -198,8 +210,10 @@ async function handleApplyLeaveSubmission(
 
   try {
     const parsed = JSON.parse(payload.view.private_metadata ?? "{}");
-    workspaceId = typeof parsed.workspaceId === "string" ? parsed.workspaceId : "";
-    slackUserId = typeof parsed.slackUserId === "string" ? parsed.slackUserId : slackUserId;
+    workspaceId =
+      typeof parsed.workspaceId === "string" ? parsed.workspaceId : "";
+    slackUserId =
+      typeof parsed.slackUserId === "string" ? parsed.slackUserId : slackUserId;
   } catch (error) {
     logActionError(command, "unknown", error);
   }
@@ -228,7 +242,11 @@ async function handleApplyLeaveSubmission(
       "end_date_picker",
       "selected_date",
     );
-    const session = readSelectedOptionValue(values, "session_block", "session_select");
+    const session = readSelectedOptionValue(
+      values,
+      "session_block",
+      "session_select",
+    );
     const reason = readString(values, "reason_block", "reason_input", "value");
 
     if (!leaveTypeId || !startDateText || !endDateText || !session) {
@@ -306,7 +324,9 @@ async function handleApplyLeaveSubmission(
     } catch (error) {
       logActionError(command, workspaceId, error);
       const message =
-        error instanceof Error ? error.message : "Unable to submit leave request";
+        error instanceof Error
+          ? error.message
+          : "Unable to submit leave request";
       await sendDmToSlackUser(workspaceId, slackUserId, message, command);
     }
   } catch (error) {
@@ -320,7 +340,10 @@ async function handleApplyLeaveSubmission(
   }
 }
 
-export async function handleViewSubmission(req: Request, res: Response): Promise<void> {
+export async function handleViewSubmission(
+  req: Request,
+  res: Response,
+): Promise<void> {
   const payload = req.body as SlackViewSubmissionPayload;
 
   // Slack expects a fast ack to close the modal.
@@ -339,7 +362,9 @@ export async function handleViewSubmission(req: Request, res: Response): Promise
     try {
       const parsed = JSON.parse(payload.view.private_metadata ?? "{}");
       workspaceId =
-        typeof parsed.workspaceId === "string" ? parsed.workspaceId : workspaceId;
+        typeof parsed.workspaceId === "string"
+          ? parsed.workspaceId
+          : workspaceId;
     } catch (parseError) {
       logActionError("apply_leave_modal", workspaceId, parseError);
     }

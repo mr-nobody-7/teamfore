@@ -7,9 +7,7 @@ export const validate = (schema: ZodSchema) => {
     const parsed = schema.safeParse(req.body);
     if (!parsed.success) {
       return next(
-        new BadRequestError(
-          parsed.error.issues[0]?.message ?? "Invalid input",
-        ),
+        new BadRequestError(parsed.error.issues[0]?.message ?? "Invalid input"),
       );
     }
     req.body = parsed.data;

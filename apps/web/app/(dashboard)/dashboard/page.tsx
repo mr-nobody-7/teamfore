@@ -7,6 +7,7 @@ import {
   CalendarCheck2,
   CalendarDays,
   ClipboardList,
+  MessageSquareText,
   PieChart,
   Users,
 } from "lucide-react";
@@ -28,7 +29,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { StatCard } from "@/components/ui/stat-card";
 import { useAuth } from "@/contexts/auth-context";
 import { useAvailabilityBoard } from "@/hooks/use-availability-board";
 import { useDashboardSummary } from "@/hooks/use-dashboard-summary";
@@ -43,6 +43,8 @@ export default function DashboardPage() {
   const { canApprove, isManager } = useRole();
   const { data: summary, isLoading } = useDashboardSummary();
   const todayDateKey = useMemo(() => format(new Date(), "yyyy-MM-dd"), []);
+  const currentTime = useMemo(() => format(new Date(), "HH:mm"), []);
+  const dayLabel = useMemo(() => format(new Date(), "EEEE, MMM d"), []);
 
   const { data: standupBoard, isLoading: isStandupLoading } =
     useAvailabilityBoard({
@@ -124,26 +126,76 @@ export default function DashboardPage() {
     [availabilityByDay],
   );
 
+  const weekCapacity = useMemo(
+    () =>
+      formattedAvailability.map((day) => {
+        const capacityPct =
+          day.total > 0 ? Math.round((day.available / day.total) * 100) : 0;
+        const tone =
+          capacityPct >= 85 ? "full" : capacityPct >= 60 ? "med" : "low";
+        return { ...day, capacityPct, tone };
+      }),
+    [formattedAvailability],
+  );
+
+  const avgCapacity = useMemo(() => {
+    if (weekCapacity.length === 0) return 0;
+    const sum = weekCapacity.reduce((acc, day) => acc + day.capacityPct, 0);
+    return Math.round(sum / weekCapacity.length);
+  }, [weekCapacity]);
+
+  const minCapacity = useMemo(() => {
+    if (weekCapacity.length === 0) return 0;
+    return Math.min(...weekCapacity.map((day) => day.capacityPct));
+  }, [weekCapacity]);
+
+  const sprintRisk = useMemo(() => {
+    if (minCapacity >= 80) return "Low";
+    if (minCapacity >= 60) return "Med";
+    return "High";
+  }, [minCapacity]);
+
   const showWorkspaceWelcome =
     !isLoading &&
     (summary?.totalUsers ?? 0) <= 1 &&
     (summary?.todayLeaves ?? 0) === 0 &&
     formattedUpcomingLeaves.length === 0;
 
+  const dashboardChanges =
+    (summary?.pendingApprovals ?? 0) + (summary?.todayLeaves ?? 0);
+
   return (
-    <PageContainer>
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight">
-          Welcome back, {user?.name?.split(" ")[0]} 👋
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Here&apos;s what&apos;s happening with your team today.
-        </p>
-      </div>
+    <PageContainer className="space-y-6 md:space-y-8">
+      <section className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/75 p-5 shadow-xl shadow-black/10 md:p-7">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(168,85,247,0.2),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.12),transparent_35%)]" />
+        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase">
+              {dayLabel} · team pulse
+            </p>
+            <p className="font-display text-4xl leading-none tracking-tight md:text-6xl">
+              Welcome back,{" "}
+              <i className="text-primary">
+                {user?.name?.split(" ")[0] ?? "Team"}
+              </i>
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground md:text-base">
+              {dashboardChanges} change{dashboardChanges === 1 ? "" : "s"} since
+              last check-in. Team pulse, leave flow, and sprint readiness in one
+              view.
+            </p>
+          </div>
+          <div className="text-left sm:text-right">
+            <p className="text-sm text-muted-foreground">{dayLabel}</p>
+            <p className="font-mono text-3xl font-medium tracking-tight md:text-4xl">
+              {currentTime}
+            </p>
+          </div>
+        </div>
+      </section>
 
       {showWorkspaceWelcome && (
-        <Card className="mb-6">
+        <Card className="border-primary/25 bg-primary/5">
           <CardHeader>
             <CardTitle>Welcome to your new workspace</CardTitle>
           </CardHeader>
@@ -175,156 +227,280 @@ export default function DashboardPage() {
         </Card>
       )}
 
-      {/* Stat cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <StatCard
-          title="Total Users"
-          value={summary?.totalUsers}
-          description="Active users in scope"
-          icon={Users}
-          isLoading={isLoading}
-        />
-
-        <StatCard
-          title="Leaves Today"
-          value={summary?.todayLeaves}
-          description="People currently on leave"
-          icon={CalendarCheck2}
-          isLoading={isLoading}
-        />
-
-        {canApprove && (
-          <StatCard
-            title="Pending Approvals"
-            value={summary?.pendingApprovals}
-            description="Requests awaiting your action"
-            icon={ClipboardList}
-            isLoading={isLoading}
-            iconClassName="bg-amber-100"
-            className={
-              (summary?.pendingApprovals ?? 0) > 0
-                ? "border-amber-300"
-                : undefined
-            }
-          />
-        )}
-
-        <StatCard
-          title="Upcoming Leaves"
-          value={upcomingLeaves.length}
-          description="Starting in next 7 days"
-          icon={CalendarDays}
-          isLoading={isLoading}
-        />
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {(canApprove
+          ? [
+              {
+                label: "On Leave Today",
+                value: summary?.todayLeaves ?? 0,
+                sub: `${summary?.totalUsers ?? 0} users in workspace`,
+                icon: CalendarCheck2,
+                tone: "from-rose-500/22",
+              },
+              {
+                label: "Pending Approvals",
+                value: summary?.pendingApprovals ?? 0,
+                sub: "Requests waiting on your action",
+                icon: ClipboardList,
+                tone: "from-amber-500/22",
+              },
+              {
+                label: "This Week Capacity",
+                value: `${avgCapacity}%`,
+                sub: `${summary?.availabilityScopeLabel ?? "Team"} availability avg`,
+                icon: Users,
+                tone: "from-emerald-500/22",
+              },
+              {
+                label: "Sprint Risk",
+                value: sprintRisk,
+                sub: `Lowest day at ${minCapacity}% capacity`,
+                icon: AlertTriangle,
+                tone:
+                  sprintRisk === "Low"
+                    ? "from-emerald-500/18"
+                    : sprintRisk === "Med"
+                      ? "from-amber-500/18"
+                      : "from-rose-500/18",
+              },
+            ]
+          : [
+              {
+                label: "Total Users",
+                value: summary?.totalUsers ?? 0,
+                sub: "Active users in scope",
+                icon: Users,
+                tone: "from-primary/22",
+              },
+              {
+                label: "Leaves Today",
+                value: summary?.todayLeaves ?? 0,
+                sub: "People currently on leave",
+                icon: CalendarCheck2,
+                tone: "from-rose-500/22",
+              },
+              {
+                label: "Upcoming Leaves",
+                value: upcomingLeaves.length,
+                sub: "Starting in next 7 days",
+                icon: CalendarDays,
+                tone: "from-sky-500/22",
+              },
+            ]
+        ).map((stat) => (
+          <Card
+            key={stat.label}
+            className="relative overflow-hidden border-border/70 bg-card/70"
+          >
+            <div
+              className={`pointer-events-none absolute inset-0 bg-radial-[at_85%_90%] ${stat.tone} to-transparent`}
+            />
+            <CardContent className="relative p-5">
+              <div className="mb-4 flex items-center justify-between gap-2">
+                <p className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase">
+                  {stat.label}
+                </p>
+                <stat.icon className="h-4.5 w-4.5 text-muted-foreground" />
+              </div>
+              {isLoading ? (
+                <Skeleton className="h-10 w-24" />
+              ) : (
+                <p className="font-mono text-4xl leading-none tracking-tight">
+                  {stat.value}
+                </p>
+              )}
+              <p className="mt-2 text-xs text-muted-foreground">{stat.sub}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {canApprove && (
-        <div className="mt-8">
+        <Card className="overflow-hidden border-border/70 bg-card/75">
+          <CardHeader className="pb-2">
+            <CardTitle className="font-display text-3xl leading-none tracking-tight">
+              A clear week, with <i className="text-primary">Friday</i> to
+              watch.
+            </CardTitle>
+            <p className="text-xs text-muted-foreground">
+              Next 7 days · {summary?.availabilityScopeLabel ?? "Team"}
+            </p>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+                {Array.from({ length: 7 }, (_, idx) => (
+                  <Skeleton
+                    key={`capacity-skel-${idx + 1}`}
+                    className="h-24 w-full"
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+                {weekCapacity.map((day) => (
+                  <div
+                    key={day.date}
+                    className={`rounded-xl border p-3 ${
+                      day.tone === "full"
+                        ? "border-emerald-500/25 bg-emerald-500/7"
+                        : day.tone === "med"
+                          ? "border-amber-500/25 bg-amber-500/7"
+                          : "border-rose-500/25 bg-rose-500/7"
+                    } ${day.date === todayDateKey ? "ring-1 ring-primary/40" : ""}`}
+                  >
+                    <p className="font-mono text-[10px] tracking-[0.12em] text-muted-foreground uppercase">
+                      {day.label} · {day.fullDate}
+                    </p>
+                    <p className="mt-2 font-mono text-2xl leading-none">
+                      {day.capacityPct}%
+                    </p>
+                    <p className="mt-1 text-[11px] text-muted-foreground">
+                      {day.available} of {day.total} available
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {canApprove && (
+        <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
           <StandupBoard
             date={todayDateKey}
             board={standupBoard}
             isLoading={isStandupLoading}
             scopeLabel={summary?.availabilityScopeLabel}
           />
-        </div>
-      )}
 
-      {/* Pending approvals widget — manager only */}
-      {isManager && (
-        <div className="mt-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center gap-2 pb-2">
-              <ClipboardList className="h-5 w-5 text-muted-foreground" />
-              <CardTitle className="text-base font-semibold">
-                Pending Approvals
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {pendingLoading ? (
-                <div className="space-y-3">
-                  {Array.from({ length: 3 }, (_, idx) => (
-                    <Skeleton
-                      key={`pending-skel-${idx + 1}`}
-                      className="h-14 w-full"
-                    />
-                  ))}
-                </div>
-              ) : !(pendingLeaves?.leaves.length ?? 0) ? (
-                <p className="py-4 text-center text-sm text-muted-foreground">
-                  No pending requests 🎉
-                </p>
-              ) : (
-                <div className="divide-y">
-                  {pendingLeaves?.leaves.map((leave, idx) => {
-                    const isBusy =
-                      decisionMutation.isPending &&
-                      decisionMutation.variables?.leaveId === leave.id;
+          {/* Pending approvals widget — manager only */}
+          {isManager ? (
+            <Card>
+              <CardHeader className="flex flex-row items-center gap-2 pb-2">
+                <ClipboardList className="h-5 w-5 text-muted-foreground" />
+                <CardTitle className="text-base font-semibold">
+                  Approvals Waiting on You
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {pendingLoading ? (
+                  <div className="space-y-3">
+                    {Array.from({ length: 3 }, (_, idx) => (
+                      <Skeleton
+                        key={`pending-skel-${idx + 1}`}
+                        className="h-14 w-full"
+                      />
+                    ))}
+                  </div>
+                ) : !(pendingLeaves?.leaves.length ?? 0) ? (
+                  <p className="py-4 text-center text-sm text-muted-foreground">
+                    No pending requests
+                  </p>
+                ) : (
+                  <div className="divide-y">
+                    {pendingLeaves?.leaves.map((leave, idx) => {
+                      const isBusy =
+                        decisionMutation.isPending &&
+                        decisionMutation.variables?.leaveId === leave.id;
 
-                    return (
-                      <div key={leave.id} className="py-3">
-                        <div className="flex flex-wrap items-center justify-between gap-3">
-                          <div className="flex flex-col gap-0.5">
-                            <span className="text-sm font-medium">
-                              {leave.user.name}
-                            </span>
-                            <span className="text-xs text-muted-foreground">
-                              {format(parseISO(leave.startDate), "MMM d")} →{" "}
-                              {format(parseISO(leave.endDate), "MMM d")}
-                            </span>
-                            {leave.capacityWarning && (
-                              <span className="mt-0.5 inline-flex items-center gap-1 text-xs text-amber-700 dark:text-amber-300">
-                                <AlertTriangle className="h-3.5 w-3.5" />
-                                {leave.capacityWarning.message}
+                      return (
+                        <div key={leave.id} className="py-3">
+                          <div className="flex flex-wrap items-center justify-between gap-3">
+                            <div className="flex flex-col gap-0.5">
+                              <span className="text-sm font-medium">
+                                {leave.user.name}
                               </span>
-                            )}
+                              <span className="text-xs text-muted-foreground">
+                                {format(parseISO(leave.startDate), "MMM d")} →{" "}
+                                {format(parseISO(leave.endDate), "MMM d")}
+                              </span>
+                              {leave.capacityWarning && (
+                                <span className="mt-0.5 inline-flex items-center gap-1 text-xs text-amber-700 dark:text-amber-300">
+                                  <AlertTriangle className="h-3.5 w-3.5" />
+                                  {leave.capacityWarning.message}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <Badge variant="outline">
+                                {formatLeaveType(leave.type)}
+                              </Badge>
+                              <Button
+                                size="xs"
+                                onClick={() =>
+                                  decisionMutation.mutate({
+                                    leaveId: leave.id,
+                                    status: "APPROVED",
+                                  })
+                                }
+                                disabled={isBusy}
+                              >
+                                Approve
+                              </Button>
+                              <Button
+                                size="xs"
+                                variant="destructive"
+                                onClick={() =>
+                                  decisionMutation.mutate({
+                                    leaveId: leave.id,
+                                    status: "REJECTED",
+                                  })
+                                }
+                                disabled={isBusy}
+                              >
+                                Reject
+                              </Button>
+                            </div>
                           </div>
 
-                          <div className="flex items-center gap-2">
-                            <Badge variant="outline">
-                              {formatLeaveType(leave.type)}
-                            </Badge>
-                            <Button
-                              size="xs"
-                              onClick={() =>
-                                decisionMutation.mutate({
-                                  leaveId: leave.id,
-                                  status: "APPROVED",
-                                })
-                              }
-                              disabled={isBusy}
-                            >
-                              Approve
-                            </Button>
-                            <Button
-                              size="xs"
-                              variant="destructive"
-                              onClick={() =>
-                                decisionMutation.mutate({
-                                  leaveId: leave.id,
-                                  status: "REJECTED",
-                                })
-                              }
-                              disabled={isBusy}
-                            >
-                              Reject
-                            </Button>
-                          </div>
+                          {idx < (pendingLeaves?.leaves.length ?? 0) - 1 && (
+                            <Separator className="mt-3" />
+                          )}
                         </div>
-
-                        {idx < (pendingLeaves?.leaves.length ?? 0) - 1 && (
-                          <Separator className="mt-3" />
-                        )}
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="bg-card/75">
+              <CardHeader className="flex flex-row items-center gap-2 pb-2">
+                <MessageSquareText className="h-5 w-5 text-muted-foreground" />
+                <CardTitle className="text-base font-semibold">
+                  Live in Slack
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <p>Daily standup digest posts at 9:00 AM.</p>
+                <div className="rounded-lg border border-border/70 bg-muted/30 p-3">
+                  <p className="font-medium text-foreground">Commands</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {[
+                      "/whos-out",
+                      "/my-leaves",
+                      "/apply-leave",
+                      "/team-status",
+                    ].map((command) => (
+                      <span
+                        key={command}
+                        className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-mono text-[11px] text-primary"
+                      >
+                        {command}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
         </div>
       )}
 
-      <div className="mt-8">
+      <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader className="flex flex-row items-center gap-2 pb-2">
             <CalendarDays className="h-5 w-5 text-muted-foreground" />
@@ -350,9 +526,9 @@ export default function DashboardPage() {
               <div className="divide-y">
                 {formattedUpcomingLeaves.map((leave, i) => (
                   <div key={leave.id}>
-                    <div className="flex items-center justify-between py-3">
-                      <div className="flex flex-col gap-0.5">
-                        <span className="text-sm font-medium">
+                    <div className="flex items-center justify-between gap-2 py-3">
+                      <div className="min-w-0 flex flex-col gap-0.5">
+                        <span className="truncate text-sm font-medium">
                           {leave.user.name}
                         </span>
                         <span className="text-xs text-muted-foreground">
@@ -372,11 +548,48 @@ export default function DashboardPage() {
             )}
           </CardContent>
         </Card>
+
+        <Card className="bg-card/75">
+          <CardHeader className="flex flex-row items-center gap-2 pb-2">
+            <MessageSquareText className="h-5 w-5 text-muted-foreground" />
+            <CardTitle className="text-base font-semibold">
+              Live in Slack
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm text-muted-foreground">
+            <div className="rounded-lg border border-border/70 bg-[#1a1d21] p-3 text-zinc-200">
+              <p className="font-semibold text-sky-400">TeamFore App</p>
+              <p className="mt-1 text-xs text-zinc-400">
+                Good morning. Here&apos;s your standup digest.
+              </p>
+              <div className="mt-2 rounded border-l-2 border-primary bg-zinc-800/70 p-2 text-xs">
+                <p>
+                  Available:{" "}
+                  {summary?.totalUsers ?? 0 - (summary?.todayLeaves ?? 0)}
+                </p>
+                <p>Off today: {summary?.todayLeaves ?? 0}</p>
+                <p>Remote: based on availability board status</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {["/whos-out", "/my-leaves", "/apply-leave", "/team-status"].map(
+                (command) => (
+                  <span
+                    key={command}
+                    className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-mono text-[11px] text-primary"
+                  >
+                    {command}
+                  </span>
+                ),
+              )}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Distribution + availability insights */}
       {canApprove && (
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader className="flex flex-row items-center gap-2 pb-2">
               <PieChart className="h-5 w-5 text-muted-foreground" />

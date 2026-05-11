@@ -1,66 +1,75 @@
 const steps = [
   {
-    number: "01",
-    title: "Your team signs up",
-    body: "Create your workspace in under 2 minutes with Google OAuth. Invite team members — employees and managers get the right roles automatically.",
+    id: "01",
+    title: "Sign up your workspace.",
+    body: "Google OAuth, then a workspace name. Workspaces are tenant-isolated by default.",
+    time: "~ 30 sec",
   },
   {
-    number: "02",
-    title: "Submit & approve leave",
-    body: "Employees submit leave requests (full day, half day, or custom). Managers get notified and approve or reject with one click.",
+    id: "02",
+    title: "Invite the team.",
+    body: "Paste emails or share a link. Roles are assigned automatically and can be overridden.",
+    time: "~ 1 min",
   },
   {
-    number: "03",
-    title: "Plan your sprint with confidence",
-    body: "Open the team calendar and instantly see who's available. No more mid-sprint surprises or last-minute capacity scrambles.",
+    id: "03",
+    title: "Apply and approve.",
+    body: "Employees apply for leave, managers approve from Slack, email, or app in one click.",
+    time: "always-on",
   },
   {
-    number: "04",
-    title: "Get notified everywhere",
-    body: "Approvals, rejections, and reminders flow straight into Slack and email — so your team is always in sync without checking another app.",
+    id: "04",
+    title: "Plan with confidence.",
+    body: "Open the team calendar before sprint planning to see exactly where capacity is thin.",
+    time: "every Monday",
   },
 ];
 
 export function HowItWorksSection() {
   return (
     // biome-ignore lint/correctness/useUniqueElementIds: static anchor id for in-page nav
-    <section
-      id="how-it-works"
-      className="border-y border-border/60 bg-muted/20"
-    >
-      <div className="mx-auto w-full max-w-6xl px-6 py-20">
-        <div className="mb-14 max-w-2xl">
-          <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            How it works
-          </span>
-          <h2 className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">
-            Up and running in minutes
-          </h2>
-          <p className="mt-3 text-sm text-muted-foreground md:text-base">
-            No complex setup. No training needed.
+    <section id="how" className="px-4 pb-18 pt-4 sm:px-6 sm:pb-24 sm:pt-6">
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="mb-10 grid gap-6 sm:mb-14 sm:gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-end lg:gap-16">
+          <div>
+            <p className="font-mono text-[11px] tracking-[0.18em] text-zinc-500 uppercase">
+              How it works
+            </p>
+            <h2 className="mt-4 font-display text-4xl leading-[0.95] tracking-tight text-zinc-100 sm:text-5xl md:text-6xl">
+              Up and running
+              <br />
+              in <em className="text-violet-300">minutes</em>, not months.
+            </h2>
+          </div>
+          <p className="max-w-3xl text-lg leading-relaxed text-zinc-400">
+            No onboarding calls. No heavy setup. Sign up, invite your team, and
+            plan your sprint before your coffee gets cold.
           </p>
         </div>
 
-        <div className="grid gap-10 md:grid-cols-4">
-          {steps.map((step, i) => (
-            <div key={step.number} className="relative flex flex-col gap-5">
-              {/* Connector line */}
-              {i < steps.length - 1 && (
-                <div className="absolute top-5 left-10 hidden h-px w-[calc(100%+2.5rem)] bg-gradient-to-r from-violet-500/30 via-border/60 to-transparent md:block" />
-              )}
-
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-violet-500/40 bg-violet-500/10 text-sm font-bold text-violet-400">
-                {step.number}
-              </div>
-              <div>
-                <h3 className="text-base font-semibold leading-snug">
-                  {step.title}
-                </h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
-                  {step.body}
-                </p>
-              </div>
-            </div>
+        <div className="grid overflow-hidden rounded-3xl border border-white/10 bg-[#1f1b2b] md:grid-cols-2 xl:grid-cols-4">
+          {steps.map((step, index) => (
+            <article
+              key={step.id}
+              className={`border-white/10 p-6 transition-colors duration-300 hover:bg-white/3 sm:p-8 ${
+                index < steps.length - 1
+                  ? "border-b xl:border-b-0 xl:border-r"
+                  : ""
+              } ${index === 1 ? "md:border-r" : ""}`}
+            >
+              <p className="font-mono text-[11px] tracking-[0.18em] text-violet-300 uppercase">
+                {step.id}
+              </p>
+              <h3 className="mt-3 font-display text-4xl leading-[1.05] text-zinc-100">
+                {step.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+                {step.body}
+              </p>
+              <p className="mt-5 font-mono text-[11px] tracking-[0.1em] text-zinc-500 uppercase">
+                {step.time}
+              </p>
+            </article>
           ))}
         </div>
       </div>

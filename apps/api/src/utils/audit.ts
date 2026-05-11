@@ -1,6 +1,6 @@
-import { prisma } from "../lib/db.js";
-import { Prisma } from "../generated/prisma/client.js";
 import type { AuditAction } from "../generated/prisma/client.js";
+import { Prisma } from "../generated/prisma/client.js";
+import { prisma } from "../lib/db.js";
 
 export interface AuditLogParams {
   action: AuditAction;
@@ -33,7 +33,8 @@ export const createAuditLog = (params: AuditLogParams): void => {
         targetId: params.targetId ?? null,
         targetType: params.targetType ?? null,
         ipAddress: params.ipAddress ?? null,
-        metadata: params.metadata !== undefined ? params.metadata : Prisma.JsonNull,
+        metadata:
+          params.metadata !== undefined ? params.metadata : Prisma.JsonNull,
       },
     })
     .catch((err: unknown) => console.error("[AuditLog] Failed to write:", err));

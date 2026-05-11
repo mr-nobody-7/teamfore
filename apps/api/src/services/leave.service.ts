@@ -160,11 +160,9 @@ function notifyLeaveSubmitted(params: {
     ...(params.note !== undefined ? { note: params.note } : {}),
   });
 
-  void sendMail(
-    params.managerEmail,
-    "New leave request submitted",
-    html,
-  ).catch((err: unknown) => console.error("Mail error:", err));
+  void sendMail(params.managerEmail, "New leave request submitted", html).catch(
+    (err: unknown) => console.error("Mail error:", err),
+  );
 }
 
 function notifyLeaveApproved(params: {
@@ -177,9 +175,11 @@ function notifyLeaveApproved(params: {
 }) {
   const html = buildLeaveApprovedHtml(params);
 
-  void sendMail(params.employeeEmail, "Your leave request was approved", html).catch(
-    (err: unknown) => console.error("Mail error:", err),
-  );
+  void sendMail(
+    params.employeeEmail,
+    "Your leave request was approved",
+    html,
+  ).catch((err: unknown) => console.error("Mail error:", err));
 }
 
 function notifyLeaveRejected(params: {
@@ -193,9 +193,11 @@ function notifyLeaveRejected(params: {
 }) {
   const html = buildLeaveRejectedHtml(params);
 
-  void sendMail(params.employeeEmail, "Your leave request was rejected", html).catch(
-    (err: unknown) => console.error("Mail error:", err),
-  );
+  void sendMail(
+    params.employeeEmail,
+    "Your leave request was rejected",
+    html,
+  ).catch((err: unknown) => console.error("Mail error:", err));
 }
 
 function startOfUtcDay(date: Date): Date {

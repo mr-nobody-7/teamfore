@@ -1,5 +1,9 @@
 import { prisma } from "../lib/db.js";
-import { BadRequestError, ConflictError, NotFoundError } from "../utils/errors.js";
+import {
+  BadRequestError,
+  ConflictError,
+  NotFoundError,
+} from "../utils/errors.js";
 
 export const listTeams = async (workspaceId: string) => {
   return prisma.team.findMany({

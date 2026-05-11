@@ -92,7 +92,10 @@ export const getAvailabilityBoard = async ({
     return {
       date: dateKey,
       total: 0,
-      byStatus: ALL_AVAILABILITY_STATUSES.map((status) => ({ status, count: 0 })),
+      byStatus: ALL_AVAILABILITY_STATUSES.map((status) => ({
+        status,
+        count: 0,
+      })),
       byWorkload: ALL_WORKLOAD_LEVELS.map((workload) => ({
         workload,
         count: 0,
@@ -139,7 +142,9 @@ export const getAvailabilityBoard = async ({
     }),
   ]);
 
-  const savedStatusByUser = new Map(statusRows.map((row) => [row.userId, row.status]));
+  const savedStatusByUser = new Map(
+    statusRows.map((row) => [row.userId, row.status]),
+  );
   const savedWorkloadByUser = new Map(
     workloadRows.map((row) => [row.userId, row.workload]),
   );

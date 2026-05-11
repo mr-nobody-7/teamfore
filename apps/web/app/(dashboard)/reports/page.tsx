@@ -195,7 +195,7 @@ export default function ReportsPage() {
         </PageContainer>
       }
     >
-      <PageContainer className="flex flex-col gap-6">
+      <PageContainer className="flex flex-col gap-6 product-reveal">
         {/* Editorial Header */}
         <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-end">
           <div>
@@ -211,9 +211,13 @@ export default function ReportsPage() {
               export the CSV.
             </p>
           </div>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex w-full flex-wrap gap-1.5 sm:w-auto">
             <Select value={teamId} onValueChange={setTeamId}>
-              <SelectTrigger className="w-36" size="sm">
+              <SelectTrigger
+                aria-label="Filter reports by team"
+                className="w-full sm:w-36"
+                size="sm"
+              >
                 <SelectValue placeholder="All teams" />
               </SelectTrigger>
               <SelectContent>
@@ -228,6 +232,7 @@ export default function ReportsPage() {
             <Button
               size="sm"
               variant="outline"
+              className="product-press w-full sm:w-auto"
               onClick={exportCsv}
               disabled={isLoading || !hasAnyData}
             >
@@ -240,7 +245,7 @@ export default function ReportsPage() {
         {/* KPI Strip */}
         {!isLoading && hasAnyData && (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <Card className="relative overflow-hidden">
+            <Card className="product-card-hover relative overflow-hidden">
               <div
                 className="absolute inset-0 opacity-40"
                 style={{
@@ -261,7 +266,7 @@ export default function ReportsPage() {
               </CardContent>
             </Card>
 
-            <Card className="relative overflow-hidden">
+            <Card className="product-card-hover relative overflow-hidden">
               <div
                 className="absolute inset-0 opacity-40"
                 style={{
@@ -283,7 +288,7 @@ export default function ReportsPage() {
               </CardContent>
             </Card>
 
-            <Card className="relative overflow-hidden">
+            <Card className="product-card-hover relative overflow-hidden">
               <div
                 className="absolute inset-0 opacity-40"
                 style={{
@@ -304,7 +309,7 @@ export default function ReportsPage() {
               </CardContent>
             </Card>
 
-            <Card className="relative overflow-hidden">
+            <Card className="product-card-hover relative overflow-hidden">
               <div
                 className="absolute inset-0 opacity-40"
                 style={{
@@ -356,7 +361,7 @@ export default function ReportsPage() {
           </Card>
         ) : (
           <div className="grid gap-3 lg:grid-cols-2">
-            <Card>
+            <Card className="product-card-hover">
               <CardHeader>
                 <CardTitle className="text-base">
                   Leave days by squad · {quarter}
@@ -399,7 +404,7 @@ export default function ReportsPage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="product-card-hover">
               <CardHeader>
                 <CardTitle className="text-base">
                   Leave mix · {quarter}

@@ -155,13 +155,18 @@ function LogRow({ log }: { log: AuditLog }) {
     hasMetadata || log.targetType || log.targetId || log.ipAddress;
 
   return (
-    <div className="rounded-lg border border-border bg-card transition-colors hover:bg-muted/30">
+    <div className="product-card-hover rounded-lg border border-border bg-card hover:bg-muted/30">
       <button
         type="button"
         className="flex w-full cursor-pointer flex-col gap-3 p-4 text-left sm:flex-row sm:items-start"
         onClick={() => hasExtra && setExpanded((v) => !v)}
         disabled={!hasExtra}
         aria-expanded={hasExtra ? expanded : undefined}
+        aria-label={
+          hasExtra
+            ? `${expanded ? "Collapse" : "Expand"} details for ${ACTION_LABEL[log.action] ?? log.action} event from ${format(parseISO(log.createdAt), "d MMM yyyy, HH:mm:ss")}`
+            : `${ACTION_LABEL[log.action] ?? log.action} event from ${format(parseISO(log.createdAt), "d MMM yyyy, HH:mm:ss")}`
+        }
       >
         {/* Timeline dot */}
         <div className="mt-2 hidden shrink-0 sm:block">
@@ -281,7 +286,7 @@ export default function AuditLogsPage() {
         </PageContainer>
       }
     >
-      <PageContainer className="flex flex-col gap-6">
+      <PageContainer className="flex flex-col gap-6 product-reveal">
         {/* Editorial Header */}
         <div>
           <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
@@ -298,9 +303,12 @@ export default function AuditLogsPage() {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <Select value={action} onValueChange={handleActionChange}>
-            <SelectTrigger className="w-56">
+            <SelectTrigger
+              aria-label="Filter audit logs by action"
+              className="w-full sm:w-56"
+            >
               <SelectValue placeholder="All actions" />
             </SelectTrigger>
             <SelectContent>
@@ -314,7 +322,8 @@ export default function AuditLogsPage() {
             </SelectContent>
           </Select>
           <Input
-            className="max-w-xs"
+            aria-label="Filter audit logs by actor user ID"
+            className="w-full sm:max-w-xs"
             placeholder="Filter by actor user ID"
             value={userId}
             onChange={handleUserIdChange}
@@ -322,7 +331,7 @@ export default function AuditLogsPage() {
         </div>
 
         {/* Log list */}
-        <Card>
+        <Card className="product-card-hover">
           <CardHeader className="pb-4 border-b">
             <CardTitle className="text-base">
               {data
@@ -363,7 +372,7 @@ export default function AuditLogsPage() {
 
         {/* Pagination */}
         {(data?.total ?? 0) > PAGE_SIZE && (
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-muted-foreground">
               Page {page} of {totalPages}
             </p>
@@ -371,6 +380,7 @@ export default function AuditLogsPage() {
               <Button
                 variant="outline"
                 size="sm"
+                className="product-press flex-1 sm:flex-none"
                 disabled={page <= 1}
                 onClick={() => setPage((p) => p - 1)}
               >
@@ -379,6 +389,7 @@ export default function AuditLogsPage() {
               <Button
                 variant="outline"
                 size="sm"
+                className="product-press flex-1 sm:flex-none"
                 disabled={page >= totalPages}
                 onClick={() => setPage((p) => p + 1)}
               >

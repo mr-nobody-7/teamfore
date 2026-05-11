@@ -135,7 +135,7 @@ export default function SettingsPage() {
         </PageContainer>
       }
     >
-      <PageContainer className="flex flex-col gap-6">
+      <PageContainer className="flex flex-col gap-6 product-reveal">
         {/* Editorial Header */}
         <div>
           <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
@@ -153,12 +153,13 @@ export default function SettingsPage() {
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Left Column: Leave Types & Threshold */}
           <div className="lg:col-span-2 space-y-6">
-            <Card>
+            <Card className="product-card-hover">
               <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <CardTitle className="text-base">Leave types</CardTitle>
                 <Button
                   size="sm"
                   variant="outline"
+                  className="product-press"
                   onClick={() => {
                     setNewLabel("");
                     setCreateOpen(true);
@@ -182,7 +183,7 @@ export default function SettingsPage() {
                 {leaveTypes.map((lt) => (
                   <div
                     key={lt.id}
-                    className="flex items-center justify-between rounded-lg border px-3 py-2 transition-colors hover:bg-muted/30"
+                    className="product-interactive flex items-center justify-between rounded-lg border px-3 py-2 hover:bg-muted/30"
                   >
                     <div className="flex items-center gap-3">
                       <div className="flex-1">
@@ -197,6 +198,7 @@ export default function SettingsPage() {
                         <>
                           <button
                             type="button"
+                            aria-label={`Rename ${lt.label}`}
                             className="text-muted-foreground hover:text-foreground"
                             title="Rename"
                             onClick={() => {
@@ -208,6 +210,7 @@ export default function SettingsPage() {
                           </button>
                           <button
                             type="button"
+                            aria-label={`Delete ${lt.label}`}
                             className="text-muted-foreground hover:text-destructive"
                             title="Delete"
                             onClick={() => setDeleteTarget(lt)}
@@ -217,6 +220,7 @@ export default function SettingsPage() {
                         </>
                       )}
                       <Switch
+                        aria-label={`Toggle ${lt.label}`}
                         checked={lt.isActive}
                         disabled={toggleMutation.isPending}
                         onCheckedChange={(checked) =>
@@ -232,7 +236,7 @@ export default function SettingsPage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="product-card-hover">
               <CardHeader>
                 <CardTitle className="text-base">Conflict threshold</CardTitle>
                 <p className="mt-1 text-xs text-muted-foreground">
@@ -257,12 +261,12 @@ export default function SettingsPage() {
 
           {/* Right Column: Integrations */}
           <div className="lg:col-span-1 space-y-6">
-            <Card>
+            <Card className="product-card-hover">
               <CardHeader>
                 <CardTitle className="text-base">Integrations</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="flex items-center justify-between rounded-lg border px-3 py-2">
+                <div className="product-interactive flex items-center justify-between rounded-lg border px-3 py-2">
                   <div>
                     <div className="text-sm font-medium">Slack</div>
                     <div className="text-xs text-muted-foreground">
@@ -276,7 +280,7 @@ export default function SettingsPage() {
                     CONNECTED
                   </Badge>
                 </div>
-                <div className="flex items-center justify-between rounded-lg border px-3 py-2">
+                <div className="product-interactive flex items-center justify-between rounded-lg border px-3 py-2">
                   <div>
                     <div className="text-sm font-medium">Google Calendar</div>
                     <div className="text-xs text-muted-foreground">
@@ -293,7 +297,7 @@ export default function SettingsPage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="product-card-hover">
               <CardHeader>
                 <CardTitle className="text-base">Plan & billing</CardTitle>
               </CardHeader>
@@ -304,7 +308,11 @@ export default function SettingsPage() {
                     14 of 20 seats used
                   </div>
                 </div>
-                <Button size="sm" variant="outline" className="w-full">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="product-press w-full"
+                >
                   Manage billing
                 </Button>
               </CardContent>

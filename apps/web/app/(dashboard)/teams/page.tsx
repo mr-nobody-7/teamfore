@@ -81,12 +81,11 @@ export default function TeamsPage() {
         </PageContainer>
       }
     >
-      <PageContainer className="flex flex-col gap-6">
+      <PageContainer className="flex flex-col gap-6 product-reveal">
         {/* Editorial Header */}
         <div>
           <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-            Teams · {teams.length} squads ·{" "}
-            {teams.length * 5} members
+            Teams · {teams.length} squads · {teams.length * 5} members
           </div>
           <h1 className="font-serif text-3xl font-normal italic leading-tight tracking-tight">
             Six squads. <span className="not-italic text-blue-600">One</span>{" "}
@@ -110,7 +109,7 @@ export default function TeamsPage() {
             {teams.map((team, idx) => (
               <Card
                 key={team.id}
-                className="flex flex-col gap-3 transition-all duration-200 hover:shadow-md"
+                className="product-card-hover flex flex-col gap-3"
               >
                 <CardHeader className="pb-2">
                   <div className="flex items-center gap-3">
@@ -177,7 +176,7 @@ export default function TeamsPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="w-full text-xs"
+                    className="product-press w-full text-xs"
                   >
                     Edit team
                   </Button>
@@ -186,7 +185,7 @@ export default function TeamsPage() {
             ))}
 
             {/* Add Squad Card */}
-            <Card className="flex flex-col items-center justify-center gap-3 border-dashed bg-muted/30 transition-all duration-200 hover:bg-muted/50">
+            <Card className="product-card-hover flex flex-col items-center justify-center gap-3 border-dashed bg-muted/30 hover:bg-muted/50">
               <CardContent className="flex flex-col items-center justify-center gap-2 py-12">
                 <div className="text-lg font-serif italic">Add a squad</div>
                 <p className="text-center text-xs text-muted-foreground">
@@ -195,7 +194,7 @@ export default function TeamsPage() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="mt-2"
+                  className="product-press mt-2"
                   onClick={() => {
                     setName("");
                     // In a real app, this would open a dialog

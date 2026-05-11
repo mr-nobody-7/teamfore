@@ -108,7 +108,7 @@ export default function UsersPage() {
         </PageContainer>
       }
     >
-      <PageContainer className="flex flex-col gap-6">
+      <PageContainer className="flex flex-col gap-6 product-reveal">
         {/* Editorial Header */}
         <div>
           <div className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
@@ -121,7 +121,7 @@ export default function UsersPage() {
         </div>
 
         {/* Invite Card */}
-        <Card>
+        <Card className="product-card-hover">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b pb-4">
             <div>
               <CardTitle>Invite a teammate</CardTitle>
@@ -135,11 +135,12 @@ export default function UsersPage() {
           </CardHeader>
           <CardContent className="pt-4">
             <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5 lg:items-end">
-              <div className="lg:col-span-1">
+              <div className="product-field-stack lg:col-span-1">
                 <div className="text-xs font-medium text-muted-foreground">
                   Email
                 </div>
                 <Input
+                  aria-label="Invite user email"
                   placeholder="user@company.dev"
                   value={form.email}
                   onChange={(e) =>
@@ -148,11 +149,12 @@ export default function UsersPage() {
                   className="mt-1"
                 />
               </div>
-              <div className="lg:col-span-1">
+              <div className="product-field-stack lg:col-span-1">
                 <div className="text-xs font-medium text-muted-foreground">
                   Name
                 </div>
                 <Input
+                  aria-label="Invite user name"
                   placeholder="Optional"
                   value={form.name}
                   onChange={(e) =>
@@ -161,7 +163,7 @@ export default function UsersPage() {
                   className="mt-1"
                 />
               </div>
-              <div className="lg:col-span-1">
+              <div className="product-field-stack lg:col-span-1">
                 <div className="text-xs font-medium text-muted-foreground">
                   Role
                 </div>
@@ -174,7 +176,7 @@ export default function UsersPage() {
                     }))
                   }
                 >
-                  <SelectTrigger className="mt-1">
+                  <SelectTrigger aria-label="Select role" className="mt-1">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -186,7 +188,7 @@ export default function UsersPage() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="lg:col-span-1">
+              <div className="product-field-stack lg:col-span-1">
                 <div className="text-xs font-medium text-muted-foreground">
                   Team
                 </div>
@@ -199,7 +201,7 @@ export default function UsersPage() {
                     }))
                   }
                 >
-                  <SelectTrigger className="mt-1">
+                  <SelectTrigger aria-label="Select team" className="mt-1">
                     <SelectValue placeholder="Select team" />
                   </SelectTrigger>
                   <SelectContent>
@@ -213,6 +215,7 @@ export default function UsersPage() {
                 </Select>
               </div>
               <Button
+                className="product-press w-full lg:w-auto"
                 onClick={() => createMutation.mutate()}
                 disabled={createMutation.isPending || !form.email}
               >
@@ -223,7 +226,7 @@ export default function UsersPage() {
         </Card>
 
         {/* Users Table */}
-        <Card>
+        <Card className="product-card-hover overflow-hidden">
           <CardHeader className="pb-0">
             <CardTitle className="text-base">Users</CardTitle>
           </CardHeader>
@@ -238,31 +241,36 @@ export default function UsersPage() {
               </p>
             ) : (
               <div className="space-y-0">
-                <div className="grid grid-cols-5 gap-4 border-b px-4 py-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                  <div className="col-span-1.5">Name</div>
+                <div className="hidden grid-cols-5 gap-4 border-b px-4 py-3 font-mono text-xs uppercase tracking-widest text-muted-foreground sm:grid">
+                  <div className="col-span-2">Name</div>
                   <div>Team</div>
                   <div>Role</div>
                   <div>Status</div>
-                  <div></div>
                 </div>
                 {data?.users.map((user) => (
                   <div
                     key={user.id}
-                    className="grid grid-cols-5 gap-4 border-b px-4 py-3 items-center transition-colors hover:bg-muted/30"
+                    className="product-interactive grid gap-3 border-b px-4 py-4 hover:bg-muted/30 sm:grid-cols-5 sm:items-center sm:gap-4 sm:py-3"
                   >
-                    <div className="col-span-1.5">
+                    <div className="sm:col-span-2">
+                      <div className="product-mobile-label">Name</div>
                       <div className="text-sm font-medium">{user.name}</div>
                       <div className="text-xs text-muted-foreground font-mono">
                         {user.email}
                       </div>
                     </div>
-                    <div className="text-sm">{user.teamId || "—"}</div>
+                    <div className="text-sm">
+                      <div className="product-mobile-label">Team</div>
+                      {user.teamId || "—"}
+                    </div>
                     <div>
+                      <div className="product-mobile-label">Role</div>
                       <Badge variant="outline" className="text-xs">
                         {user.role}
                       </Badge>
                     </div>
                     <div>
+                      <div className="product-mobile-label">Status</div>
                       <Badge
                         variant={
                           user.isActive
@@ -276,8 +284,13 @@ export default function UsersPage() {
                         {user.isActive ? "ACTIVE" : "INVITED"}
                       </Badge>
                     </div>
-                    <div className="text-right">
-                      <Button size="sm" variant="ghost" className="text-xs">
+                    <div className="pt-1 sm:pt-0 sm:text-right">
+                      <Button
+                        aria-label={`Open actions for ${user.name}`}
+                        size="sm"
+                        variant="ghost"
+                        className="product-press w-full justify-center text-xs sm:w-auto"
+                      >
                         …
                       </Button>
                     </div>

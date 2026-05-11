@@ -228,3 +228,29 @@
     font-family: var(--font-display), Georgia, serif;
   }
 }
+
+@layer components {
+  .product-reveal {
+    @apply motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-1 motion-safe:duration-300;
+  }
+
+  .product-interactive {
+    @apply transition-[transform,box-shadow,background-color,border-color,opacity] duration-200 ease-out motion-reduce:transform-none motion-reduce:transition-none;
+  }
+
+  .product-card-hover {
+    @apply transition-[transform,box-shadow,background-color,border-color,opacity] duration-200 ease-out motion-reduce:transform-none motion-reduce:transition-none hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20;
+  }
+
+  .product-press {
+    @apply transition-[transform,box-shadow,background-color,border-color,opacity] duration-200 ease-out motion-reduce:transform-none motion-reduce:transition-none active:scale-[0.98];
+  }
+
+  .product-field-stack {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .product-mobile-label {
+    @apply font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:hidden;
+  }
+}

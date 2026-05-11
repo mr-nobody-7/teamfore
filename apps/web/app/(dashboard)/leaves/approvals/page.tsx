@@ -13,12 +13,35 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useDashboardSummary } from "@/hooks/use-dashboard-summary";
 import { useLeaves } from "@/hooks/use-leaves";
 import api from "@/lib/axios";
 import { posthog } from "@/lib/posthog";
 import { formatLeaveType } from "@/lib/utils";
 import type { LeaveRequest } from "@/types/api";
+
+function hasCapacityConflict(leave: LeaveRequest): boolean {
+  const leaveWithFlags = leave as LeaveRequest & {
+    shouldWarn?: boolean;
+    capacityWarning?: LeaveRequest["capacityWarning"] | boolean;
+  };
+
+  if (leaveWithFlags.shouldWarn === true) {
+    return true;
+  }
+
+  if (typeof leaveWithFlags.capacityWarning === "boolean") {
+    return leaveWithFlags.capacityWarning;
+  }
+
+  return leaveWithFlags.capacityWarning?.shouldWarn === true;
+}
 
 function getLeaveDurationDays(leave: LeaveRequest) {
   const start = parseISO(leave.startDate);
@@ -38,6 +61,7 @@ function getLeaveDurationDays(leave: LeaveRequest) {
 export default function ApprovalsPage() {
   const queryClient = useQueryClient();
   const [comments, setComments] = useState<Record<string, string>>({});
+  const [isBulkApproving, setIsBulkApproving] = useState(false);
 
   const { data, isLoading } = useLeaves({
     status: "PENDING",
@@ -46,10 +70,24 @@ export default function ApprovalsPage() {
   });
   const { data: dashboardSummary } = useDashboardSummary();
 
+  const updateLeaveStatus = async ({
+    leaveId,
+    status,
+    comment,
+  }: {
+    leaveId: string;
+    status: "APPROVED" | "REJECTED";
+    comment?: string;
+  }) => {
+    await api.patch(`/leave/${leaveId}/status`, { status, comment });
+  };
+
   const pendingLeaves = data?.leaves ?? [];
-  const riskyCount = pendingLeaves.filter(
-    (leave) => leave.capacityWarning?.shouldWarn,
-  ).length;
+  const safePendingLeaves = useMemo(
+    () => pendingLeaves.filter((leave) => !hasCapacityConflict(leave)),
+    [pendingLeaves],
+  );
+  const riskyCount = pendingLeaves.length - safePendingLeaves.length;
   const pendingDays = useMemo(
     () =>
       pendingLeaves.reduce(
@@ -58,19 +96,46 @@ export default function ApprovalsPage() {
       ),
     [pendingLeaves],
   );
+  const canBulkApprove = safePendingLeaves.length > 0 && !isBulkApproving;
+
+  const handleApproveAllSafe = async () => {
+    if (safePendingLeaves.length === 0 || isBulkApproving) {
+      return;
+    }
+
+    setIsBulkApproving(true);
+    try {
+      const results = await Promise.allSettled(
+        safePendingLeaves.map((leave) =>
+          updateLeaveStatus({
+            leaveId: leave.id,
+            status: "APPROVED",
+          }),
+        ),
+      );
+      const successCount = results.filter(
+        (result) => result.status === "fulfilled",
+      ).length;
+
+      if (successCount > 0) {
+        posthog.capture("leave_approved", {
+          source: "bulk_safe",
+          count: successCount,
+        });
+      }
+
+      toast.success(`${successCount} leaves approved`);
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["leaves"] }),
+        queryClient.invalidateQueries({ queryKey: ["dashboard-summary"] }),
+      ]);
+    } finally {
+      setIsBulkApproving(false);
+    }
+  };
 
   const mutation = useMutation({
-    mutationFn: async ({
-      leaveId,
-      status,
-      comment,
-    }: {
-      leaveId: string;
-      status: "APPROVED" | "REJECTED";
-      comment?: string;
-    }) => {
-      await api.patch(`/leave/${leaveId}/status`, { status, comment });
-    },
+    mutationFn: updateLeaveStatus,
     onSuccess: async (_data, variables) => {
       if (variables.status === "APPROVED") {
         posthog.capture("leave_approved");
@@ -110,9 +175,25 @@ export default function ApprovalsPage() {
                 quickly with confidence.
               </p>
             </div>
-            <Button variant="outline" size="sm" disabled>
-              Approve all safe
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={!canBulkApprove}
+                      onClick={handleApproveAllSafe}
+                    >
+                      {isBulkApproving ? "Approving..." : "Approve all safe"}
+                    </Button>
+                  </span>
+                </TooltipTrigger>
+                {!canBulkApprove && safePendingLeaves.length === 0 && (
+                  <TooltipContent>No safe leaves to approve</TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -179,9 +260,9 @@ export default function ApprovalsPage() {
               pendingLeaves.map((leave) => {
                 const comment = comments[leave.id] ?? "";
                 const busy =
-                  mutation.isPending &&
-                  mutation.variables?.leaveId === leave.id;
-                const hasWarning = leave.capacityWarning?.shouldWarn;
+                  isBulkApproving ||
+                  (mutation.isPending && mutation.variables?.leaveId === leave.id);
+                const hasWarning = hasCapacityConflict(leave);
 
                 return (
                   <Card

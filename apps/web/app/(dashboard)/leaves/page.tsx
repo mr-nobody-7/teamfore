@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
-import { Download } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -54,6 +54,7 @@ export default function LeavesPage() {
   const { role } = useRole();
   const { user } = useAuth();
   const [status, setStatus] = useState<"ALL" | LeaveStatus>("ALL");
+  const [isExporting, setIsExporting] = useState(false);
 
   const { data, isLoading } = useLeaves(
     {
@@ -77,6 +78,33 @@ export default function LeavesPage() {
       toast.error("Could not cancel leave");
     },
   });
+
+  const handleExportCsv = async () => {
+    try {
+      setIsExporting(true);
+
+      const response = await api.get("/leave/export", {
+        params: status !== "ALL" ? { status } : undefined,
+        responseType: "blob",
+      });
+
+      const blob = new Blob([response.data], {
+        type: "text/csv;charset=utf-8;",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `teamfore-leaves-${format(new Date(), "yyyy-MM-dd")}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      toast.error("Export failed. Please try again.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const leaves = data?.leaves ?? [];
 
@@ -138,10 +166,22 @@ export default function LeavesPage() {
                 ))}
               </SelectContent>
             </Select>
-            <Button variant="outline" size="sm" className="gap-1.5" disabled>
-              <Download className="h-3.5 w-3.5" />
-              Export CSV
-            </Button>
+            {(role === "ADMIN" || role === "MANAGER") && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5"
+                onClick={handleExportCsv}
+                disabled={isExporting}
+              >
+                {isExporting ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Download className="h-3.5 w-3.5" />
+                )}
+                {isExporting ? "Exporting..." : "Export CSV"}
+              </Button>
+            )}
           </div>
         </div>
 

@@ -1,14 +1,29 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { Edit, Trash2 } from "lucide-react";
+import { useId, useState } from "react";
 import { toast } from "sonner";
-
 import { RoleGuard } from "@/components/auth/role-guard";
 import { PageContainer } from "@/components/layout/page-container";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -17,9 +32,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/contexts/auth-context";
 import { useTeams } from "@/hooks/use-teams";
 import api from "@/lib/axios";
-import type { ApiResponse, ListUsersResponse } from "@/types/api";
+import type {
+  ApiResponse,
+  ListUsersResponse,
+  WorkspaceUser,
+} from "@/types/api";
 
 const ROLES = ["USER", "MANAGER", "ADMIN"] as const;
 
@@ -32,6 +52,10 @@ interface NewUserForm {
 }
 
 export default function UsersPage() {
+  const editNameInputId = useId();
+  const editRoleSelectId = useId();
+  const editTeamSelectId = useId();
+  const { user: currentUser } = useAuth();
   const queryClient = useQueryClient();
   const { data: teams = [] } = useTeams();
 
@@ -74,30 +98,97 @@ export default function UsersPage() {
     onError: () => toast.error("Could not create user"),
   });
 
-  const _updateMutation = useMutation({
-    mutationFn: async ({
-      userId,
-      role,
-      teamId,
-      isActive,
-    }: {
+  // Edit user dialog state
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<WorkspaceUser | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editRole, setEditRole] = useState<(typeof ROLES)[number]>("USER");
+  const [editTeamId, setEditTeamId] = useState<string | null>(null);
+
+  // Deactivate confirmation dialog state
+  const [deactivateDialogOpen, setDeactivateDialogOpen] = useState(false);
+  const [deactivatingUser, setDeactivatingUser] =
+    useState<WorkspaceUser | null>(null);
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: {
       userId: string;
+      name: string;
       role: string;
       teamId: string | null;
-      isActive: boolean;
     }) => {
-      await api.patch(`/users/${userId}`, {
-        role,
-        team_id: teamId,
-        is_active: isActive,
+      const res = await api.patch(`/user/${data.userId}`, {
+        name: data.name,
+        role: data.role,
+        ...(data.teamId ? { teamId: data.teamId } : {}),
       });
+      return res.data.data;
     },
-    onSuccess: async () => {
+    onSuccess: () => {
       toast.success("User updated");
-      await queryClient.invalidateQueries({ queryKey: ["workspace-users"] });
+      setEditDialogOpen(false);
+      setEditingUser(null);
+      queryClient.invalidateQueries({ queryKey: ["workspace-users"] });
     },
-    onError: () => toast.error("Could not update user"),
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "Failed to update user";
+      toast.error(message);
+    },
   });
+
+  const deactivateMutation = useMutation({
+    mutationFn: async (userId: string) => {
+      const res = await api.patch(`/user/${userId}/deactivate`);
+      return res.data.data;
+    },
+    onSuccess: () => {
+      toast.success("User deactivated");
+      setDeactivateDialogOpen(false);
+      setDeactivatingUser(null);
+      queryClient.invalidateQueries({ queryKey: ["workspace-users"] });
+    },
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "Failed to deactivate user";
+      toast.error(message);
+    },
+  });
+
+  // Edit handlers
+  const handleEditOpen = (user: WorkspaceUser) => {
+    setEditingUser(user);
+    setEditName(user.name);
+    setEditRole(user.role as (typeof ROLES)[number]);
+    setEditTeamId(user.teamId || null);
+    setEditDialogOpen(true);
+  };
+
+  const handleEditSubmit = () => {
+    if (!editingUser) return;
+    if (!editName.trim()) {
+      toast.error("Name is required");
+      return;
+    }
+
+    updateMutation.mutate({
+      userId: editingUser.id,
+      name: editName.trim(),
+      role: editRole,
+      teamId: editTeamId,
+    });
+  };
+
+  // Deactivate handlers
+  const handleDeactivateOpen = (user: WorkspaceUser) => {
+    setDeactivatingUser(user);
+    setDeactivateDialogOpen(true);
+  };
+
+  const handleDeactivateConfirm = () => {
+    if (!deactivatingUser) return;
+    deactivateMutation.mutate(deactivatingUser.id);
+  };
 
   return (
     <RoleGuard
@@ -250,7 +341,7 @@ export default function UsersPage() {
                 {data?.users.map((user) => (
                   <div
                     key={user.id}
-                    className="product-interactive grid gap-3 border-b px-4 py-4 hover:bg-muted/30 sm:grid-cols-5 sm:items-center sm:gap-4 sm:py-3"
+                    className={`product-interactive grid gap-3 border-b px-4 py-4 hover:bg-muted/30 sm:grid-cols-5 sm:items-center sm:gap-4 sm:py-3 ${!user.isActive ? "opacity-60" : ""}`}
                   >
                     <div className="sm:col-span-2">
                       <div className="product-mobile-label">Name</div>
@@ -281,18 +372,43 @@ export default function UsersPage() {
                         }
                         className="text-xs"
                       >
-                        {user.isActive ? "ACTIVE" : "INVITED"}
+                        {user.isActive ? "ACTIVE" : "INACTIVE"}
                       </Badge>
                     </div>
                     <div className="pt-1 sm:pt-0 sm:text-right">
-                      <Button
-                        aria-label={`Open actions for ${user.name}`}
-                        size="sm"
-                        variant="ghost"
-                        className="product-press w-full justify-center text-xs sm:w-auto"
-                      >
-                        …
-                      </Button>
+                      {currentUser?.id !== user.id &&
+                        currentUser?.role === "ADMIN" && (
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                aria-label={`Open actions for ${user.name}`}
+                                size="sm"
+                                variant="ghost"
+                                className="product-press w-full justify-center text-xs sm:w-auto"
+                              >
+                                …
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem
+                                onClick={() => handleEditOpen(user)}
+                                className="cursor-pointer"
+                              >
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit user
+                              </DropdownMenuItem>
+                              {user.isActive && (
+                                <DropdownMenuItem
+                                  onClick={() => handleDeactivateOpen(user)}
+                                  className="cursor-pointer text-destructive"
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Deactivate
+                                </DropdownMenuItem>
+                              )}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        )}
                     </div>
                   </div>
                 ))}
@@ -300,6 +416,145 @@ export default function UsersPage() {
             )}
           </CardContent>
         </Card>
+
+        {/* Edit User Dialog */}
+        <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit User</DialogTitle>
+              <DialogDescription>
+                Update user information and role assignments
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <label
+                  htmlFor={editNameInputId}
+                  className="text-sm font-medium"
+                >
+                  Name
+                </label>
+                <Input
+                  id={editNameInputId}
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  placeholder="User name"
+                  className="mt-1"
+                  disabled={updateMutation.isPending}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor={editRoleSelectId}
+                  className="text-sm font-medium"
+                >
+                  Role
+                </label>
+                <Select
+                  value={editRole}
+                  onValueChange={(value) =>
+                    setEditRole(value as (typeof ROLES)[number])
+                  }
+                  disabled={updateMutation.isPending}
+                >
+                  <SelectTrigger id={editRoleSelectId} className="mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ROLES.map((role) => (
+                      <SelectItem key={role} value={role}>
+                        {role}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label
+                  htmlFor={editTeamSelectId}
+                  className="text-sm font-medium"
+                >
+                  Team
+                </label>
+                <Select
+                  value={editTeamId ?? "none"}
+                  onValueChange={(value) =>
+                    setEditTeamId(value === "none" ? null : value)
+                  }
+                  disabled={updateMutation.isPending}
+                >
+                  <SelectTrigger id={editTeamSelectId} className="mt-1">
+                    <SelectValue placeholder="Select team" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">No team</SelectItem>
+                    {teams.map((team) => (
+                      <SelectItem key={team.id} value={team.id}>
+                        {team.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              {updateMutation.error && (
+                <p className="text-sm text-destructive">
+                  {updateMutation.error instanceof Error
+                    ? updateMutation.error.message
+                    : "An error occurred"}
+                </p>
+              )}
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setEditDialogOpen(false)}
+                disabled={updateMutation.isPending}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleEditSubmit}
+                disabled={updateMutation.isPending}
+              >
+                {updateMutation.isPending ? "Saving..." : "Save"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Deactivate Confirmation Dialog */}
+        <Dialog
+          open={deactivateDialogOpen}
+          onOpenChange={setDeactivateDialogOpen}
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Deactivate {deactivatingUser?.name}?</DialogTitle>
+              <DialogDescription>
+                They will lose access immediately. This can be reversed by an
+                admin.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setDeactivateDialogOpen(false)}
+                disabled={deactivateMutation.isPending}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleDeactivateConfirm}
+                disabled={deactivateMutation.isPending}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                {deactivateMutation.isPending
+                  ? "Deactivating..."
+                  : "Deactivate"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </PageContainer>
     </RoleGuard>
   );

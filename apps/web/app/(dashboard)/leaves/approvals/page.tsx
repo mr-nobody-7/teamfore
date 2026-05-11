@@ -261,7 +261,8 @@ export default function ApprovalsPage() {
                 const comment = comments[leave.id] ?? "";
                 const busy =
                   isBulkApproving ||
-                  (mutation.isPending && mutation.variables?.leaveId === leave.id);
+                  (mutation.isPending &&
+                    mutation.variables?.leaveId === leave.id);
                 const hasWarning = hasCapacityConflict(leave);
 
                 return (

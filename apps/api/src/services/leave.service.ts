@@ -34,6 +34,14 @@ import {
 
 type SessionValue = "FULL_DAY" | "FIRST_HALF" | "SECOND_HALF";
 
+type LeaveExportFilters = {
+  status?: "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
+  userId?: string | undefined;
+  teamId?: string | undefined;
+};
+
 function toStartSlot(date: Date, session: SessionValue): number {
   const day = Math.floor(date.getTime() / 86_400_000);
   // SECOND_HALF starts in the afternoon
@@ -210,6 +218,45 @@ function endOfUtcDay(date: Date): Date {
   const copy = new Date(date);
   copy.setUTCHours(23, 59, 59, 999);
   return copy;
+}
+
+function formatCsvDate(date: Date): string {
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
+function escapeCsvValue(value: string | number | null | undefined): string {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  const text = String(value);
+  if (
+    !text.includes(",") &&
+    !text.includes('"') &&
+    !text.includes("\n") &&
+    !text.includes("\r")
+  ) {
+    return text;
+  }
+
+  return `"${text.replaceAll('"', '""')}"`;
+}
+
+function buildCsvLine(values: Array<string | number | null | undefined>): string {
+  let line = "";
+
+  for (let index = 0; index < values.length; index += 1) {
+    if (index > 0) {
+      line += ",";
+    }
+    line += escapeCsvValue(values[index]);
+  }
+
+  return line;
 }
 
 function getUtcDaysBetween(startDate: Date, endDate: Date): Date[] {
@@ -468,6 +515,103 @@ export const applyLeave = async (
     warningMessage,
     capacityWarning,
   };
+};
+
+export const exportLeavesAsCsv = async (
+  workspaceId: string,
+  filters: LeaveExportFilters,
+) => {
+  const where: Prisma.LeaveRequestWhereInput = {
+    user: { workspaceId },
+  };
+
+  if (filters.status) {
+    where.status = filters.status;
+  }
+
+  if (filters.userId) {
+    where.userId = filters.userId;
+  }
+
+  if (filters.teamId) {
+    where.teamId = filters.teamId;
+  }
+
+  if (filters.startDate && filters.endDate) {
+    where.startDate = { lte: endOfUtcDay(filters.endDate) };
+    where.endDate = { gte: startOfUtcDay(filters.startDate) };
+  } else if (filters.startDate) {
+    where.endDate = { gte: startOfUtcDay(filters.startDate) };
+  } else if (filters.endDate) {
+    where.startDate = { lte: endOfUtcDay(filters.endDate) };
+  }
+
+  const [leaveRequests, leaveTypes] = await Promise.all([
+    prisma.leaveRequest.findMany({
+      where,
+      orderBy: { created_at: "desc" },
+      include: {
+        user: { select: { name: true, email: true } },
+        approver: { select: { name: true } },
+      },
+    }),
+    prisma.workspaceLeaveType.findMany({
+      where: { workspaceId },
+      select: { type: true, label: true },
+    }),
+  ]);
+
+  const leaveTypeLabels = new Map(
+    leaveTypes.map((leaveType) => [leaveType.type, leaveType.label]),
+  );
+
+  const headers = [
+    "Employee Name",
+    "Employee Email",
+    "Leave Type",
+    "Start Date",
+    "End Date",
+    "Session",
+    "Duration (days)",
+    "Status",
+    "Reason",
+    "Approved By",
+    "Applied On",
+  ];
+
+  let csv = buildCsvLine(headers);
+
+  for (const leave of leaveRequests) {
+    const session =
+      leave.startSession === leave.endSession
+        ? leave.startSession
+        : `${leave.startSession} to ${leave.endSession}`;
+    const durationDays = Math.max(
+      Math.floor(
+        (startOfUtcDay(leave.endDate).getTime() -
+          startOfUtcDay(leave.startDate).getTime()) /
+          86_400_000,
+      ) + 1,
+      1,
+    );
+
+    csv += "\n";
+    csv += buildCsvLine([
+      leave.user.name,
+      leave.user.email,
+      leaveTypeLabels.get(leave.type) ?? leave.type,
+      formatCsvDate(leave.startDate),
+      formatCsvDate(leave.endDate),
+      session,
+      durationDays,
+      leave.status,
+      leave.reason ?? "",
+      leave.approver?.name ?? "",
+      formatCsvDate(leave.created_at),
+    ]);
+  }
+
+  return csv;
 };
 
 // ── List leave requests ───────────────────────────────────────────────────────

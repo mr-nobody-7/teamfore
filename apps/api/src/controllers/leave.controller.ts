@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import {
   applyLeave,
   cancelLeave,
+  exportLeavesAsCsv,
   listLeave,
   updateLeaveStatus,
 } from "../services/leave.service.js";
@@ -9,6 +10,47 @@ import { createAuditLog } from "../utils/audit.js";
 import { BadRequestError } from "../utils/errors.js";
 import { sendSuccess } from "../utils/response.js";
 import { listLeaveSchema } from "../utils/validations.js";
+
+const ALLOWED_EXPORT_STATUSES = [
+  "PENDING",
+  "APPROVED",
+  "REJECTED",
+  "CANCELLED",
+] as const;
+
+type ExportLeaveStatus = (typeof ALLOWED_EXPORT_STATUSES)[number];
+
+function getSingleQueryParam(value: unknown): string | undefined {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return typeof value[0] === "string" ? value[0] : undefined;
+  }
+
+  return undefined;
+}
+
+function isExportLeaveStatus(value: string): value is ExportLeaveStatus {
+  return ALLOWED_EXPORT_STATUSES.includes(value as ExportLeaveStatus);
+}
+
+function parseOptionalDate(
+  value: string | undefined,
+  fieldName: string,
+): Date | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    throw new BadRequestError(`Invalid ${fieldName}`);
+  }
+
+  return parsed;
+}
 
 export const applyLeaveController = async (
   req: Request,
@@ -82,6 +124,51 @@ export const listLeaveController = async (
     );
 
     sendSuccess(res, result, "Leave requests fetched successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const exportLeavesController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const rawStatus = getSingleQueryParam(req.query.status);
+    if (rawStatus && !isExportLeaveStatus(rawStatus)) {
+      return next(new BadRequestError("Invalid status value"));
+    }
+
+    const status = rawStatus && isExportLeaveStatus(rawStatus) ? rawStatus : undefined;
+
+    const userId = getSingleQueryParam(req.query.userId);
+    const teamId = getSingleQueryParam(req.query.teamId);
+    const startDate = parseOptionalDate(
+      getSingleQueryParam(req.query.startDate),
+      "startDate",
+    );
+    const endDate = parseOptionalDate(
+      getSingleQueryParam(req.query.endDate),
+      "endDate",
+    );
+
+    const csv = await exportLeavesAsCsv(req.user!.workspaceId, {
+      ...(status ? { status } : {}),
+      ...(startDate ? { startDate } : {}),
+      ...(endDate ? { endDate } : {}),
+      ...(userId ? { userId } : {}),
+      ...(teamId ? { teamId } : {}),
+    });
+
+    const filenameDate = new Date().toISOString().slice(0, 10);
+    res.setHeader("Content-Type", "text/csv; charset=utf-8");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="teamfore-leaves-${filenameDate}.csv"`,
+    );
+
+    res.send(csv);
   } catch (error) {
     next(error);
   }

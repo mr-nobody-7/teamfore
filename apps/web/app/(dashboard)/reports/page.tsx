@@ -1,7 +1,7 @@
 "use client";
 
 import { endOfMonth, format, startOfMonth } from "date-fns";
-import { Download } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
   Bar,
@@ -15,6 +15,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { toast } from "sonner";
 
 import { RoleGuard } from "@/components/auth/role-guard";
 import { PageContainer } from "@/components/layout/page-container";
@@ -31,6 +32,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useReportsAnalytics } from "@/hooks/use-reports-analytics";
 import { useRole } from "@/hooks/use-role";
 import { useTeams } from "@/hooks/use-teams";
+import api from "@/lib/axios";
 
 const TYPE_COLORS: Record<string, string> = {
   VACATION: "#3b82f6",
@@ -38,21 +40,6 @@ const TYPE_COLORS: Record<string, string> = {
   PERSONAL: "#a855f7",
   CASUAL: "#f59e0b",
 };
-
-function toCsv(
-  rows: Array<Record<string, string | number>>,
-  headers: string[],
-) {
-  const escapeCsv = (value: string | number) =>
-    `"${String(value).replaceAll('"', '""')}"`;
-
-  const headerLine = headers.map((key) => escapeCsv(key)).join(",");
-  const dataLines = rows.map((row) =>
-    headers.map((key) => escapeCsv(row[key] ?? "")).join(","),
-  );
-
-  return [headerLine, ...dataLines].join("\n");
-}
 
 function ReportsLoadingSkeleton() {
   return (
@@ -88,6 +75,7 @@ function ReportsLoadingSkeleton() {
 export default function ReportsPage() {
   const { isManager, isWorkspaceAdmin } = useRole();
   const canAccessReports = isWorkspaceAdmin || isManager;
+  const [isExporting, setIsExporting] = useState(false);
   const [fromDate, _setFromDate] = useState(() =>
     format(startOfMonth(new Date()), "yyyy-MM-dd"),
   );
@@ -140,45 +128,30 @@ export default function ReportsPage() {
     return { totalDays, avgPerPerson, riskEvents, approvalMedian };
   }, [leaveByTeam]);
 
-  const exportCsv = () => {
-    if (!hasAnyData) return;
+  const exportCsv = async () => {
+    try {
+      setIsExporting(true);
 
-    const sections = [
-      "Leave Usage by Month",
-      toCsv(
-        usageByMonth.map((item) => ({ month: item.month, count: item.count })),
-        ["month", "count"],
-      ),
-      "",
-      "Leave by Type",
-      toCsv(
-        leaveByType.map((item) => ({ type: item.type, count: item.count })),
-        ["type", "count"],
-      ),
-      "",
-      "Leave by Team",
-      toCsv(
-        leaveByTeam.map((item) => ({
-          teamId: item.teamId,
-          teamName: item.teamName,
-          count: item.count,
-        })),
-        ["teamId", "teamName", "count"],
-      ),
-    ];
+      const response = await api.get("/leave/export", {
+        responseType: "blob",
+      });
 
-    const blob = new Blob([sections.join("\n")], {
-      type: "text/csv;charset=utf-8;",
-    });
-
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `reports-${fromDate}-to-${toDate}.csv`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+      const blob = new Blob([response.data], {
+        type: "text/csv;charset=utf-8;",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `teamfore-leaves-${format(new Date(), "yyyy-MM-dd")}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      toast.error("Export failed. Please try again.");
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   return (
@@ -234,10 +207,14 @@ export default function ReportsPage() {
               variant="outline"
               className="product-press w-full sm:w-auto"
               onClick={exportCsv}
-              disabled={isLoading || !hasAnyData}
+              disabled={isExporting}
             >
-              <Download className="mr-1.5 h-4 w-4" />
-              Export CSV
+              {isExporting ? (
+                <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="mr-1.5 h-4 w-4" />
+              )}
+              {isExporting ? "Exporting..." : "Export CSV"}
             </Button>
           </div>
         </div>

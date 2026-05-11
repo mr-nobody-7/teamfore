@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   applyLeaveController,
   cancelLeaveController,
+  exportLeavesController,
   listLeaveController,
   updateLeaveStatusController,
 } from "../controllers/leave.controller.js";
@@ -24,6 +25,13 @@ router.post(
 );
 
 router.get("/", authenticate, listLeaveController);
+
+router.get(
+  "/export",
+  authenticate,
+  authorize(["ADMIN", "MANAGER"]),
+  exportLeavesController,
+);
 
 router.patch(
   "/:id/status",

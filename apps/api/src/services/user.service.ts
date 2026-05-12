@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 
 import { prisma } from "../lib/db.js";
+import { initializeUserBalances } from "./accrual.service.js";
 import type {
   CreateUserInput,
   ListUsersQuery,
@@ -79,7 +80,7 @@ export const createUser = async (
 
   const passwordHash = await bcrypt.hash(input.password, 10);
 
-  return prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       name: input.name,
       email: input.email,
@@ -100,6 +101,16 @@ export const createUser = async (
       team: { select: { id: true, name: true } },
     },
   });
+
+  void initializeUserBalances(user.id, workspaceId).catch((error: unknown) => {
+    console.error("[createUser] Failed to initialize user leave balances", {
+      userId: user.id,
+      workspaceId,
+      error: error instanceof Error ? error.message : String(error),
+    });
+  });
+
+  return user;
 };
 
 export const updateUser = async (

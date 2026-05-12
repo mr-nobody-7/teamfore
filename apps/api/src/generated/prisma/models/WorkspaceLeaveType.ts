@@ -207,6 +207,8 @@ export type WorkspaceLeaveTypeWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
+  policy?: Prisma.XOR<Prisma.WorkspaceLeavePolicyNullableScalarRelationFilter, Prisma.WorkspaceLeavePolicyWhereInput> | null
+  balances?: Prisma.UserLeaveBalanceListRelationFilter
 }
 
 export type WorkspaceLeaveTypeOrderByWithRelationInput = {
@@ -219,6 +221,8 @@ export type WorkspaceLeaveTypeOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   workspace?: Prisma.WorkspaceOrderByWithRelationInput
+  policy?: Prisma.WorkspaceLeavePolicyOrderByWithRelationInput
+  balances?: Prisma.UserLeaveBalanceOrderByRelationAggregateInput
 }
 
 export type WorkspaceLeaveTypeWhereUniqueInput = Prisma.AtLeast<{
@@ -235,6 +239,8 @@ export type WorkspaceLeaveTypeWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
+  policy?: Prisma.XOR<Prisma.WorkspaceLeavePolicyNullableScalarRelationFilter, Prisma.WorkspaceLeavePolicyWhereInput> | null
+  balances?: Prisma.UserLeaveBalanceListRelationFilter
 }, "id" | "workspaceId_type">
 
 export type WorkspaceLeaveTypeOrderByWithAggregationInput = {
@@ -274,6 +280,8 @@ export type WorkspaceLeaveTypeCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   workspace: Prisma.WorkspaceCreateNestedOneWithoutLeaveTypeSettingsInput
+  policy?: Prisma.WorkspaceLeavePolicyCreateNestedOneWithoutLeaveTypeInput
+  balances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutLeaveTypeInput
 }
 
 export type WorkspaceLeaveTypeUncheckedCreateInput = {
@@ -285,6 +293,8 @@ export type WorkspaceLeaveTypeUncheckedCreateInput = {
   isCustom?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  policy?: Prisma.WorkspaceLeavePolicyUncheckedCreateNestedOneWithoutLeaveTypeInput
+  balances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutLeaveTypeInput
 }
 
 export type WorkspaceLeaveTypeUpdateInput = {
@@ -296,6 +306,8 @@ export type WorkspaceLeaveTypeUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutLeaveTypeSettingsNestedInput
+  policy?: Prisma.WorkspaceLeavePolicyUpdateOneWithoutLeaveTypeNestedInput
+  balances?: Prisma.UserLeaveBalanceUpdateManyWithoutLeaveTypeNestedInput
 }
 
 export type WorkspaceLeaveTypeUncheckedUpdateInput = {
@@ -307,6 +319,8 @@ export type WorkspaceLeaveTypeUncheckedUpdateInput = {
   isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  policy?: Prisma.WorkspaceLeavePolicyUncheckedUpdateOneWithoutLeaveTypeNestedInput
+  balances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutLeaveTypeNestedInput
 }
 
 export type WorkspaceLeaveTypeCreateManyInput = {
@@ -389,6 +403,11 @@ export type WorkspaceLeaveTypeMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type WorkspaceLeaveTypeScalarRelationFilter = {
+  is?: Prisma.WorkspaceLeaveTypeWhereInput
+  isNot?: Prisma.WorkspaceLeaveTypeWhereInput
+}
+
 export type WorkspaceLeaveTypeCreateNestedManyWithoutWorkspaceInput = {
   create?: Prisma.XOR<Prisma.WorkspaceLeaveTypeCreateWithoutWorkspaceInput, Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutWorkspaceInput> | Prisma.WorkspaceLeaveTypeCreateWithoutWorkspaceInput[] | Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutWorkspaceInput[]
   connectOrCreate?: Prisma.WorkspaceLeaveTypeCreateOrConnectWithoutWorkspaceInput | Prisma.WorkspaceLeaveTypeCreateOrConnectWithoutWorkspaceInput[]
@@ -431,6 +450,34 @@ export type WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceNestedInput = {
   deleteMany?: Prisma.WorkspaceLeaveTypeScalarWhereInput | Prisma.WorkspaceLeaveTypeScalarWhereInput[]
 }
 
+export type WorkspaceLeaveTypeCreateNestedOneWithoutPolicyInput = {
+  create?: Prisma.XOR<Prisma.WorkspaceLeaveTypeCreateWithoutPolicyInput, Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutPolicyInput>
+  connectOrCreate?: Prisma.WorkspaceLeaveTypeCreateOrConnectWithoutPolicyInput
+  connect?: Prisma.WorkspaceLeaveTypeWhereUniqueInput
+}
+
+export type WorkspaceLeaveTypeUpdateOneRequiredWithoutPolicyNestedInput = {
+  create?: Prisma.XOR<Prisma.WorkspaceLeaveTypeCreateWithoutPolicyInput, Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutPolicyInput>
+  connectOrCreate?: Prisma.WorkspaceLeaveTypeCreateOrConnectWithoutPolicyInput
+  upsert?: Prisma.WorkspaceLeaveTypeUpsertWithoutPolicyInput
+  connect?: Prisma.WorkspaceLeaveTypeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WorkspaceLeaveTypeUpdateToOneWithWhereWithoutPolicyInput, Prisma.WorkspaceLeaveTypeUpdateWithoutPolicyInput>, Prisma.WorkspaceLeaveTypeUncheckedUpdateWithoutPolicyInput>
+}
+
+export type WorkspaceLeaveTypeCreateNestedOneWithoutBalancesInput = {
+  create?: Prisma.XOR<Prisma.WorkspaceLeaveTypeCreateWithoutBalancesInput, Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutBalancesInput>
+  connectOrCreate?: Prisma.WorkspaceLeaveTypeCreateOrConnectWithoutBalancesInput
+  connect?: Prisma.WorkspaceLeaveTypeWhereUniqueInput
+}
+
+export type WorkspaceLeaveTypeUpdateOneRequiredWithoutBalancesNestedInput = {
+  create?: Prisma.XOR<Prisma.WorkspaceLeaveTypeCreateWithoutBalancesInput, Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutBalancesInput>
+  connectOrCreate?: Prisma.WorkspaceLeaveTypeCreateOrConnectWithoutBalancesInput
+  upsert?: Prisma.WorkspaceLeaveTypeUpsertWithoutBalancesInput
+  connect?: Prisma.WorkspaceLeaveTypeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WorkspaceLeaveTypeUpdateToOneWithWhereWithoutBalancesInput, Prisma.WorkspaceLeaveTypeUpdateWithoutBalancesInput>, Prisma.WorkspaceLeaveTypeUncheckedUpdateWithoutBalancesInput>
+}
+
 export type WorkspaceLeaveTypeCreateWithoutWorkspaceInput = {
   id?: string
   type: string
@@ -439,6 +486,8 @@ export type WorkspaceLeaveTypeCreateWithoutWorkspaceInput = {
   isCustom?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  policy?: Prisma.WorkspaceLeavePolicyCreateNestedOneWithoutLeaveTypeInput
+  balances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutLeaveTypeInput
 }
 
 export type WorkspaceLeaveTypeUncheckedCreateWithoutWorkspaceInput = {
@@ -449,6 +498,8 @@ export type WorkspaceLeaveTypeUncheckedCreateWithoutWorkspaceInput = {
   isCustom?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  policy?: Prisma.WorkspaceLeavePolicyUncheckedCreateNestedOneWithoutLeaveTypeInput
+  balances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutLeaveTypeInput
 }
 
 export type WorkspaceLeaveTypeCreateOrConnectWithoutWorkspaceInput = {
@@ -491,6 +542,134 @@ export type WorkspaceLeaveTypeScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"WorkspaceLeaveType"> | Date | string
 }
 
+export type WorkspaceLeaveTypeCreateWithoutPolicyInput = {
+  id?: string
+  type: string
+  label: string
+  isActive?: boolean
+  isCustom?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  workspace: Prisma.WorkspaceCreateNestedOneWithoutLeaveTypeSettingsInput
+  balances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutLeaveTypeInput
+}
+
+export type WorkspaceLeaveTypeUncheckedCreateWithoutPolicyInput = {
+  id?: string
+  workspaceId: string
+  type: string
+  label: string
+  isActive?: boolean
+  isCustom?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  balances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutLeaveTypeInput
+}
+
+export type WorkspaceLeaveTypeCreateOrConnectWithoutPolicyInput = {
+  where: Prisma.WorkspaceLeaveTypeWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorkspaceLeaveTypeCreateWithoutPolicyInput, Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutPolicyInput>
+}
+
+export type WorkspaceLeaveTypeUpsertWithoutPolicyInput = {
+  update: Prisma.XOR<Prisma.WorkspaceLeaveTypeUpdateWithoutPolicyInput, Prisma.WorkspaceLeaveTypeUncheckedUpdateWithoutPolicyInput>
+  create: Prisma.XOR<Prisma.WorkspaceLeaveTypeCreateWithoutPolicyInput, Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutPolicyInput>
+  where?: Prisma.WorkspaceLeaveTypeWhereInput
+}
+
+export type WorkspaceLeaveTypeUpdateToOneWithWhereWithoutPolicyInput = {
+  where?: Prisma.WorkspaceLeaveTypeWhereInput
+  data: Prisma.XOR<Prisma.WorkspaceLeaveTypeUpdateWithoutPolicyInput, Prisma.WorkspaceLeaveTypeUncheckedUpdateWithoutPolicyInput>
+}
+
+export type WorkspaceLeaveTypeUpdateWithoutPolicyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutLeaveTypeSettingsNestedInput
+  balances?: Prisma.UserLeaveBalanceUpdateManyWithoutLeaveTypeNestedInput
+}
+
+export type WorkspaceLeaveTypeUncheckedUpdateWithoutPolicyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  balances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutLeaveTypeNestedInput
+}
+
+export type WorkspaceLeaveTypeCreateWithoutBalancesInput = {
+  id?: string
+  type: string
+  label: string
+  isActive?: boolean
+  isCustom?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  workspace: Prisma.WorkspaceCreateNestedOneWithoutLeaveTypeSettingsInput
+  policy?: Prisma.WorkspaceLeavePolicyCreateNestedOneWithoutLeaveTypeInput
+}
+
+export type WorkspaceLeaveTypeUncheckedCreateWithoutBalancesInput = {
+  id?: string
+  workspaceId: string
+  type: string
+  label: string
+  isActive?: boolean
+  isCustom?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  policy?: Prisma.WorkspaceLeavePolicyUncheckedCreateNestedOneWithoutLeaveTypeInput
+}
+
+export type WorkspaceLeaveTypeCreateOrConnectWithoutBalancesInput = {
+  where: Prisma.WorkspaceLeaveTypeWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorkspaceLeaveTypeCreateWithoutBalancesInput, Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutBalancesInput>
+}
+
+export type WorkspaceLeaveTypeUpsertWithoutBalancesInput = {
+  update: Prisma.XOR<Prisma.WorkspaceLeaveTypeUpdateWithoutBalancesInput, Prisma.WorkspaceLeaveTypeUncheckedUpdateWithoutBalancesInput>
+  create: Prisma.XOR<Prisma.WorkspaceLeaveTypeCreateWithoutBalancesInput, Prisma.WorkspaceLeaveTypeUncheckedCreateWithoutBalancesInput>
+  where?: Prisma.WorkspaceLeaveTypeWhereInput
+}
+
+export type WorkspaceLeaveTypeUpdateToOneWithWhereWithoutBalancesInput = {
+  where?: Prisma.WorkspaceLeaveTypeWhereInput
+  data: Prisma.XOR<Prisma.WorkspaceLeaveTypeUpdateWithoutBalancesInput, Prisma.WorkspaceLeaveTypeUncheckedUpdateWithoutBalancesInput>
+}
+
+export type WorkspaceLeaveTypeUpdateWithoutBalancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutLeaveTypeSettingsNestedInput
+  policy?: Prisma.WorkspaceLeavePolicyUpdateOneWithoutLeaveTypeNestedInput
+}
+
+export type WorkspaceLeaveTypeUncheckedUpdateWithoutBalancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  policy?: Prisma.WorkspaceLeavePolicyUncheckedUpdateOneWithoutLeaveTypeNestedInput
+}
+
 export type WorkspaceLeaveTypeCreateManyWorkspaceInput = {
   id?: string
   type: string
@@ -509,6 +688,8 @@ export type WorkspaceLeaveTypeUpdateWithoutWorkspaceInput = {
   isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  policy?: Prisma.WorkspaceLeavePolicyUpdateOneWithoutLeaveTypeNestedInput
+  balances?: Prisma.UserLeaveBalanceUpdateManyWithoutLeaveTypeNestedInput
 }
 
 export type WorkspaceLeaveTypeUncheckedUpdateWithoutWorkspaceInput = {
@@ -519,6 +700,8 @@ export type WorkspaceLeaveTypeUncheckedUpdateWithoutWorkspaceInput = {
   isCustom?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  policy?: Prisma.WorkspaceLeavePolicyUncheckedUpdateOneWithoutLeaveTypeNestedInput
+  balances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutLeaveTypeNestedInput
 }
 
 export type WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceInput = {
@@ -532,6 +715,35 @@ export type WorkspaceLeaveTypeUncheckedUpdateManyWithoutWorkspaceInput = {
 }
 
 
+/**
+ * Count Type WorkspaceLeaveTypeCountOutputType
+ */
+
+export type WorkspaceLeaveTypeCountOutputType = {
+  balances: number
+}
+
+export type WorkspaceLeaveTypeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  balances?: boolean | WorkspaceLeaveTypeCountOutputTypeCountBalancesArgs
+}
+
+/**
+ * WorkspaceLeaveTypeCountOutputType without action
+ */
+export type WorkspaceLeaveTypeCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorkspaceLeaveTypeCountOutputType
+   */
+  select?: Prisma.WorkspaceLeaveTypeCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * WorkspaceLeaveTypeCountOutputType without action
+ */
+export type WorkspaceLeaveTypeCountOutputTypeCountBalancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserLeaveBalanceWhereInput
+}
+
 
 export type WorkspaceLeaveTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -543,6 +755,9 @@ export type WorkspaceLeaveTypeSelect<ExtArgs extends runtime.Types.Extensions.In
   createdAt?: boolean
   updatedAt?: boolean
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
+  policy?: boolean | Prisma.WorkspaceLeaveType$policyArgs<ExtArgs>
+  balances?: boolean | Prisma.WorkspaceLeaveType$balancesArgs<ExtArgs>
+  _count?: boolean | Prisma.WorkspaceLeaveTypeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workspaceLeaveType"]>
 
 export type WorkspaceLeaveTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -583,6 +798,9 @@ export type WorkspaceLeaveTypeSelectScalar = {
 export type WorkspaceLeaveTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workspaceId" | "type" | "label" | "isActive" | "isCustom" | "createdAt" | "updatedAt", ExtArgs["result"]["workspaceLeaveType"]>
 export type WorkspaceLeaveTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
+  policy?: boolean | Prisma.WorkspaceLeaveType$policyArgs<ExtArgs>
+  balances?: boolean | Prisma.WorkspaceLeaveType$balancesArgs<ExtArgs>
+  _count?: boolean | Prisma.WorkspaceLeaveTypeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type WorkspaceLeaveTypeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workspace?: boolean | Prisma.WorkspaceDefaultArgs<ExtArgs>
@@ -595,6 +813,8 @@ export type $WorkspaceLeaveTypePayload<ExtArgs extends runtime.Types.Extensions.
   name: "WorkspaceLeaveType"
   objects: {
     workspace: Prisma.$WorkspacePayload<ExtArgs>
+    policy: Prisma.$WorkspaceLeavePolicyPayload<ExtArgs> | null
+    balances: Prisma.$UserLeaveBalancePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1000,6 +1220,8 @@ readonly fields: WorkspaceLeaveTypeFieldRefs;
 export interface Prisma__WorkspaceLeaveTypeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   workspace<T extends Prisma.WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkspaceDefaultArgs<ExtArgs>>): Prisma.Prisma__WorkspaceClient<runtime.Types.Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  policy<T extends Prisma.WorkspaceLeaveType$policyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkspaceLeaveType$policyArgs<ExtArgs>>): Prisma.Prisma__WorkspaceLeavePolicyClient<runtime.Types.Result.GetResult<Prisma.$WorkspaceLeavePolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  balances<T extends Prisma.WorkspaceLeaveType$balancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkspaceLeaveType$balancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserLeaveBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1430,6 +1652,49 @@ export type WorkspaceLeaveTypeDeleteManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many WorkspaceLeaveTypes to delete.
    */
   limit?: number
+}
+
+/**
+ * WorkspaceLeaveType.policy
+ */
+export type WorkspaceLeaveType$policyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorkspaceLeavePolicy
+   */
+  select?: Prisma.WorkspaceLeavePolicySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WorkspaceLeavePolicy
+   */
+  omit?: Prisma.WorkspaceLeavePolicyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkspaceLeavePolicyInclude<ExtArgs> | null
+  where?: Prisma.WorkspaceLeavePolicyWhereInput
+}
+
+/**
+ * WorkspaceLeaveType.balances
+ */
+export type WorkspaceLeaveType$balancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserLeaveBalance
+   */
+  select?: Prisma.UserLeaveBalanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserLeaveBalance
+   */
+  omit?: Prisma.UserLeaveBalanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserLeaveBalanceInclude<ExtArgs> | null
+  where?: Prisma.UserLeaveBalanceWhereInput
+  orderBy?: Prisma.UserLeaveBalanceOrderByWithRelationInput | Prisma.UserLeaveBalanceOrderByWithRelationInput[]
+  cursor?: Prisma.UserLeaveBalanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserLeaveBalanceScalarFieldEnum | Prisma.UserLeaveBalanceScalarFieldEnum[]
 }
 
 /**

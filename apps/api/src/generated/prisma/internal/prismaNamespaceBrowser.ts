@@ -61,7 +61,10 @@ export const ModelName = {
   UserAvailabilityStatus: 'UserAvailabilityStatus',
   UserWorkloadStatus: 'UserWorkloadStatus',
   PublicHoliday: 'PublicHoliday',
-  FeedbackEntry: 'FeedbackEntry'
+  FeedbackEntry: 'FeedbackEntry',
+  UserGoogleToken: 'UserGoogleToken',
+  WorkspaceLeavePolicy: 'WorkspaceLeavePolicy',
+  UserLeaveBalance: 'UserLeaveBalance'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -235,6 +238,53 @@ export const FeedbackEntryScalarFieldEnum = {
 } as const
 
 export type FeedbackEntryScalarFieldEnum = (typeof FeedbackEntryScalarFieldEnum)[keyof typeof FeedbackEntryScalarFieldEnum]
+
+
+export const UserGoogleTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  expiresAt: 'expiresAt',
+  scope: 'scope',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserGoogleTokenScalarFieldEnum = (typeof UserGoogleTokenScalarFieldEnum)[keyof typeof UserGoogleTokenScalarFieldEnum]
+
+
+export const WorkspaceLeavePolicyScalarFieldEnum = {
+  id: 'id',
+  workspaceId: 'workspaceId',
+  leaveTypeId: 'leaveTypeId',
+  accrualFrequency: 'accrualFrequency',
+  daysPerYear: 'daysPerYear',
+  maxCarryForward: 'maxCarryForward',
+  carryForwardExpiryMonths: 'carryForwardExpiryMonths',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WorkspaceLeavePolicyScalarFieldEnum = (typeof WorkspaceLeavePolicyScalarFieldEnum)[keyof typeof WorkspaceLeavePolicyScalarFieldEnum]
+
+
+export const UserLeaveBalanceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  workspaceId: 'workspaceId',
+  leaveTypeId: 'leaveTypeId',
+  openingBalance: 'openingBalance',
+  accrued: 'accrued',
+  taken: 'taken',
+  carriedForward: 'carriedForward',
+  year: 'year',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserLeaveBalanceScalarFieldEnum = (typeof UserLeaveBalanceScalarFieldEnum)[keyof typeof UserLeaveBalanceScalarFieldEnum]
 
 
 export const SortOrder = {

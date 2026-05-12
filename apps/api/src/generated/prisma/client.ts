@@ -94,3 +94,18 @@ export type PublicHoliday = Prisma.PublicHolidayModel
  * 
  */
 export type FeedbackEntry = Prisma.FeedbackEntryModel
+/**
+ * Model UserGoogleToken
+ * 
+ */
+export type UserGoogleToken = Prisma.UserGoogleTokenModel
+/**
+ * Model WorkspaceLeavePolicy
+ * 
+ */
+export type WorkspaceLeavePolicy = Prisma.WorkspaceLeavePolicyModel
+/**
+ * Model UserLeaveBalance
+ * 
+ */
+export type UserLeaveBalance = Prisma.UserLeaveBalanceModel

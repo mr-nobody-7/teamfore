@@ -293,6 +293,77 @@ export type EnumHolidayCategoryWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumHolidayCategoryFilter<$PrismaModel>
 }
 
+export type EnumLeaveAccrualFrequencyFilter<$PrismaModel = never> = {
+  equals?: $Enums.LeaveAccrualFrequency | Prisma.EnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  in?: $Enums.LeaveAccrualFrequency[] | Prisma.ListEnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LeaveAccrualFrequency[] | Prisma.ListEnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLeaveAccrualFrequencyFilter<$PrismaModel> | $Enums.LeaveAccrualFrequency
+}
+
+export type FloatFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedFloatFilter<$PrismaModel> | number
+}
+
+export type IntFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedIntFilter<$PrismaModel> | number
+}
+
+export type EnumLeaveAccrualFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LeaveAccrualFrequency | Prisma.EnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  in?: $Enums.LeaveAccrualFrequency[] | Prisma.ListEnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LeaveAccrualFrequency[] | Prisma.ListEnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLeaveAccrualFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.LeaveAccrualFrequency
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLeaveAccrualFrequencyFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLeaveAccrualFrequencyFilter<$PrismaModel>
+}
+
+export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedFloatWithAggregatesFilter<$PrismaModel> | number
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatFilter<$PrismaModel>
+  _sum?: Prisma.NestedFloatFilter<$PrismaModel>
+  _min?: Prisma.NestedFloatFilter<$PrismaModel>
+  _max?: Prisma.NestedFloatFilter<$PrismaModel>
+}
+
+export type IntWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedIntWithAggregatesFilter<$PrismaModel> | number
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatFilter<$PrismaModel>
+  _sum?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedIntFilter<$PrismaModel>
+  _max?: Prisma.NestedIntFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -556,6 +627,66 @@ export type NestedEnumHolidayCategoryWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumHolidayCategoryFilter<$PrismaModel>
   _max?: Prisma.NestedEnumHolidayCategoryFilter<$PrismaModel>
+}
+
+export type NestedEnumLeaveAccrualFrequencyFilter<$PrismaModel = never> = {
+  equals?: $Enums.LeaveAccrualFrequency | Prisma.EnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  in?: $Enums.LeaveAccrualFrequency[] | Prisma.ListEnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LeaveAccrualFrequency[] | Prisma.ListEnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLeaveAccrualFrequencyFilter<$PrismaModel> | $Enums.LeaveAccrualFrequency
+}
+
+export type NestedFloatFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedFloatFilter<$PrismaModel> | number
+}
+
+export type NestedEnumLeaveAccrualFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LeaveAccrualFrequency | Prisma.EnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  in?: $Enums.LeaveAccrualFrequency[] | Prisma.ListEnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LeaveAccrualFrequency[] | Prisma.ListEnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLeaveAccrualFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.LeaveAccrualFrequency
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLeaveAccrualFrequencyFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLeaveAccrualFrequencyFilter<$PrismaModel>
+}
+
+export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedFloatWithAggregatesFilter<$PrismaModel> | number
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatFilter<$PrismaModel>
+  _sum?: Prisma.NestedFloatFilter<$PrismaModel>
+  _min?: Prisma.NestedFloatFilter<$PrismaModel>
+  _max?: Prisma.NestedFloatFilter<$PrismaModel>
+}
+
+export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  notIn?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  lt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedIntWithAggregatesFilter<$PrismaModel> | number
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatFilter<$PrismaModel>
+  _sum?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedIntFilter<$PrismaModel>
+  _max?: Prisma.NestedIntFilter<$PrismaModel>
 }
 
 

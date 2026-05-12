@@ -394,7 +394,10 @@ export const ModelName = {
   UserAvailabilityStatus: 'UserAvailabilityStatus',
   UserWorkloadStatus: 'UserWorkloadStatus',
   PublicHoliday: 'PublicHoliday',
-  FeedbackEntry: 'FeedbackEntry'
+  FeedbackEntry: 'FeedbackEntry',
+  UserGoogleToken: 'UserGoogleToken',
+  WorkspaceLeavePolicy: 'WorkspaceLeavePolicy',
+  UserLeaveBalance: 'UserLeaveBalance'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -410,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "workspace" | "slackInstallation" | "team" | "user" | "leaveRequest" | "auditLog" | "workspaceLeaveType" | "userAvailabilityStatus" | "userWorkloadStatus" | "publicHoliday" | "feedbackEntry"
+    modelProps: "workspace" | "slackInstallation" | "team" | "user" | "leaveRequest" | "auditLog" | "workspaceLeaveType" | "userAvailabilityStatus" | "userWorkloadStatus" | "publicHoliday" | "feedbackEntry" | "userGoogleToken" | "workspaceLeavePolicy" | "userLeaveBalance"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1228,6 +1231,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UserGoogleToken: {
+      payload: Prisma.$UserGoogleTokenPayload<ExtArgs>
+      fields: Prisma.UserGoogleTokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserGoogleTokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserGoogleTokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload>
+        }
+        findFirst: {
+          args: Prisma.UserGoogleTokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserGoogleTokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload>
+        }
+        findMany: {
+          args: Prisma.UserGoogleTokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload>[]
+        }
+        create: {
+          args: Prisma.UserGoogleTokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload>
+        }
+        createMany: {
+          args: Prisma.UserGoogleTokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserGoogleTokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload>[]
+        }
+        delete: {
+          args: Prisma.UserGoogleTokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload>
+        }
+        update: {
+          args: Prisma.UserGoogleTokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserGoogleTokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserGoogleTokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserGoogleTokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserGoogleTokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserGoogleTokenPayload>
+        }
+        aggregate: {
+          args: Prisma.UserGoogleTokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserGoogleToken>
+        }
+        groupBy: {
+          args: Prisma.UserGoogleTokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserGoogleTokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserGoogleTokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserGoogleTokenCountAggregateOutputType> | number
+        }
+      }
+    }
+    WorkspaceLeavePolicy: {
+      payload: Prisma.$WorkspaceLeavePolicyPayload<ExtArgs>
+      fields: Prisma.WorkspaceLeavePolicyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WorkspaceLeavePolicyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WorkspaceLeavePolicyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload>
+        }
+        findFirst: {
+          args: Prisma.WorkspaceLeavePolicyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WorkspaceLeavePolicyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload>
+        }
+        findMany: {
+          args: Prisma.WorkspaceLeavePolicyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload>[]
+        }
+        create: {
+          args: Prisma.WorkspaceLeavePolicyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload>
+        }
+        createMany: {
+          args: Prisma.WorkspaceLeavePolicyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WorkspaceLeavePolicyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload>[]
+        }
+        delete: {
+          args: Prisma.WorkspaceLeavePolicyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload>
+        }
+        update: {
+          args: Prisma.WorkspaceLeavePolicyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload>
+        }
+        deleteMany: {
+          args: Prisma.WorkspaceLeavePolicyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WorkspaceLeavePolicyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WorkspaceLeavePolicyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload>[]
+        }
+        upsert: {
+          args: Prisma.WorkspaceLeavePolicyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkspaceLeavePolicyPayload>
+        }
+        aggregate: {
+          args: Prisma.WorkspaceLeavePolicyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWorkspaceLeavePolicy>
+        }
+        groupBy: {
+          args: Prisma.WorkspaceLeavePolicyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WorkspaceLeavePolicyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WorkspaceLeavePolicyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WorkspaceLeavePolicyCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserLeaveBalance: {
+      payload: Prisma.$UserLeaveBalancePayload<ExtArgs>
+      fields: Prisma.UserLeaveBalanceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserLeaveBalanceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserLeaveBalanceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload>
+        }
+        findFirst: {
+          args: Prisma.UserLeaveBalanceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserLeaveBalanceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload>
+        }
+        findMany: {
+          args: Prisma.UserLeaveBalanceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload>[]
+        }
+        create: {
+          args: Prisma.UserLeaveBalanceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload>
+        }
+        createMany: {
+          args: Prisma.UserLeaveBalanceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserLeaveBalanceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload>[]
+        }
+        delete: {
+          args: Prisma.UserLeaveBalanceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload>
+        }
+        update: {
+          args: Prisma.UserLeaveBalanceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload>
+        }
+        deleteMany: {
+          args: Prisma.UserLeaveBalanceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserLeaveBalanceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserLeaveBalanceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload>[]
+        }
+        upsert: {
+          args: Prisma.UserLeaveBalanceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserLeaveBalancePayload>
+        }
+        aggregate: {
+          args: Prisma.UserLeaveBalanceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserLeaveBalance>
+        }
+        groupBy: {
+          args: Prisma.UserLeaveBalanceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserLeaveBalanceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserLeaveBalanceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserLeaveBalanceCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1422,6 +1647,53 @@ export const FeedbackEntryScalarFieldEnum = {
 } as const
 
 export type FeedbackEntryScalarFieldEnum = (typeof FeedbackEntryScalarFieldEnum)[keyof typeof FeedbackEntryScalarFieldEnum]
+
+
+export const UserGoogleTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  expiresAt: 'expiresAt',
+  scope: 'scope',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserGoogleTokenScalarFieldEnum = (typeof UserGoogleTokenScalarFieldEnum)[keyof typeof UserGoogleTokenScalarFieldEnum]
+
+
+export const WorkspaceLeavePolicyScalarFieldEnum = {
+  id: 'id',
+  workspaceId: 'workspaceId',
+  leaveTypeId: 'leaveTypeId',
+  accrualFrequency: 'accrualFrequency',
+  daysPerYear: 'daysPerYear',
+  maxCarryForward: 'maxCarryForward',
+  carryForwardExpiryMonths: 'carryForwardExpiryMonths',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WorkspaceLeavePolicyScalarFieldEnum = (typeof WorkspaceLeavePolicyScalarFieldEnum)[keyof typeof WorkspaceLeavePolicyScalarFieldEnum]
+
+
+export const UserLeaveBalanceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  workspaceId: 'workspaceId',
+  leaveTypeId: 'leaveTypeId',
+  openingBalance: 'openingBalance',
+  accrued: 'accrued',
+  taken: 'taken',
+  carriedForward: 'carriedForward',
+  year: 'year',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserLeaveBalanceScalarFieldEnum = (typeof UserLeaveBalanceScalarFieldEnum)[keyof typeof UserLeaveBalanceScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1619,6 +1891,34 @@ export type ListEnumHolidayCategoryFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'LeaveAccrualFrequency'
+ */
+export type EnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeaveAccrualFrequency'>
+    
+
+
+/**
+ * Reference to a field of type 'LeaveAccrualFrequency[]'
+ */
+export type ListEnumLeaveAccrualFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeaveAccrualFrequency[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1737,6 +2037,9 @@ export type GlobalOmitConfig = {
   userWorkloadStatus?: Prisma.UserWorkloadStatusOmit
   publicHoliday?: Prisma.PublicHolidayOmit
   feedbackEntry?: Prisma.FeedbackEntryOmit
+  userGoogleToken?: Prisma.UserGoogleTokenOmit
+  workspaceLeavePolicy?: Prisma.WorkspaceLeavePolicyOmit
+  userLeaveBalance?: Prisma.UserLeaveBalanceOmit
 }
 
 /* Types for Logging */

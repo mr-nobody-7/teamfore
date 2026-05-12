@@ -1,6 +1,8 @@
 import { Router } from "express";
 import passport from "passport";
 import {
+  calendarDisconnectController,
+  calendarStatusController,
   googleCallbackController,
   googleFailureController,
   loginController,
@@ -18,6 +20,18 @@ import {
 } from "../utils/validations.js";
 
 const router = Router();
+const GOOGLE_OAUTH_SCOPES = [
+  "profile",
+  "email",
+  "https://www.googleapis.com/auth/calendar",
+];
+
+const GOOGLE_OAUTH_OPTIONS = {
+  scope: GOOGLE_OAUTH_SCOPES,
+  accessType: "offline" as const,
+  prompt: "consent" as const,
+  session: false,
+};
 
 router.post("/register", validate(registerSchema), registerController);
 router.post(
@@ -28,9 +42,13 @@ router.post(
 router.post("/login", validate(loginSchema), loginController);
 router.get(
   "/google",
+  passport.authenticate("google", GOOGLE_OAUTH_OPTIONS),
+);
+router.get(
+  "/google/calendar-connect",
   passport.authenticate("google", {
-    scope: ["profile", "email"],
-    session: false,
+    ...GOOGLE_OAUTH_OPTIONS,
+    state: "calendar_connect",
   }),
 );
 router.get(
@@ -42,6 +60,12 @@ router.get(
   googleCallbackController,
 );
 router.get("/google/failure", googleFailureController);
+router.get("/calendar-status", authenticate, calendarStatusController);
+router.post(
+  "/google/calendar-disconnect",
+  authenticate,
+  calendarDisconnectController,
+);
 router.get("/me", authenticate, meController);
 router.post("/logout", logoutController);
 

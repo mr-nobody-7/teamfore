@@ -6,6 +6,7 @@ import {
   type VerifyCallback,
 } from "passport-google-oauth20";
 import { prisma } from "../../lib/db.js";
+import { saveGoogleTokens } from "../../integrations/google/google-calendar.service.js";
 
 export interface GoogleAuthUser {
   userId: string;
@@ -14,6 +15,7 @@ export interface GoogleAuthUser {
   workspaceId: string;
   role: "USER" | "MANAGER" | "ADMIN";
   teamId: string | null;
+  hasCalendarRefreshToken: boolean;
 }
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -93,6 +95,7 @@ async function findOrCreateGoogleUser(
       workspaceId: existingUser.workspaceId,
       role: existingUser.role,
       teamId: existingUser.teamId,
+      hasCalendarRefreshToken: false,
     };
   }
 
@@ -125,6 +128,7 @@ async function findOrCreateGoogleUser(
     workspaceId: user.workspaceId,
     role: user.role,
     teamId: user.teamId,
+    hasCalendarRefreshToken: false,
   };
 }
 
@@ -139,13 +143,37 @@ export function configureGoogleStrategy(): void {
         callbackURL: GOOGLE_CALLBACK_URL,
       },
       async (
-        _accessToken: string,
-        _refreshToken: string,
+        accessToken: string,
+        refreshToken: string,
         profile: Profile,
         done: VerifyCallback,
       ) => {
         try {
           const user = await findOrCreateGoogleUser(profile);
+
+          if (refreshToken) {
+            try {
+              await saveGoogleTokens(user.userId, {
+                access_token: accessToken,
+                refresh_token: refreshToken,
+                expiry_date: Date.now() + 60 * 60 * 1000,
+                scope: "https://www.googleapis.com/auth/calendar",
+              });
+              user.hasCalendarRefreshToken = true;
+            } catch (tokenError) {
+              console.error(
+                "[configureGoogleStrategy] Failed to persist Google tokens",
+                {
+                  userId: user.userId,
+                  error:
+                    tokenError instanceof Error
+                      ? tokenError.message
+                      : String(tokenError),
+                },
+              );
+            }
+          }
+
           done(null, user);
         } catch (error) {
           done(error as Error);

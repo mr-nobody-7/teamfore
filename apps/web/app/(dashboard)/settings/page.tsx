@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import api from "@/lib/axios";
+import { GoogleCalendarConnectCard } from "@/src/components/settings/google-calendar-connect";
 import type {
   ApiResponse,
   LeaveTypeSetting,
@@ -280,22 +281,10 @@ export default function SettingsPage() {
                     CONNECTED
                   </Badge>
                 </div>
-                <div className="product-interactive flex items-center justify-between rounded-lg border px-3 py-2">
-                  <div>
-                    <div className="text-sm font-medium">Google Calendar</div>
-                    <div className="text-xs text-muted-foreground">
-                      2-way sync
-                    </div>
-                  </div>
-                  <Badge
-                    variant="default"
-                    className="bg-emerald-600 text-white text-xs"
-                  >
-                    CONNECTED
-                  </Badge>
-                </div>
               </CardContent>
             </Card>
+
+            <GoogleCalendarConnectCard />
 
             <Card className="product-card-hover">
               <CardHeader>

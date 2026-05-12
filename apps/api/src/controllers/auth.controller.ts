@@ -6,6 +6,10 @@ import {
   registerUserService,
   registerWorkspaceService,
 } from "../services/auth.service.js";
+import {
+  hasCalendarAccess as hasCalendarAccessIntegration,
+  revokeGoogleAccess as revokeGoogleAccessIntegration,
+} from "../integrations/google/google-calendar.service.js";
 import { createAuditLog } from "../utils/audit.js";
 import { generateToken } from "../utils/jwt.js";
 import { sendSuccess } from "../utils/response.js";
@@ -37,6 +41,11 @@ function resolvePrimaryFrontendUrl(): string {
 function resolveDashboardRedirectUrl(): string {
   const frontendUrl = resolvePrimaryFrontendUrl();
   return new URL("/dashboard", frontendUrl).toString();
+}
+
+function resolveSettingsConnectedRedirectUrl(): string {
+  const frontendUrl = resolvePrimaryFrontendUrl();
+  return new URL("/settings?calendar=connected", frontendUrl).toString();
 }
 
 function issueAuthCookie(res: Response, token: string) {
@@ -147,9 +156,15 @@ export const loginController = async (
 
 export const googleCallbackController = (req: Request, res: Response) => {
   const oauthUser = (req as Request & { user?: GoogleAuthUser }).user;
+  const state = typeof req.query.state === "string" ? req.query.state : "";
+  const isCalendarConnectFlow = state === "calendar_connect";
 
   if (!oauthUser) {
-    res.redirect(resolveDashboardRedirectUrl());
+    res.redirect(
+      isCalendarConnectFlow
+        ? resolveSettingsConnectedRedirectUrl()
+        : resolveDashboardRedirectUrl(),
+    );
     return;
   }
 
@@ -175,7 +190,11 @@ export const googleCallbackController = (req: Request, res: Response) => {
     },
   });
 
-  res.redirect(resolveDashboardRedirectUrl());
+  res.redirect(
+    isCalendarConnectFlow
+      ? resolveSettingsConnectedRedirectUrl()
+      : resolveDashboardRedirectUrl(),
+  );
 };
 
 export const googleFailureController = (req: Request, res: Response) => {
@@ -201,6 +220,44 @@ export const meController = async (
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const user = await getMeService(req.user!.userId);
     sendSuccess(res, { user }, "User fetched successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const calendarStatusController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      sendSuccess(res, { connected: false }, "Calendar status fetched");
+      return;
+    }
+
+    const connected = await hasCalendarAccessIntegration(userId);
+    sendSuccess(res, { connected }, "Calendar status fetched");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const calendarDisconnectController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      sendSuccess(res, null, "Calendar disconnected");
+      return;
+    }
+
+    await revokeGoogleAccessIntegration(userId);
+    sendSuccess(res, null, "Calendar disconnected");
   } catch (error) {
     next(error);
   }

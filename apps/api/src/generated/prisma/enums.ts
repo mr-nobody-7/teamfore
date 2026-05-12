@@ -67,6 +67,15 @@ export const HolidayCategory = {
 export type HolidayCategory = (typeof HolidayCategory)[keyof typeof HolidayCategory]
 
 
+export const LeaveAccrualFrequency = {
+  MONTHLY: 'MONTHLY',
+  QUARTERLY: 'QUARTERLY',
+  ANNUAL: 'ANNUAL'
+} as const
+
+export type LeaveAccrualFrequency = (typeof LeaveAccrualFrequency)[keyof typeof LeaveAccrualFrequency]
+
+
 export const AuditAction = {
   USER_REGISTERED: 'USER_REGISTERED',
   USER_LOGIN: 'USER_LOGIN',

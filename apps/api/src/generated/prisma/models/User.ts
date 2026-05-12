@@ -236,6 +236,8 @@ export type UserWhereInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusListRelationFilter
   workloadStatuses?: Prisma.UserWorkloadStatusListRelationFilter
   feedbackEntries?: Prisma.FeedbackEntryListRelationFilter
+  googleToken?: Prisma.XOR<Prisma.UserGoogleTokenNullableScalarRelationFilter, Prisma.UserGoogleTokenWhereInput> | null
+  leaveBalances?: Prisma.UserLeaveBalanceListRelationFilter
   approvedLeaveRequests?: Prisma.LeaveRequestListRelationFilter
 }
 
@@ -257,6 +259,8 @@ export type UserOrderByWithRelationInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusOrderByRelationAggregateInput
   workloadStatuses?: Prisma.UserWorkloadStatusOrderByRelationAggregateInput
   feedbackEntries?: Prisma.FeedbackEntryOrderByRelationAggregateInput
+  googleToken?: Prisma.UserGoogleTokenOrderByWithRelationInput
+  leaveBalances?: Prisma.UserLeaveBalanceOrderByRelationAggregateInput
   approvedLeaveRequests?: Prisma.LeaveRequestOrderByRelationAggregateInput
 }
 
@@ -281,6 +285,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   availabilityStatuses?: Prisma.UserAvailabilityStatusListRelationFilter
   workloadStatuses?: Prisma.UserWorkloadStatusListRelationFilter
   feedbackEntries?: Prisma.FeedbackEntryListRelationFilter
+  googleToken?: Prisma.XOR<Prisma.UserGoogleTokenNullableScalarRelationFilter, Prisma.UserGoogleTokenWhereInput> | null
+  leaveBalances?: Prisma.UserLeaveBalanceListRelationFilter
   approvedLeaveRequests?: Prisma.LeaveRequestListRelationFilter
 }, "id" | "email" | "slackUserId">
 
@@ -334,6 +340,8 @@ export type UserCreateInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
 }
 
@@ -353,6 +361,8 @@ export type UserUncheckedCreateInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
 }
 
@@ -372,6 +382,8 @@ export type UserUpdateInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
 }
 
@@ -391,6 +403,8 @@ export type UserUncheckedUpdateInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
 }
 
@@ -656,6 +670,34 @@ export type UserUpdateOneRequiredWithoutFeedbackEntriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFeedbackEntriesInput, Prisma.UserUpdateWithoutFeedbackEntriesInput>, Prisma.UserUncheckedUpdateWithoutFeedbackEntriesInput>
 }
 
+export type UserCreateNestedOneWithoutGoogleTokenInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGoogleTokenInput, Prisma.UserUncheckedCreateWithoutGoogleTokenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGoogleTokenInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutGoogleTokenNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGoogleTokenInput, Prisma.UserUncheckedCreateWithoutGoogleTokenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGoogleTokenInput
+  upsert?: Prisma.UserUpsertWithoutGoogleTokenInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGoogleTokenInput, Prisma.UserUpdateWithoutGoogleTokenInput>, Prisma.UserUncheckedUpdateWithoutGoogleTokenInput>
+}
+
+export type UserCreateNestedOneWithoutLeaveBalancesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLeaveBalancesInput, Prisma.UserUncheckedCreateWithoutLeaveBalancesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLeaveBalancesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLeaveBalancesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLeaveBalancesInput, Prisma.UserUncheckedCreateWithoutLeaveBalancesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLeaveBalancesInput
+  upsert?: Prisma.UserUpsertWithoutLeaveBalancesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLeaveBalancesInput, Prisma.UserUpdateWithoutLeaveBalancesInput>, Prisma.UserUncheckedUpdateWithoutLeaveBalancesInput>
+}
+
 export type UserCreateWithoutWorkspaceInput = {
   id?: string
   name: string
@@ -671,6 +713,8 @@ export type UserCreateWithoutWorkspaceInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
 }
 
@@ -689,6 +733,8 @@ export type UserUncheckedCreateWithoutWorkspaceInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
 }
 
@@ -750,6 +796,8 @@ export type UserCreateWithoutTeamInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
 }
 
@@ -768,6 +816,8 @@ export type UserUncheckedCreateWithoutTeamInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
 }
 
@@ -812,6 +862,8 @@ export type UserCreateWithoutRequestedLeaveRequestsInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
 }
 
@@ -830,6 +882,8 @@ export type UserUncheckedCreateWithoutRequestedLeaveRequestsInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
 }
 
@@ -854,6 +908,8 @@ export type UserCreateWithoutApprovedLeaveRequestsInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutApprovedLeaveRequestsInput = {
@@ -872,6 +928,8 @@ export type UserUncheckedCreateWithoutApprovedLeaveRequestsInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutApprovedLeaveRequestsInput = {
@@ -905,6 +963,8 @@ export type UserUpdateWithoutRequestedLeaveRequestsInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
 }
 
@@ -923,6 +983,8 @@ export type UserUncheckedUpdateWithoutRequestedLeaveRequestsInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
 }
 
@@ -953,6 +1015,8 @@ export type UserUpdateWithoutApprovedLeaveRequestsInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApprovedLeaveRequestsInput = {
@@ -971,6 +1035,8 @@ export type UserUncheckedUpdateWithoutApprovedLeaveRequestsInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAvailabilityStatusesInput = {
@@ -988,6 +1054,8 @@ export type UserCreateWithoutAvailabilityStatusesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
 }
 
@@ -1006,6 +1074,8 @@ export type UserUncheckedCreateWithoutAvailabilityStatusesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
 }
 
@@ -1040,6 +1110,8 @@ export type UserUpdateWithoutAvailabilityStatusesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
 }
 
@@ -1058,6 +1130,8 @@ export type UserUncheckedUpdateWithoutAvailabilityStatusesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
 }
 
@@ -1076,6 +1150,8 @@ export type UserCreateWithoutWorkloadStatusesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
 }
 
@@ -1094,6 +1170,8 @@ export type UserUncheckedCreateWithoutWorkloadStatusesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
 }
 
@@ -1128,6 +1206,8 @@ export type UserUpdateWithoutWorkloadStatusesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
 }
 
@@ -1146,6 +1226,8 @@ export type UserUncheckedUpdateWithoutWorkloadStatusesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
 }
 
@@ -1164,6 +1246,8 @@ export type UserCreateWithoutFeedbackEntriesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
 }
 
@@ -1182,6 +1266,8 @@ export type UserUncheckedCreateWithoutFeedbackEntriesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedCreateNestedOneWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutUserInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
 }
 
@@ -1216,6 +1302,8 @@ export type UserUpdateWithoutFeedbackEntriesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
 }
 
@@ -1234,6 +1322,200 @@ export type UserUncheckedUpdateWithoutFeedbackEntriesInput = {
   requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
+  approvedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
+}
+
+export type UserCreateWithoutGoogleTokenInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  isActive?: boolean
+  createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
+  workspace: Prisma.WorkspaceCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
+  workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutUserInput
+  feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceCreateNestedManyWithoutUserInput
+  approvedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
+}
+
+export type UserUncheckedCreateWithoutGoogleTokenInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  isActive?: boolean
+  createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
+  workspaceId: string
+  teamId?: string | null
+  requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
+  workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutUserInput
+  feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutUserInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedCreateNestedManyWithoutUserInput
+  approvedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
+}
+
+export type UserCreateOrConnectWithoutGoogleTokenInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGoogleTokenInput, Prisma.UserUncheckedCreateWithoutGoogleTokenInput>
+}
+
+export type UserUpsertWithoutGoogleTokenInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGoogleTokenInput, Prisma.UserUncheckedUpdateWithoutGoogleTokenInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGoogleTokenInput, Prisma.UserUncheckedCreateWithoutGoogleTokenInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGoogleTokenInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGoogleTokenInput, Prisma.UserUncheckedUpdateWithoutGoogleTokenInput>
+}
+
+export type UserUpdateWithoutGoogleTokenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
+  workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutUserNestedInput
+  feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUpdateManyWithoutUserNestedInput
+  approvedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGoogleTokenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
+  workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutUserNestedInput
+  feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
+  approvedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
+}
+
+export type UserCreateWithoutLeaveBalancesInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  isActive?: boolean
+  createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
+  workspace: Prisma.WorkspaceCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  requestedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutUserInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusCreateNestedManyWithoutUserInput
+  workloadStatuses?: Prisma.UserWorkloadStatusCreateNestedManyWithoutUserInput
+  feedbackEntries?: Prisma.FeedbackEntryCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenCreateNestedOneWithoutUserInput
+  approvedLeaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
+}
+
+export type UserUncheckedCreateWithoutLeaveBalancesInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  isActive?: boolean
+  createdAt?: Date | string
+  slackUserId?: string | null
+  slackDmChannel?: string | null
+  workspaceId: string
+  teamId?: string | null
+  requestedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutUserInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedCreateNestedManyWithoutUserInput
+  workloadStatuses?: Prisma.UserWorkloadStatusUncheckedCreateNestedManyWithoutUserInput
+  feedbackEntries?: Prisma.FeedbackEntryUncheckedCreateNestedManyWithoutUserInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedCreateNestedOneWithoutUserInput
+  approvedLeaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
+}
+
+export type UserCreateOrConnectWithoutLeaveBalancesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLeaveBalancesInput, Prisma.UserUncheckedCreateWithoutLeaveBalancesInput>
+}
+
+export type UserUpsertWithoutLeaveBalancesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLeaveBalancesInput, Prisma.UserUncheckedUpdateWithoutLeaveBalancesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLeaveBalancesInput, Prisma.UserUncheckedCreateWithoutLeaveBalancesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLeaveBalancesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLeaveBalancesInput, Prisma.UserUncheckedUpdateWithoutLeaveBalancesInput>
+}
+
+export type UserUpdateWithoutLeaveBalancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  requestedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutUserNestedInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
+  workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutUserNestedInput
+  feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUpdateOneWithoutUserNestedInput
+  approvedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLeaveBalancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slackUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slackDmChannel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutUserNestedInput
+  availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
+  workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutUserNestedInput
+  feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedUpdateOneWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
 }
 
@@ -1265,6 +1547,8 @@ export type UserUpdateWithoutWorkspaceInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
 }
 
@@ -1283,6 +1567,8 @@ export type UserUncheckedUpdateWithoutWorkspaceInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
 }
 
@@ -1327,6 +1613,8 @@ export type UserUpdateWithoutTeamInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
 }
 
@@ -1345,6 +1633,8 @@ export type UserUncheckedUpdateWithoutTeamInput = {
   availabilityStatuses?: Prisma.UserAvailabilityStatusUncheckedUpdateManyWithoutUserNestedInput
   workloadStatuses?: Prisma.UserWorkloadStatusUncheckedUpdateManyWithoutUserNestedInput
   feedbackEntries?: Prisma.FeedbackEntryUncheckedUpdateManyWithoutUserNestedInput
+  googleToken?: Prisma.UserGoogleTokenUncheckedUpdateOneWithoutUserNestedInput
+  leaveBalances?: Prisma.UserLeaveBalanceUncheckedUpdateManyWithoutUserNestedInput
   approvedLeaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
 }
 
@@ -1371,6 +1661,7 @@ export type UserCountOutputType = {
   availabilityStatuses: number
   workloadStatuses: number
   feedbackEntries: number
+  leaveBalances: number
   approvedLeaveRequests: number
 }
 
@@ -1379,6 +1670,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   availabilityStatuses?: boolean | UserCountOutputTypeCountAvailabilityStatusesArgs
   workloadStatuses?: boolean | UserCountOutputTypeCountWorkloadStatusesArgs
   feedbackEntries?: boolean | UserCountOutputTypeCountFeedbackEntriesArgs
+  leaveBalances?: boolean | UserCountOutputTypeCountLeaveBalancesArgs
   approvedLeaveRequests?: boolean | UserCountOutputTypeCountApprovedLeaveRequestsArgs
 }
 
@@ -1423,6 +1715,13 @@ export type UserCountOutputTypeCountFeedbackEntriesArgs<ExtArgs extends runtime.
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountLeaveBalancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserLeaveBalanceWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountApprovedLeaveRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.LeaveRequestWhereInput
 }
@@ -1446,6 +1745,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   availabilityStatuses?: boolean | Prisma.User$availabilityStatusesArgs<ExtArgs>
   workloadStatuses?: boolean | Prisma.User$workloadStatusesArgs<ExtArgs>
   feedbackEntries?: boolean | Prisma.User$feedbackEntriesArgs<ExtArgs>
+  googleToken?: boolean | Prisma.User$googleTokenArgs<ExtArgs>
+  leaveBalances?: boolean | Prisma.User$leaveBalancesArgs<ExtArgs>
   approvedLeaveRequests?: boolean | Prisma.User$approvedLeaveRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1504,6 +1805,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   availabilityStatuses?: boolean | Prisma.User$availabilityStatusesArgs<ExtArgs>
   workloadStatuses?: boolean | Prisma.User$workloadStatusesArgs<ExtArgs>
   feedbackEntries?: boolean | Prisma.User$feedbackEntriesArgs<ExtArgs>
+  googleToken?: boolean | Prisma.User$googleTokenArgs<ExtArgs>
+  leaveBalances?: boolean | Prisma.User$leaveBalancesArgs<ExtArgs>
   approvedLeaveRequests?: boolean | Prisma.User$approvedLeaveRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1525,6 +1828,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     availabilityStatuses: Prisma.$UserAvailabilityStatusPayload<ExtArgs>[]
     workloadStatuses: Prisma.$UserWorkloadStatusPayload<ExtArgs>[]
     feedbackEntries: Prisma.$FeedbackEntryPayload<ExtArgs>[]
+    googleToken: Prisma.$UserGoogleTokenPayload<ExtArgs> | null
+    leaveBalances: Prisma.$UserLeaveBalancePayload<ExtArgs>[]
     approvedLeaveRequests: Prisma.$LeaveRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1939,6 +2244,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   availabilityStatuses<T extends Prisma.User$availabilityStatusesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$availabilityStatusesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAvailabilityStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   workloadStatuses<T extends Prisma.User$workloadStatusesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$workloadStatusesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserWorkloadStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   feedbackEntries<T extends Prisma.User$feedbackEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$feedbackEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeedbackEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  googleToken<T extends Prisma.User$googleTokenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$googleTokenArgs<ExtArgs>>): Prisma.Prisma__UserGoogleTokenClient<runtime.Types.Result.GetResult<Prisma.$UserGoogleTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  leaveBalances<T extends Prisma.User$leaveBalancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$leaveBalancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserLeaveBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   approvedLeaveRequests<T extends Prisma.User$approvedLeaveRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$approvedLeaveRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2488,6 +2795,49 @@ export type User$feedbackEntriesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.FeedbackEntryScalarFieldEnum | Prisma.FeedbackEntryScalarFieldEnum[]
+}
+
+/**
+ * User.googleToken
+ */
+export type User$googleTokenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserGoogleToken
+   */
+  select?: Prisma.UserGoogleTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserGoogleToken
+   */
+  omit?: Prisma.UserGoogleTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserGoogleTokenInclude<ExtArgs> | null
+  where?: Prisma.UserGoogleTokenWhereInput
+}
+
+/**
+ * User.leaveBalances
+ */
+export type User$leaveBalancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserLeaveBalance
+   */
+  select?: Prisma.UserLeaveBalanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserLeaveBalance
+   */
+  omit?: Prisma.UserLeaveBalanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserLeaveBalanceInclude<ExtArgs> | null
+  where?: Prisma.UserLeaveBalanceWhereInput
+  orderBy?: Prisma.UserLeaveBalanceOrderByWithRelationInput | Prisma.UserLeaveBalanceOrderByWithRelationInput[]
+  cursor?: Prisma.UserLeaveBalanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserLeaveBalanceScalarFieldEnum | Prisma.UserLeaveBalanceScalarFieldEnum[]
 }
 
 /**

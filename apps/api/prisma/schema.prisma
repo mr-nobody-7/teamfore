@@ -47,6 +47,12 @@ enum HolidayCategory {
   REGIONAL
 }
 
+enum LeaveAccrualFrequency {
+  MONTHLY
+  QUARTERLY
+  ANNUAL
+}
+
 enum AuditAction {
   // Authentication
   USER_REGISTERED
@@ -95,6 +101,8 @@ model Workspace {
   workloadStatuses     UserWorkloadStatus[]
   publicHolidays       PublicHoliday[]
   feedbackEntries      FeedbackEntry[]
+  leaveBalances        UserLeaveBalance[]
+  leavePolicies        WorkspaceLeavePolicy[]
 }
 
 model SlackInstallation {
@@ -146,6 +154,8 @@ model User {
   availabilityStatuses   UserAvailabilityStatus[]
   workloadStatuses       UserWorkloadStatus[]
   feedbackEntries        FeedbackEntry[]
+  googleToken            UserGoogleToken?
+  leaveBalances          UserLeaveBalance[]
 
   approvedLeaveRequests LeaveRequest[] @relation("Approver")
 }
@@ -202,6 +212,9 @@ model WorkspaceLeaveType {
   isCustom    Boolean   @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  
+  policy      WorkspaceLeavePolicy?
+  balances    UserLeaveBalance[]
 
   @@unique([workspaceId, type])
   @@index([workspaceId])
@@ -267,4 +280,56 @@ model FeedbackEntry {
 
   @@index([workspaceId, createdAt])
   @@index([userId, createdAt])
+}
+
+model UserGoogleToken {
+  id           String   @id @default(cuid())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String   @unique
+  accessToken  String
+  refreshToken String
+  expiresAt    DateTime
+  scope        String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model WorkspaceLeavePolicy {
+  id                        String                 @id @default(cuid())
+  workspace                 Workspace              @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId               String
+  leaveType                 WorkspaceLeaveType     @relation(fields: [leaveTypeId], references: [id], onDelete: Cascade)
+  leaveTypeId               String                 @unique
+  accrualFrequency          LeaveAccrualFrequency
+  daysPerYear               Float
+  maxCarryForward           Float                  @default(0)
+  carryForwardExpiryMonths  Int                    @default(3)
+  isActive                  Boolean                @default(true)
+  createdAt                 DateTime               @default(now())
+  updatedAt                 DateTime               @updatedAt
+
+  @@unique([workspaceId, leaveTypeId])
+  @@index([workspaceId])
+}
+
+model UserLeaveBalance {
+  id               String             @id @default(cuid())
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String
+  workspace        Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId      String
+  leaveType        WorkspaceLeaveType @relation(fields: [leaveTypeId], references: [id], onDelete: Cascade)
+  leaveTypeId      String
+  openingBalance   Float              @default(0)
+  accrued          Float              @default(0)
+  taken            Float              @default(0)
+  carriedForward   Float              @default(0)
+  year             Int
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  @@unique([userId, leaveTypeId, year])
+  @@index([userId])
+  @@index([workspaceId])
+  @@index([year])
 }

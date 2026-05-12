@@ -230,6 +230,18 @@ export const updateWorkspaceRegionalSettingsSchema = z.object({
     .max(100, "timezone must be less than 100 characters"),
 });
 
+export const upsertLeavePolicySchema = z.object({
+  leaveTypeId: z.string().trim().min(1, "leaveTypeId is required"),
+  accrualFrequency: z.enum(["MONTHLY", "QUARTERLY", "ANNUAL"]),
+  daysPerYear: z.number().min(0, "daysPerYear must be at least 0"),
+  maxCarryForward: z.number().min(0, "maxCarryForward must be at least 0"),
+  carryForwardExpiryMonths: z
+    .number()
+    .int("carryForwardExpiryMonths must be an integer")
+    .min(0, "carryForwardExpiryMonths must be at least 0"),
+  isActive: z.boolean(),
+});
+
 export const createFeedbackSchema = z.object({
   message: z
     .string()

@@ -85,6 +85,7 @@ enum AuditAction {
 model Workspace {
   id        String   @id @default(uuid())
   name      String
+  plan      String   @default("FREE")
   country   String?
   timezone  String   @default("Asia/Kolkata")
   createdAt DateTime @default(now())

@@ -27,6 +27,7 @@ export type AggregateWorkspace = {
 export type WorkspaceMinAggregateOutputType = {
   id: string | null
   name: string | null
+  plan: string | null
   country: string | null
   timezone: string | null
   createdAt: Date | null
@@ -39,6 +40,7 @@ export type WorkspaceMinAggregateOutputType = {
 export type WorkspaceMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  plan: string | null
   country: string | null
   timezone: string | null
   createdAt: Date | null
@@ -51,6 +53,7 @@ export type WorkspaceMaxAggregateOutputType = {
 export type WorkspaceCountAggregateOutputType = {
   id: number
   name: number
+  plan: number
   country: number
   timezone: number
   createdAt: number
@@ -65,6 +68,7 @@ export type WorkspaceCountAggregateOutputType = {
 export type WorkspaceMinAggregateInputType = {
   id?: true
   name?: true
+  plan?: true
   country?: true
   timezone?: true
   createdAt?: true
@@ -77,6 +81,7 @@ export type WorkspaceMinAggregateInputType = {
 export type WorkspaceMaxAggregateInputType = {
   id?: true
   name?: true
+  plan?: true
   country?: true
   timezone?: true
   createdAt?: true
@@ -89,6 +94,7 @@ export type WorkspaceMaxAggregateInputType = {
 export type WorkspaceCountAggregateInputType = {
   id?: true
   name?: true
+  plan?: true
   country?: true
   timezone?: true
   createdAt?: true
@@ -174,6 +180,7 @@ export type WorkspaceGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type WorkspaceGroupByOutputType = {
   id: string
   name: string
+  plan: string
   country: string | null
   timezone: string
   createdAt: Date
@@ -207,6 +214,7 @@ export type WorkspaceWhereInput = {
   NOT?: Prisma.WorkspaceWhereInput | Prisma.WorkspaceWhereInput[]
   id?: Prisma.StringFilter<"Workspace"> | string
   name?: Prisma.StringFilter<"Workspace"> | string
+  plan?: Prisma.StringFilter<"Workspace"> | string
   country?: Prisma.StringNullableFilter<"Workspace"> | string | null
   timezone?: Prisma.StringFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
@@ -229,6 +237,7 @@ export type WorkspaceWhereInput = {
 export type WorkspaceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -254,6 +263,7 @@ export type WorkspaceWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.WorkspaceWhereInput[]
   NOT?: Prisma.WorkspaceWhereInput | Prisma.WorkspaceWhereInput[]
   name?: Prisma.StringFilter<"Workspace"> | string
+  plan?: Prisma.StringFilter<"Workspace"> | string
   country?: Prisma.StringNullableFilter<"Workspace"> | string | null
   timezone?: Prisma.StringFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
@@ -276,6 +286,7 @@ export type WorkspaceWhereUniqueInput = Prisma.AtLeast<{
 export type WorkspaceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -294,6 +305,7 @@ export type WorkspaceScalarWhereWithAggregatesInput = {
   NOT?: Prisma.WorkspaceScalarWhereWithAggregatesInput | Prisma.WorkspaceScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Workspace"> | string
   name?: Prisma.StringWithAggregatesFilter<"Workspace"> | string
+  plan?: Prisma.StringWithAggregatesFilter<"Workspace"> | string
   country?: Prisma.StringNullableWithAggregatesFilter<"Workspace"> | string | null
   timezone?: Prisma.StringWithAggregatesFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Workspace"> | Date | string
@@ -306,6 +318,7 @@ export type WorkspaceScalarWhereWithAggregatesInput = {
 export type WorkspaceCreateInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -328,6 +341,7 @@ export type WorkspaceCreateInput = {
 export type WorkspaceUncheckedCreateInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -350,6 +364,7 @@ export type WorkspaceUncheckedCreateInput = {
 export type WorkspaceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -372,6 +387,7 @@ export type WorkspaceUpdateInput = {
 export type WorkspaceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -394,6 +410,7 @@ export type WorkspaceUncheckedUpdateInput = {
 export type WorkspaceCreateManyInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -406,6 +423,7 @@ export type WorkspaceCreateManyInput = {
 export type WorkspaceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -418,6 +436,7 @@ export type WorkspaceUpdateManyMutationInput = {
 export type WorkspaceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -430,6 +449,7 @@ export type WorkspaceUncheckedUpdateManyInput = {
 export type WorkspaceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
   country?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -442,6 +462,7 @@ export type WorkspaceCountOrderByAggregateInput = {
 export type WorkspaceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
   country?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -454,6 +475,7 @@ export type WorkspaceMaxOrderByAggregateInput = {
 export type WorkspaceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
   country?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -634,6 +656,7 @@ export type WorkspaceUpdateOneRequiredWithoutLeaveBalancesNestedInput = {
 export type WorkspaceCreateWithoutSlackInstallationInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -655,6 +678,7 @@ export type WorkspaceCreateWithoutSlackInstallationInput = {
 export type WorkspaceUncheckedCreateWithoutSlackInstallationInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -692,6 +716,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutSlackInstallationInput = {
 export type WorkspaceUpdateWithoutSlackInstallationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -713,6 +738,7 @@ export type WorkspaceUpdateWithoutSlackInstallationInput = {
 export type WorkspaceUncheckedUpdateWithoutSlackInstallationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -734,6 +760,7 @@ export type WorkspaceUncheckedUpdateWithoutSlackInstallationInput = {
 export type WorkspaceCreateWithoutTeamsInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -755,6 +782,7 @@ export type WorkspaceCreateWithoutTeamsInput = {
 export type WorkspaceUncheckedCreateWithoutTeamsInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -792,6 +820,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutTeamsInput = {
 export type WorkspaceUpdateWithoutTeamsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -813,6 +842,7 @@ export type WorkspaceUpdateWithoutTeamsInput = {
 export type WorkspaceUncheckedUpdateWithoutTeamsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -834,6 +864,7 @@ export type WorkspaceUncheckedUpdateWithoutTeamsInput = {
 export type WorkspaceCreateWithoutUsersInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -855,6 +886,7 @@ export type WorkspaceCreateWithoutUsersInput = {
 export type WorkspaceUncheckedCreateWithoutUsersInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -892,6 +924,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutUsersInput = {
 export type WorkspaceUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -913,6 +946,7 @@ export type WorkspaceUpdateWithoutUsersInput = {
 export type WorkspaceUncheckedUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -934,6 +968,7 @@ export type WorkspaceUncheckedUpdateWithoutUsersInput = {
 export type WorkspaceCreateWithoutLeaveTypeSettingsInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -955,6 +990,7 @@ export type WorkspaceCreateWithoutLeaveTypeSettingsInput = {
 export type WorkspaceUncheckedCreateWithoutLeaveTypeSettingsInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -992,6 +1028,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutLeaveTypeSettingsInput = {
 export type WorkspaceUpdateWithoutLeaveTypeSettingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1013,6 +1050,7 @@ export type WorkspaceUpdateWithoutLeaveTypeSettingsInput = {
 export type WorkspaceUncheckedUpdateWithoutLeaveTypeSettingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1034,6 +1072,7 @@ export type WorkspaceUncheckedUpdateWithoutLeaveTypeSettingsInput = {
 export type WorkspaceCreateWithoutAvailabilityStatusesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1055,6 +1094,7 @@ export type WorkspaceCreateWithoutAvailabilityStatusesInput = {
 export type WorkspaceUncheckedCreateWithoutAvailabilityStatusesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1092,6 +1132,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutAvailabilityStatusesInput = {
 export type WorkspaceUpdateWithoutAvailabilityStatusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1113,6 +1154,7 @@ export type WorkspaceUpdateWithoutAvailabilityStatusesInput = {
 export type WorkspaceUncheckedUpdateWithoutAvailabilityStatusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1134,6 +1176,7 @@ export type WorkspaceUncheckedUpdateWithoutAvailabilityStatusesInput = {
 export type WorkspaceCreateWithoutWorkloadStatusesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1155,6 +1198,7 @@ export type WorkspaceCreateWithoutWorkloadStatusesInput = {
 export type WorkspaceUncheckedCreateWithoutWorkloadStatusesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1192,6 +1236,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutWorkloadStatusesInput = {
 export type WorkspaceUpdateWithoutWorkloadStatusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1213,6 +1258,7 @@ export type WorkspaceUpdateWithoutWorkloadStatusesInput = {
 export type WorkspaceUncheckedUpdateWithoutWorkloadStatusesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1234,6 +1280,7 @@ export type WorkspaceUncheckedUpdateWithoutWorkloadStatusesInput = {
 export type WorkspaceCreateWithoutPublicHolidaysInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1255,6 +1302,7 @@ export type WorkspaceCreateWithoutPublicHolidaysInput = {
 export type WorkspaceUncheckedCreateWithoutPublicHolidaysInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1292,6 +1340,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutPublicHolidaysInput = {
 export type WorkspaceUpdateWithoutPublicHolidaysInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1313,6 +1362,7 @@ export type WorkspaceUpdateWithoutPublicHolidaysInput = {
 export type WorkspaceUncheckedUpdateWithoutPublicHolidaysInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1334,6 +1384,7 @@ export type WorkspaceUncheckedUpdateWithoutPublicHolidaysInput = {
 export type WorkspaceCreateWithoutFeedbackEntriesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1355,6 +1406,7 @@ export type WorkspaceCreateWithoutFeedbackEntriesInput = {
 export type WorkspaceUncheckedCreateWithoutFeedbackEntriesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1392,6 +1444,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutFeedbackEntriesInput = {
 export type WorkspaceUpdateWithoutFeedbackEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1413,6 +1466,7 @@ export type WorkspaceUpdateWithoutFeedbackEntriesInput = {
 export type WorkspaceUncheckedUpdateWithoutFeedbackEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1434,6 +1488,7 @@ export type WorkspaceUncheckedUpdateWithoutFeedbackEntriesInput = {
 export type WorkspaceCreateWithoutLeavePoliciesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1455,6 +1510,7 @@ export type WorkspaceCreateWithoutLeavePoliciesInput = {
 export type WorkspaceUncheckedCreateWithoutLeavePoliciesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1492,6 +1548,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutLeavePoliciesInput = {
 export type WorkspaceUpdateWithoutLeavePoliciesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1513,6 +1570,7 @@ export type WorkspaceUpdateWithoutLeavePoliciesInput = {
 export type WorkspaceUncheckedUpdateWithoutLeavePoliciesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1534,6 +1592,7 @@ export type WorkspaceUncheckedUpdateWithoutLeavePoliciesInput = {
 export type WorkspaceCreateWithoutLeaveBalancesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1555,6 +1614,7 @@ export type WorkspaceCreateWithoutLeaveBalancesInput = {
 export type WorkspaceUncheckedCreateWithoutLeaveBalancesInput = {
   id?: string
   name: string
+  plan?: string
   country?: string | null
   timezone?: string
   createdAt?: Date | string
@@ -1592,6 +1652,7 @@ export type WorkspaceUpdateToOneWithWhereWithoutLeaveBalancesInput = {
 export type WorkspaceUpdateWithoutLeaveBalancesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1613,6 +1674,7 @@ export type WorkspaceUpdateWithoutLeaveBalancesInput = {
 export type WorkspaceUncheckedUpdateWithoutLeaveBalancesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1737,6 +1799,7 @@ export type WorkspaceCountOutputTypeCountLeavePoliciesArgs<ExtArgs extends runti
 export type WorkspaceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  plan?: boolean
   country?: boolean
   timezone?: boolean
   createdAt?: boolean
@@ -1760,6 +1823,7 @@ export type WorkspaceSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type WorkspaceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  plan?: boolean
   country?: boolean
   timezone?: boolean
   createdAt?: boolean
@@ -1772,6 +1836,7 @@ export type WorkspaceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type WorkspaceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  plan?: boolean
   country?: boolean
   timezone?: boolean
   createdAt?: boolean
@@ -1784,6 +1849,7 @@ export type WorkspaceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type WorkspaceSelectScalar = {
   id?: boolean
   name?: boolean
+  plan?: boolean
   country?: boolean
   timezone?: boolean
   createdAt?: boolean
@@ -1793,7 +1859,7 @@ export type WorkspaceSelectScalar = {
   slackNotifyLeave?: boolean
 }
 
-export type WorkspaceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "country" | "timezone" | "createdAt" | "slackDigestEnabled" | "slackDigestTime" | "slackDigestChannel" | "slackNotifyLeave", ExtArgs["result"]["workspace"]>
+export type WorkspaceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "plan" | "country" | "timezone" | "createdAt" | "slackDigestEnabled" | "slackDigestTime" | "slackDigestChannel" | "slackNotifyLeave", ExtArgs["result"]["workspace"]>
 export type WorkspaceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Workspace$usersArgs<ExtArgs>
   teams?: boolean | Prisma.Workspace$teamsArgs<ExtArgs>
@@ -1827,6 +1893,7 @@ export type $WorkspacePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    plan: string
     country: string | null
     timezone: string
     createdAt: Date
@@ -2269,6 +2336,7 @@ export interface Prisma__WorkspaceClient<T, Null = never, ExtArgs extends runtim
 export interface WorkspaceFieldRefs {
   readonly id: Prisma.FieldRef<"Workspace", 'String'>
   readonly name: Prisma.FieldRef<"Workspace", 'String'>
+  readonly plan: Prisma.FieldRef<"Workspace", 'String'>
   readonly country: Prisma.FieldRef<"Workspace", 'String'>
   readonly timezone: Prisma.FieldRef<"Workspace", 'String'>
   readonly createdAt: Prisma.FieldRef<"Workspace", 'DateTime'>

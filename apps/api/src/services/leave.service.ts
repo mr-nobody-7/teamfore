@@ -263,6 +263,19 @@ function buildCsvLine(values: Array<string | number | null | undefined>): string
   return line;
 }
 
+function resolveWorkspacePlan(plan: string | null | undefined): "FREE" | "STARTER" | "GROWTH" {
+  if (plan === "STARTER" || plan === "GROWTH") {
+    return plan;
+  }
+
+  return "FREE";
+}
+
+function hasPaidPlan(plan: string | null | undefined): boolean {
+  const resolvedPlan = resolveWorkspacePlan(plan);
+  return resolvedPlan === "STARTER" || resolvedPlan === "GROWTH";
+}
+
 function getUtcDaysBetween(startDate: Date, endDate: Date): Date[] {
   const start = startOfUtcDay(startDate);
   const end = startOfUtcDay(endDate);
@@ -689,7 +702,11 @@ export const listLeave = async (
   const take = limit;
 
   // ── Parallel DB calls ──────────────────────────────────────────────────────
-  const [total, leaves] = await Promise.all([
+  const [workspace, total, leaves] = await Promise.all([
+    prisma.workspace.findUnique({
+      where: { id: workspaceId },
+      select: { plan: true },
+    }),
     prisma.leaveRequest.count({ where }),
     prisma.leaveRequest.findMany({
       where,
@@ -703,15 +720,78 @@ export const listLeave = async (
     }),
   ]);
 
+  let leavesWithBalances = leaves;
+
+  if (hasPaidPlan(workspace?.plan)) {
+    const currentYear = new Date().getFullYear();
+    const userIds = Array.from(new Set(leaves.map((leave) => leave.userId)));
+    const leaveTypes = Array.from(new Set(leaves.map((leave) => leave.type)));
+
+    if (userIds.length > 0 && leaveTypes.length > 0) {
+      const balances = await prisma.userLeaveBalance.findMany({
+        where: {
+          workspaceId,
+          year: currentYear,
+          userId: { in: userIds },
+          leaveType: {
+            type: { in: leaveTypes },
+          },
+        },
+        select: {
+          userId: true,
+          openingBalance: true,
+          accrued: true,
+          carriedForward: true,
+          taken: true,
+          leaveType: {
+            select: {
+              type: true,
+              label: true,
+            },
+          },
+        },
+      });
+
+      const balanceMap = new Map(
+        balances.map((balance) => {
+          const available = Math.max(
+            balance.openingBalance +
+              balance.accrued +
+              balance.carriedForward -
+              balance.taken,
+            0,
+          );
+
+          return [
+            `${balance.userId}:${balance.leaveType.type}`,
+            {
+              leaveTypeLabel: balance.leaveType.label,
+              openingBalance: balance.openingBalance,
+              accrued: balance.accrued,
+              carriedForward: balance.carriedForward,
+              taken: balance.taken,
+              available,
+            },
+          ];
+        }),
+      );
+
+      leavesWithBalances = leaves.map((leave) => ({
+        ...leave,
+        leaveBalance: balanceMap.get(`${leave.userId}:${leave.type}`) ?? null,
+      }));
+    }
+  }
+
   const shouldIncludeCapacityWarnings =
     status === "PENDING" && (role === "MANAGER" || role === "ADMIN");
 
   if (!shouldIncludeCapacityWarnings) {
-    return { leaves, total, page, limit };
+    return { leaves: leavesWithBalances, total, page, limit };
   }
 
   const leavesWithCapacityWarnings = await Promise.all(
-    leaves.map(async (leave) => {
+    leavesWithBalances.map(async (leave) => {
       const capacityWarning = await buildLeaveCapacityWarning(
         workspaceId,
         leave.teamId,

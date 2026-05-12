@@ -9,6 +9,12 @@ import {
   updateWorkspaceLeaveType,
   updateWorkspaceLeaveTypes,
 } from "../services/settings.service.js";
+import {
+  getMyBalances,
+  getWorkspacePolicies,
+  upsertPolicy,
+} from "../services/leave-balance.service.js";
+import type { LeavePolicyUpsertInput } from "../types/index.js";
 import type {
   CreateLeaveTypeInput,
   UpdateLeaveTypeInput,
@@ -167,6 +173,51 @@ export const updateWorkspaceRegionalSettingsController = async (
     );
 
     sendSuccess(res, updated, "Workspace regional settings updated");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMyLeaveBalancesController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { userId, workspaceId } = req.user!;
+    const yearParam = typeof req.query.year === "string" ? req.query.year : undefined;
+    const year = yearParam ? Number(yearParam) : undefined;
+    const balances = await getMyBalances(userId, workspaceId, year);
+    sendSuccess(res, { balances }, "Leave balances fetched");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getWorkspaceLeavePoliciesController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { workspaceId } = req.user!;
+    const policies = await getWorkspacePolicies(workspaceId);
+    sendSuccess(res, { policies }, "Leave policies fetched");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const upsertLeavePolicyController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { workspaceId } = req.user!;
+    const input = req.body as LeavePolicyUpsertInput;
+    const policy = await upsertPolicy(workspaceId, input.leaveTypeId, input);
+    sendSuccess(res, { policy }, "Leave policy updated");
   } catch (error) {
     next(error);
   }

@@ -129,6 +129,25 @@ export interface UpdateWorkspaceRegionalSettingsInput {
   timezone: string;
 }
 
+export interface LeavePolicyUpsertInput {
+  leaveTypeId: string;
+  accrualFrequency: "MONTHLY" | "QUARTERLY" | "ANNUAL";
+  daysPerYear: number;
+  maxCarryForward: number;
+  carryForwardExpiryMonths: number;
+  isActive: boolean;
+}
+
+export interface LeaveBalanceQueryResult {
+  leaveTypeId: string;
+  leaveTypeLabel: string;
+  accrued: number;
+  taken: number;
+  carriedForward: number;
+  available: number;
+  openingBalance: number;
+}
+
 export interface CreateFeedbackInput {
   message: string;
 }

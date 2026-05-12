@@ -154,6 +154,7 @@ export const LeaveRequestScalarFieldEnum = {
   reason: 'reason',
   approverId: 'approverId',
   comment: 'comment',
+  googleCalendarEventId: 'googleCalendarEventId',
   created_at: 'created_at'
 } as const
 

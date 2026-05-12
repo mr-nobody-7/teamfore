@@ -37,6 +37,7 @@ export type LeaveRequestMinAggregateOutputType = {
   reason: string | null
   approverId: string | null
   comment: string | null
+  googleCalendarEventId: string | null
   created_at: Date | null
 }
 
@@ -53,6 +54,7 @@ export type LeaveRequestMaxAggregateOutputType = {
   reason: string | null
   approverId: string | null
   comment: string | null
+  googleCalendarEventId: string | null
   created_at: Date | null
 }
 
@@ -69,6 +71,7 @@ export type LeaveRequestCountAggregateOutputType = {
   reason: number
   approverId: number
   comment: number
+  googleCalendarEventId: number
   created_at: number
   _all: number
 }
@@ -87,6 +90,7 @@ export type LeaveRequestMinAggregateInputType = {
   reason?: true
   approverId?: true
   comment?: true
+  googleCalendarEventId?: true
   created_at?: true
 }
 
@@ -103,6 +107,7 @@ export type LeaveRequestMaxAggregateInputType = {
   reason?: true
   approverId?: true
   comment?: true
+  googleCalendarEventId?: true
   created_at?: true
 }
 
@@ -119,6 +124,7 @@ export type LeaveRequestCountAggregateInputType = {
   reason?: true
   approverId?: true
   comment?: true
+  googleCalendarEventId?: true
   created_at?: true
   _all?: true
 }
@@ -208,6 +214,7 @@ export type LeaveRequestGroupByOutputType = {
   reason: string | null
   approverId: string | null
   comment: string | null
+  googleCalendarEventId: string | null
   created_at: Date
   _count: LeaveRequestCountAggregateOutputType | null
   _min: LeaveRequestMinAggregateOutputType | null
@@ -245,6 +252,7 @@ export type LeaveRequestWhereInput = {
   reason?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   approverId?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   comment?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
+  googleCalendarEventId?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   created_at?: Prisma.DateTimeFilter<"LeaveRequest"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   approver?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -263,6 +271,7 @@ export type LeaveRequestOrderByWithRelationInput = {
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   approverId?: Prisma.SortOrderInput | Prisma.SortOrder
   comment?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleCalendarEventId?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   approver?: Prisma.UserOrderByWithRelationInput
@@ -284,6 +293,7 @@ export type LeaveRequestWhereUniqueInput = Prisma.AtLeast<{
   reason?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   approverId?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   comment?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
+  googleCalendarEventId?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   created_at?: Prisma.DateTimeFilter<"LeaveRequest"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   approver?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -302,6 +312,7 @@ export type LeaveRequestOrderByWithAggregationInput = {
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   approverId?: Prisma.SortOrderInput | Prisma.SortOrder
   comment?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleCalendarEventId?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   _count?: Prisma.LeaveRequestCountOrderByAggregateInput
   _max?: Prisma.LeaveRequestMaxOrderByAggregateInput
@@ -324,6 +335,7 @@ export type LeaveRequestScalarWhereWithAggregatesInput = {
   reason?: Prisma.StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
   approverId?: Prisma.StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
   comment?: Prisma.StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
+  googleCalendarEventId?: Prisma.StringNullableWithAggregatesFilter<"LeaveRequest"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"LeaveRequest"> | Date | string
 }
 
@@ -338,6 +350,7 @@ export type LeaveRequestCreateInput = {
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
+  googleCalendarEventId?: string | null
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRequestedLeaveRequestsInput
   approver?: Prisma.UserCreateNestedOneWithoutApprovedLeaveRequestsInput
@@ -356,6 +369,7 @@ export type LeaveRequestUncheckedCreateInput = {
   reason?: string | null
   approverId?: string | null
   comment?: string | null
+  googleCalendarEventId?: string | null
   created_at?: Date | string
 }
 
@@ -370,6 +384,7 @@ export type LeaveRequestUpdateInput = {
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRequestedLeaveRequestsNestedInput
   approver?: Prisma.UserUpdateOneWithoutApprovedLeaveRequestsNestedInput
@@ -388,6 +403,7 @@ export type LeaveRequestUncheckedUpdateInput = {
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -404,6 +420,7 @@ export type LeaveRequestCreateManyInput = {
   reason?: string | null
   approverId?: string | null
   comment?: string | null
+  googleCalendarEventId?: string | null
   created_at?: Date | string
 }
 
@@ -418,6 +435,7 @@ export type LeaveRequestUpdateManyMutationInput = {
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -434,6 +452,7 @@ export type LeaveRequestUncheckedUpdateManyInput = {
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -460,6 +479,7 @@ export type LeaveRequestCountOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   approverId?: Prisma.SortOrder
   comment?: Prisma.SortOrder
+  googleCalendarEventId?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -476,6 +496,7 @@ export type LeaveRequestMaxOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   approverId?: Prisma.SortOrder
   comment?: Prisma.SortOrder
+  googleCalendarEventId?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -492,6 +513,7 @@ export type LeaveRequestMinOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   approverId?: Prisma.SortOrder
   comment?: Prisma.SortOrder
+  googleCalendarEventId?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -598,6 +620,7 @@ export type LeaveRequestCreateWithoutUserInput = {
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
+  googleCalendarEventId?: string | null
   created_at?: Date | string
   approver?: Prisma.UserCreateNestedOneWithoutApprovedLeaveRequestsInput
 }
@@ -614,6 +637,7 @@ export type LeaveRequestUncheckedCreateWithoutUserInput = {
   reason?: string | null
   approverId?: string | null
   comment?: string | null
+  googleCalendarEventId?: string | null
   created_at?: Date | string
 }
 
@@ -638,6 +662,7 @@ export type LeaveRequestCreateWithoutApproverInput = {
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
+  googleCalendarEventId?: string | null
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRequestedLeaveRequestsInput
 }
@@ -654,6 +679,7 @@ export type LeaveRequestUncheckedCreateWithoutApproverInput = {
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
+  googleCalendarEventId?: string | null
   created_at?: Date | string
 }
 
@@ -699,6 +725,7 @@ export type LeaveRequestScalarWhereInput = {
   reason?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   approverId?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   comment?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
+  googleCalendarEventId?: Prisma.StringNullableFilter<"LeaveRequest"> | string | null
   created_at?: Prisma.DateTimeFilter<"LeaveRequest"> | Date | string
 }
 
@@ -730,6 +757,7 @@ export type LeaveRequestCreateManyUserInput = {
   reason?: string | null
   approverId?: string | null
   comment?: string | null
+  googleCalendarEventId?: string | null
   created_at?: Date | string
 }
 
@@ -745,6 +773,7 @@ export type LeaveRequestCreateManyApproverInput = {
   status?: $Enums.LeaveStatus
   reason?: string | null
   comment?: string | null
+  googleCalendarEventId?: string | null
   created_at?: Date | string
 }
 
@@ -759,6 +788,7 @@ export type LeaveRequestUpdateWithoutUserInput = {
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approver?: Prisma.UserUpdateOneWithoutApprovedLeaveRequestsNestedInput
 }
@@ -775,6 +805,7 @@ export type LeaveRequestUncheckedUpdateWithoutUserInput = {
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -790,6 +821,7 @@ export type LeaveRequestUncheckedUpdateManyWithoutUserInput = {
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -804,6 +836,7 @@ export type LeaveRequestUpdateWithoutApproverInput = {
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRequestedLeaveRequestsNestedInput
 }
@@ -820,6 +853,7 @@ export type LeaveRequestUncheckedUpdateWithoutApproverInput = {
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -835,6 +869,7 @@ export type LeaveRequestUncheckedUpdateManyWithoutApproverInput = {
   status?: Prisma.EnumLeaveStatusFieldUpdateOperationsInput | $Enums.LeaveStatus
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleCalendarEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -853,6 +888,7 @@ export type LeaveRequestSelect<ExtArgs extends runtime.Types.Extensions.Internal
   reason?: boolean
   approverId?: boolean
   comment?: boolean
+  googleCalendarEventId?: boolean
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   approver?: boolean | Prisma.LeaveRequest$approverArgs<ExtArgs>
@@ -871,6 +907,7 @@ export type LeaveRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   reason?: boolean
   approverId?: boolean
   comment?: boolean
+  googleCalendarEventId?: boolean
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   approver?: boolean | Prisma.LeaveRequest$approverArgs<ExtArgs>
@@ -889,6 +926,7 @@ export type LeaveRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   reason?: boolean
   approverId?: boolean
   comment?: boolean
+  googleCalendarEventId?: boolean
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   approver?: boolean | Prisma.LeaveRequest$approverArgs<ExtArgs>
@@ -907,10 +945,11 @@ export type LeaveRequestSelectScalar = {
   reason?: boolean
   approverId?: boolean
   comment?: boolean
+  googleCalendarEventId?: boolean
   created_at?: boolean
 }
 
-export type LeaveRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "teamId" | "startDate" | "startSession" | "endDate" | "endSession" | "type" | "status" | "reason" | "approverId" | "comment" | "created_at", ExtArgs["result"]["leaveRequest"]>
+export type LeaveRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "teamId" | "startDate" | "startSession" | "endDate" | "endSession" | "type" | "status" | "reason" | "approverId" | "comment" | "googleCalendarEventId" | "created_at", ExtArgs["result"]["leaveRequest"]>
 export type LeaveRequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   approver?: boolean | Prisma.LeaveRequest$approverArgs<ExtArgs>
@@ -943,6 +982,7 @@ export type $LeaveRequestPayload<ExtArgs extends runtime.Types.Extensions.Intern
     reason: string | null
     approverId: string | null
     comment: string | null
+    googleCalendarEventId: string | null
     created_at: Date
   }, ExtArgs["result"]["leaveRequest"]>
   composites: {}
@@ -1381,6 +1421,7 @@ export interface LeaveRequestFieldRefs {
   readonly reason: Prisma.FieldRef<"LeaveRequest", 'String'>
   readonly approverId: Prisma.FieldRef<"LeaveRequest", 'String'>
   readonly comment: Prisma.FieldRef<"LeaveRequest", 'String'>
+  readonly googleCalendarEventId: Prisma.FieldRef<"LeaveRequest", 'String'>
   readonly created_at: Prisma.FieldRef<"LeaveRequest", 'DateTime'>
 }
     

@@ -175,6 +175,7 @@ model LeaveRequest {
   approver     User?       @relation("Approver", fields: [approverId], references: [id])
   approverId   String?
   comment      String?
+  googleCalendarEventId String?
   created_at   DateTime    @default(now())
 
   @@index([teamId])

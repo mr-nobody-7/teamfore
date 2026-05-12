@@ -20,6 +20,10 @@ import {
   sendLeaveNotification,
   sendLeaveStatusNotification,
 } from "./slack.service.js";
+import {
+  syncLeaveApproved,
+  syncLeaveRemoved,
+} from "../integrations/google/calendar-sync.service.js";
 
 // ── Session ordering helpers ──────────────────────────────────────────────────
 // Map each leave period to a range of "half-day slots" so overlap detection
@@ -761,6 +765,10 @@ export const updateLeaveStatus = async (
   });
 
   if (updated.status === "APPROVED") {
+    void syncLeaveApproved(leaveId).catch((err: unknown) =>
+      console.error("gcal sync failed", err),
+    );
+
     notifyLeaveApproved({
       employeeEmail: updated.user.email,
       employeeName: updated.user.name,
@@ -781,6 +789,10 @@ export const updateLeaveStatus = async (
   }
 
   if (updated.status === "REJECTED") {
+    void syncLeaveRemoved(leaveId).catch((err: unknown) =>
+      console.error("gcal sync failed", err),
+    );
+
     notifyLeaveRejected({
       employeeEmail: updated.user.email,
       employeeName: updated.user.name,
@@ -841,6 +853,10 @@ export const cancelLeave = async (
       approver: { select: { id: true, name: true } },
     },
   });
+
+  void syncLeaveRemoved(leaveId).catch((err: unknown) =>
+    console.error("gcal sync failed", err),
+  );
 
   void sendLeaveCancelledNotification(workspaceId, {
     userName: cancelled.user.name,

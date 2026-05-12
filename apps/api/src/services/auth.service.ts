@@ -241,7 +241,15 @@ export const getMeService = async (userId: string) => {
       workspaceId: true,
       teamId: true,
       createdAt: true,
-      workspace: { select: { id: true, name: true, createdAt: true } },
+      workspace: {
+        select: {
+          id: true,
+          name: true,
+          country: true,
+          timezone: true,
+          createdAt: true,
+        },
+      },
     },
   });
   if (!user) throw new UnauthorizedError("User not found");

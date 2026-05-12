@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -46,11 +46,15 @@ const applyLeaveSchema = z.object({
 });
 
 type ApplyLeaveForm = z.infer<typeof applyLeaveSchema>;
+type HolidayConflict = { name: string; date: string };
 
 const SESSIONS: Session[] = ["FULL_DAY", "FIRST_HALF", "SECOND_HALF"];
 
 export default function ApplyLeavePage() {
   const queryClient = useQueryClient();
+  const [holidayConflicts, setHolidayConflicts] = useState<HolidayConflict[]>(
+    [],
+  );
 
   const { data: leaveTypeSettings, isLoading: isLeaveTypesLoading } = useQuery({
     queryKey: ["leave-type-settings"],
@@ -82,9 +86,16 @@ export default function ApplyLeavePage() {
       return data;
     },
     onSuccess: async (response: {
-      data?: { warning?: boolean; warningMessage?: string | null };
+      data?: {
+        warning?: boolean;
+        warningMessage?: string | null;
+        holidayConflicts?: HolidayConflict[];
+      };
     }) => {
       posthog.capture("leave_requested");
+      const conflicts = response?.data?.holidayConflicts ?? [];
+      setHolidayConflicts(conflicts);
+
       if (response?.data?.warning) {
         toast.warning(
           response.data.warningMessage ??
@@ -92,6 +103,14 @@ export default function ApplyLeavePage() {
         );
       } else {
         toast.success("Leave request submitted");
+      }
+
+      if (conflicts.length > 0) {
+        toast.warning(
+          `Note: Your leave includes ${conflicts.length} public holiday(s): ${conflicts
+            .map((holiday) => holiday.name)
+            .join(", ")}`,
+        );
       }
 
       form.reset();
@@ -270,6 +289,13 @@ export default function ApplyLeavePage() {
                   <p className="mt-2 text-xs text-muted-foreground">
                     No leave types are currently enabled. Please contact your
                     workspace admin.
+                  </p>
+                )}
+                {holidayConflicts.length > 0 && (
+                  <p className="mt-2 text-xs text-amber-700">
+                    Note: Your leave includes {holidayConflicts.length} public
+                    holiday(s):{" "}
+                    {holidayConflicts.map((holiday) => holiday.name).join(", ")}
                   </p>
                 )}
               </div>

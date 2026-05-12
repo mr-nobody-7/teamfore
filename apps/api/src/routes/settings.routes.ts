@@ -4,6 +4,8 @@ import {
   createLeaveTypeController,
   deleteLeaveTypeController,
   getLeaveTypesSettingsController,
+  listSupportedCountriesController,
+  updateWorkspaceRegionalSettingsController,
   updateLeaveTypeController,
   updateLeaveTypesSettingsController,
 } from "../controllers/settings.controller.js";
@@ -12,6 +14,7 @@ import { authorize } from "../middleware/authorize.js";
 import { validate } from "../middleware/validate.js";
 import {
   createLeaveTypeSchema,
+  updateWorkspaceRegionalSettingsSchema,
   updateLeaveTypeSchema,
   updateLeaveTypesSchema,
 } from "../utils/validations.js";
@@ -45,6 +48,19 @@ router.delete(
   authenticate,
   authorize(["ADMIN"]),
   deleteLeaveTypeController,
+);
+router.get(
+  "/countries",
+  authenticate,
+  authorize(["ADMIN"]),
+  listSupportedCountriesController,
+);
+router.post(
+  "/workspace",
+  authenticate,
+  authorize(["ADMIN"]),
+  validate(updateWorkspaceRegionalSettingsSchema),
+  updateWorkspaceRegionalSettingsController,
 );
 
 export { router as settingsRoutes };

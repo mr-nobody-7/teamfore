@@ -124,6 +124,11 @@ export interface UpdateLeaveTypeInput {
   isActive?: boolean;
 }
 
+export interface UpdateWorkspaceRegionalSettingsInput {
+  country?: string;
+  timezone: string;
+}
+
 export interface CreateFeedbackInput {
   message: string;
 }

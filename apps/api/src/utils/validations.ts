@@ -216,6 +216,20 @@ export const updateLeaveTypeSchema = z
     path: ["label"],
   });
 
+export const updateWorkspaceRegionalSettingsSchema = z.object({
+  country: z
+    .string()
+    .trim()
+    .regex(/^[A-Za-z]{2}$/, "country must be a 2-letter ISO code")
+    .optional()
+    .or(z.literal("")),
+  timezone: z
+    .string()
+    .trim()
+    .min(1, "timezone is required")
+    .max(100, "timezone must be less than 100 characters"),
+});
+
 export const createFeedbackSchema = z.object({
   message: z
     .string()

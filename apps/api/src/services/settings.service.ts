@@ -1,9 +1,14 @@
 import { randomUUID } from "node:crypto";
+import {
+  getSupportedCountries,
+  syncPublicHolidays,
+} from "../integrations/holidays/holiday-sync.service.js";
 import { prisma } from "../lib/db.js";
 import type {
   CreateLeaveTypeInput,
   UpdateLeaveTypeInput,
   UpdateLeaveTypesInput,
+  UpdateWorkspaceRegionalSettingsInput,
 } from "../types/index.js";
 import { BadRequestError, NotFoundError } from "../utils/errors.js";
 
@@ -213,4 +218,41 @@ export const getLabelMapForWorkspace = async (workspaceId: string) => {
     select: { type: true, label: true },
   });
   return Object.fromEntries(rows.map((r) => [r.type, r.label]));
+};
+
+export const listSupportedCountries = () => {
+  return getSupportedCountries();
+};
+
+export const updateWorkspaceRegionalSettings = async (
+  workspaceId: string,
+  input: UpdateWorkspaceRegionalSettingsInput,
+) => {
+  const country = input.country?.trim().toUpperCase() || null;
+  const timezone = input.timezone.trim();
+
+  const workspace = await prisma.workspace.update({
+    where: { id: workspaceId },
+    data: {
+      country,
+      timezone,
+    },
+    select: {
+      id: true,
+      name: true,
+      country: true,
+      timezone: true,
+      createdAt: true,
+    },
+  });
+
+  const syncedHolidays = await syncPublicHolidays(
+    workspaceId,
+    new Date().getUTCFullYear(),
+  );
+
+  return {
+    workspace,
+    syncedHolidays,
+  };
 };

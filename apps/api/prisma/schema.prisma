@@ -85,6 +85,8 @@ enum AuditAction {
 model Workspace {
   id        String   @id @default(uuid())
   name      String
+  country   String?
+  timezone  String   @default("Asia/Kolkata")
   createdAt DateTime @default(now())
 
   // Slack integration settings
@@ -267,6 +269,7 @@ model PublicHoliday {
   @@index([date])
   @@index([workspaceId, date])
   @@index([category, region, date])
+  @@unique([workspaceId, date, name])
 }
 
 model FeedbackEntry {

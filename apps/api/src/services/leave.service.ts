@@ -447,6 +447,26 @@ export const applyLeave = async (
     }
   }
 
+  const holidayConflictRows = await prisma.publicHoliday.findMany({
+    where: {
+      workspaceId,
+      date: {
+        gte: startDate,
+        lte: endDate,
+      },
+    },
+    select: {
+      name: true,
+      date: true,
+    },
+    orderBy: [{ date: "asc" }, { name: "asc" }],
+  });
+
+  const holidayConflicts = holidayConflictRows.map((holiday) => ({
+    name: holiday.name,
+    date: holiday.date.toISOString().slice(0, 10),
+  }));
+
   const capacityWarning = await buildLeaveCapacityWarning(
     workspaceId,
     teamId,
@@ -518,6 +538,7 @@ export const applyLeave = async (
     warning: conflictDetected,
     warningMessage,
     capacityWarning,
+    holidayConflicts,
   };
 };
 

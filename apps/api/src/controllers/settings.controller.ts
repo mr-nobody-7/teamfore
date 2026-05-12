@@ -3,7 +3,9 @@ import type { NextFunction, Request, Response } from "express";
 import {
   createWorkspaceLeaveType,
   deleteWorkspaceLeaveType,
+  listSupportedCountries,
   listWorkspaceLeaveTypes,
+  updateWorkspaceRegionalSettings,
   updateWorkspaceLeaveType,
   updateWorkspaceLeaveTypes,
 } from "../services/settings.service.js";
@@ -11,6 +13,7 @@ import type {
   CreateLeaveTypeInput,
   UpdateLeaveTypeInput,
   UpdateLeaveTypesInput,
+  UpdateWorkspaceRegionalSettingsInput,
 } from "../types/index.js";
 import { createAuditLog } from "../utils/audit.js";
 import { sendSuccess } from "../utils/response.js";
@@ -138,6 +141,32 @@ export const deleteLeaveTypeController = async (
     });
 
     sendSuccess(res, null, "Leave type deleted");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const listSupportedCountriesController = (
+  _req: Request,
+  res: Response,
+) => {
+  const countries = listSupportedCountries();
+  sendSuccess(res, { countries }, "Supported countries fetched");
+};
+
+export const updateWorkspaceRegionalSettingsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { workspaceId } = req.user!;
+    const updated = await updateWorkspaceRegionalSettings(
+      workspaceId,
+      req.body as UpdateWorkspaceRegionalSettingsInput,
+    );
+
+    sendSuccess(res, updated, "Workspace regional settings updated");
   } catch (error) {
     next(error);
   }

@@ -9,7 +9,13 @@ import type {
 
 export interface MeData {
   user: SafeUser & {
-    workspace: { id: string; name: string; createdAt: string };
+    workspace: {
+      id: string;
+      name: string;
+      country: string | null;
+      timezone: string;
+      createdAt: string;
+    };
   };
 }
 

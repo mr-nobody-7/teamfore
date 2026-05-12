@@ -86,6 +86,8 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const WorkspaceScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  country: 'country',
+  timezone: 'timezone',
   createdAt: 'createdAt',
   slackDigestEnabled: 'slackDigestEnabled',
   slackDigestTime: 'slackDigestTime',

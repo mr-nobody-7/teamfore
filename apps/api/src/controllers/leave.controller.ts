@@ -78,6 +78,7 @@ export const applyLeaveController = async (
         endSession: result.leaveRequest.endSession,
         teamConflictWarning: result.warning,
         warningMessage: result.warningMessage ?? null,
+        holidayConflicts: result.holidayConflicts,
         projectedTeamCapacityPercent:
           result.capacityWarning.projectedCapacityPercent,
         projectedTeamAvailableCount:
@@ -92,6 +93,7 @@ export const applyLeaveController = async (
         leaveRequest: result.leaveRequest,
         warning: result.warning,
         warningMessage: result.warningMessage ?? null,
+        holidayConflicts: result.holidayConflicts,
       },
       "Leave applied successfully",
       201,

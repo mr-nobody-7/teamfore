@@ -223,6 +223,7 @@ export type PublicHolidayOrderByWithRelationInput = {
 
 export type PublicHolidayWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  workspaceId_date_name?: Prisma.PublicHolidayWorkspaceIdDateNameCompoundUniqueInput
   AND?: Prisma.PublicHolidayWhereInput | Prisma.PublicHolidayWhereInput[]
   OR?: Prisma.PublicHolidayWhereInput[]
   NOT?: Prisma.PublicHolidayWhereInput | Prisma.PublicHolidayWhereInput[]
@@ -234,7 +235,7 @@ export type PublicHolidayWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"PublicHoliday"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PublicHoliday"> | Date | string
   workspace?: Prisma.XOR<Prisma.WorkspaceNullableScalarRelationFilter, Prisma.WorkspaceWhereInput> | null
-}, "id">
+}, "id" | "workspaceId_date_name">
 
 export type PublicHolidayOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -348,6 +349,12 @@ export type PublicHolidayListRelationFilter = {
 
 export type PublicHolidayOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type PublicHolidayWorkspaceIdDateNameCompoundUniqueInput = {
+  workspaceId: string
+  date: Date | string
+  name: string
 }
 
 export type PublicHolidayCountOrderByAggregateInput = {

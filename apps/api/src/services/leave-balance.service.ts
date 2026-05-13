@@ -13,44 +13,60 @@ export async function getMyBalances(
   workspaceId: string,
   year = new Date().getFullYear(),
 ): Promise<LeaveBalanceQueryResult[]> {
-  const balances = await prisma.userLeaveBalance.findMany({
-    where: {
-      userId,
-      workspaceId,
-      year,
-    },
-    include: {
-      leaveType: {
-        select: {
-          id: true,
-          label: true,
-        },
+  const [leaveTypes, balances] = await Promise.all([
+    prisma.workspaceLeaveType.findMany({
+      where: {
+        workspaceId,
+        isActive: true,
       },
-    },
-    orderBy: {
-      leaveType: { label: "asc" },
-    },
-  });
+      select: {
+        id: true,
+        label: true,
+      },
+      orderBy: { label: "asc" },
+    }),
+    prisma.userLeaveBalance.findMany({
+      where: {
+        userId,
+        workspaceId,
+        year,
+      },
+      select: {
+        leaveTypeId: true,
+        openingBalance: true,
+        accrued: true,
+        taken: true,
+        carriedForward: true,
+      },
+    }),
+  ]);
 
-  return balances.map((balance) => {
+  const balanceByLeaveTypeId = new Map(
+    balances.map((balance) => [balance.leaveTypeId, balance]),
+  );
+
+  return leaveTypes.map((leaveType) => {
+    const balance = balanceByLeaveTypeId.get(leaveType.id);
+    const openingBalance = balance?.openingBalance ?? 0;
+    const accrued = balance?.accrued ?? 0;
+    const taken = balance?.taken ?? 0;
+    const carriedForward = balance?.carriedForward ?? 0;
+
     const available = Math.max(
       roundToTwoDecimals(
-        balance.openingBalance +
-          balance.accrued +
-          balance.carriedForward -
-          balance.taken,
+        openingBalance + accrued + carriedForward - taken,
       ),
       0,
     );
 
     return {
-      leaveTypeId: balance.leaveTypeId,
-      leaveTypeLabel: balance.leaveType.label,
-      accrued: balance.accrued,
-      taken: balance.taken,
-      carriedForward: balance.carriedForward,
+      leaveTypeId: leaveType.id,
+      leaveTypeLabel: leaveType.label,
+      accrued,
+      taken,
+      carriedForward,
       available,
-      openingBalance: balance.openingBalance,
+      openingBalance,
     };
   });
 }

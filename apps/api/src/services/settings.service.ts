@@ -20,6 +20,38 @@ const BUILT_IN_LEAVE_TYPES: { type: string; label: string }[] = [
   { type: "CASUAL", label: "Casual Leave" },
 ];
 
+const HOLIDAY_SYNC_RETRY_DELAYS_MS = [30_000, 120_000];
+
+async function syncHolidaysWithRetry(
+  workspaceId: string,
+  year: number,
+): Promise<void> {
+  const attempts = [0, ...HOLIDAY_SYNC_RETRY_DELAYS_MS];
+
+  for (const [index, delayMs] of attempts.entries()) {
+    if (delayMs > 0) {
+      await new Promise((resolve) => {
+        setTimeout(resolve, delayMs);
+      });
+    }
+
+    const synced = await syncPublicHolidays(workspaceId, year);
+    if (synced > 0) {
+      return;
+    }
+
+    if (index < attempts.length - 1) {
+      console.warn(
+        `[updateWorkspaceRegionalSettings] Holiday sync returned 0 records, scheduling retry ${index + 1}/${attempts.length - 1}`,
+        {
+          workspaceId,
+          year,
+        },
+      );
+    }
+  }
+}
+
 async function ensureLeaveTypeRows(workspaceId: string) {
   const existing = await prisma.workspaceLeaveType.findMany({
     where: { workspaceId },
@@ -246,13 +278,17 @@ export const updateWorkspaceRegionalSettings = async (
     },
   });
 
-  const syncedHolidays = await syncPublicHolidays(
-    workspaceId,
-    new Date().getUTCFullYear(),
-  );
+  const year = new Date().getUTCFullYear();
+  void syncHolidaysWithRetry(workspaceId, year).catch((error: unknown) => {
+    console.error("[updateWorkspaceRegionalSettings] Holiday sync failed", {
+      workspaceId,
+      year,
+      error: error instanceof Error ? error.message : String(error),
+    });
+  });
 
   return {
     workspace,
-    syncedHolidays,
+    syncedHolidays: 0,
   };
 };

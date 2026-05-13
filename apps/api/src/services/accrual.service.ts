@@ -65,64 +65,75 @@ export async function runMonthlyAccrual(): Promise<void> {
     });
 
     const processedUserIds = new Set<string>();
-    let processedPolicyCount = 0;
 
-    for (const policy of policies) {
-      if (!policy.leaveType.isActive) {
-        continue;
-      }
+    const eligiblePolicies = policies.filter(
+      (policy) =>
+        policy.leaveType.isActive && shouldAccrueThisMonth(policy, currentMonth),
+    );
 
-      if (!shouldAccrueThisMonth(policy, currentMonth)) {
-        continue;
-      }
-
-      processedPolicyCount += 1;
-
-      const users = await prisma.user.findMany({
-        where: {
-          workspaceId: policy.workspaceId,
-          isActive: true,
-        },
-        select: {
-          id: true,
-          createdAt: true,
-        },
-      });
-
-      const monthlyAccrual = calculateMonthlyAccrual(policy);
-
-      for (const user of users) {
-        processedUserIds.add(user.id);
-        const proRata = getProRataFactor(user.createdAt, currentYear);
-        const accrualAmount = roundToTwoDecimals(monthlyAccrual * proRata);
-
-        await prisma.userLeaveBalance.upsert({
+    const policyResults = await Promise.allSettled(
+      eligiblePolicies.map(async (policy) => {
+        const users = await prisma.user.findMany({
           where: {
-            userId_leaveTypeId_year: {
-              userId: user.id,
-              leaveTypeId: policy.leaveTypeId,
-              year: currentYear,
-            },
-          },
-          create: {
-            userId: user.id,
             workspaceId: policy.workspaceId,
-            leaveTypeId: policy.leaveTypeId,
-            year: currentYear,
-            openingBalance: 0,
-            accrued: accrualAmount,
-            taken: 0,
-            carriedForward: 0,
+            isActive: true,
           },
-          update: {
-            accrued: { increment: accrualAmount },
+          select: {
+            id: true,
+            createdAt: true,
           },
         });
-      }
+
+        const monthlyAccrual = calculateMonthlyAccrual(policy);
+
+        await Promise.allSettled(
+          users.map(async (user) => {
+            const proRata = getProRataFactor(user.createdAt, currentYear);
+            const accrualAmount = roundToTwoDecimals(monthlyAccrual * proRata);
+
+            await prisma.userLeaveBalance.upsert({
+              where: {
+                userId_leaveTypeId_year: {
+                  userId: user.id,
+                  leaveTypeId: policy.leaveTypeId,
+                  year: currentYear,
+                },
+              },
+              create: {
+                userId: user.id,
+                workspaceId: policy.workspaceId,
+                leaveTypeId: policy.leaveTypeId,
+                year: currentYear,
+                openingBalance: 0,
+                accrued: accrualAmount,
+                taken: 0,
+                carriedForward: 0,
+              },
+              update: {
+                accrued: { increment: accrualAmount },
+              },
+            });
+
+            processedUserIds.add(user.id);
+          }),
+        );
+
+        return policy.leaveTypeId;
+      }),
+    );
+
+    const failedPolicies = policyResults.filter(
+      (result) => result.status === "rejected",
+    );
+
+    if (failedPolicies.length > 0) {
+      console.error(
+        `[runMonthlyAccrual] ${failedPolicies.length} policy run(s) failed`,
+      );
     }
 
     console.log(
-      `Accrual run complete: ${processedUserIds.size} users, ${processedPolicyCount} policies, month ${currentMonth}`,
+      `Accrual run complete: ${processedUserIds.size} users, ${eligiblePolicies.length - failedPolicies.length}/${eligiblePolicies.length} policies, month ${currentMonth}`,
     );
   } catch (error) {
     console.error("[runMonthlyAccrual] Failed to run monthly accrual", error);

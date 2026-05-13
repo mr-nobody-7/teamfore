@@ -1,0 +1,27 @@
+<svg viewBox="0 0 180 180" width="180" height="180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1" gradientTransform="rotate(40,0.5,0.5)">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" fill="url(#g)"/>
+  <!-- row 0 -->
+  <rect x="12"  y="52" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <rect x="45"  y="52" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <rect x="78"  y="52" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <rect x="111" y="52" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <rect x="144" y="52" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <!-- row 1 -->
+  <rect x="12"  y="81.5" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <rect x="45"  y="81.5" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <rect x="78"  y="81.5" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.22"/>
+  <rect x="111" y="81.5" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <rect x="144" y="81.5" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <!-- row 2 -->
+  <rect x="12"  y="111" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <rect x="45"  y="111" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.22"/>
+  <rect x="78"  y="111" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+  <rect x="111" y="111" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.22"/>
+  <rect x="144" y="111" width="24" height="17" rx="4.5" fill="white" fill-opacity="0.90"/>
+</svg>

@@ -27,6 +27,14 @@ const displayFont = Instrument_Serif({
 export const metadata: Metadata = {
   title: "TeamFore",
   description: "Team leave management system",
+  icons: {
+    icon: [
+      { url: "/favicon-32.svg", type: "image/svg+xml", sizes: "32x32" },
+      { url: "/favicon-16.svg", type: "image/svg+xml", sizes: "16x16" },
+    ],
+    apple: [{ url: "/apple-touch-icon.svg", type: "image/svg+xml" }],
+    shortcut: ["/favicon-32.svg"],
+  },
 };
 
 export default function RootLayout({

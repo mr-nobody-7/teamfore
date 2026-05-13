@@ -7,7 +7,8 @@ import { toast } from "sonner";
 
 import { RoleGuard } from "@/components/auth/role-guard";
 import { PageContainer } from "@/components/layout/page-container";
-import { Badge } from "@/components/ui/badge";
+import { GoogleCalendarConnectCard } from "@/components/settings/google-calendar-connect-card";
+import { SlackConnectCard } from "@/components/settings/slack-connect";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -21,7 +22,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import api from "@/lib/axios";
-import { GoogleCalendarConnectCard } from "@/src/components/settings/google-calendar-connect";
 import type {
   ApiResponse,
   LeaveTypeSetting,
@@ -248,7 +248,7 @@ export default function SettingsPage() {
                 <div className="flex items-center gap-4">
                   <div className="relative flex-1 h-2 bg-muted rounded-full overflow-hidden">
                     <div
-                      className="absolute h-full bg-gradient-to-r from-blue-500 to-blue-600"
+                      className="absolute h-full bg-linear-to-r from-blue-500 to-blue-600"
                       style={{ width: "50%" }}
                     />
                   </div>
@@ -262,27 +262,7 @@ export default function SettingsPage() {
 
           {/* Right Column: Integrations */}
           <div className="lg:col-span-1 space-y-6">
-            <Card className="product-card-hover">
-              <CardHeader>
-                <CardTitle className="text-base">Integrations</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="product-interactive flex items-center justify-between rounded-lg border px-3 py-2">
-                  <div>
-                    <div className="text-sm font-medium">Slack</div>
-                    <div className="text-xs text-muted-foreground">
-                      Connected · #standup
-                    </div>
-                  </div>
-                  <Badge
-                    variant="default"
-                    className="bg-emerald-600 text-white text-xs"
-                  >
-                    CONNECTED
-                  </Badge>
-                </div>
-              </CardContent>
-            </Card>
+            <SlackConnectCard />
 
             <GoogleCalendarConnectCard />
 

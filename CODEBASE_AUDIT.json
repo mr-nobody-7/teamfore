@@ -1,0 +1,410 @@
+{
+  "audit_metadata": {
+    "date": "2026-05-13",
+    "project": "TeamFore",
+    "repository": "team-pulse",
+    "scope": "apps/api + apps/web",
+    "package_manager": "pnpm@10.28.1",
+    "stack": {
+      "backend": "Express 5 + TypeScript + Prisma",
+      "frontend": "Next.js 16 + React 19 + TypeScript",
+      "database": "PostgreSQL"
+    }
+  },
+  "repository_snapshot": {
+    "workspace_type": "pnpm monorepo",
+    "apps": ["apps/api", "apps/web"],
+    "packages_folder_present": true,
+    "root_tooling": ["Biome", "Husky"]
+  },
+  "api_routes": {
+    "summary": {
+      "route_files": 11,
+      "mounted_route_groups": 11,
+      "mounted_endpoints": 50,
+      "app_level_endpoints": 3,
+      "total_externally_available_endpoints": 53
+    },
+    "mounted_prefixes": [
+      "/auth",
+      "/leave",
+      "/availability",
+      "/feedback",
+      "/holidays",
+      "/reports",
+      "/settings",
+      "/slack",
+      "/teams",
+      "/users",
+      "/audit-logs"
+    ],
+    "routes": [
+      {
+        "group": "auth",
+        "file": "apps/api/src/routes/auth.routes.ts",
+        "endpoints": [
+          { "method": "POST", "path": "/auth/register", "auth_required": false, "status": "implemented" },
+          { "method": "POST", "path": "/auth/register-workspace", "auth_required": false, "status": "implemented" },
+          { "method": "POST", "path": "/auth/login", "auth_required": false, "status": "implemented" },
+          { "method": "GET", "path": "/auth/google", "auth_required": false, "status": "implemented" },
+          { "method": "GET", "path": "/auth/google/calendar-connect", "auth_required": false, "status": "implemented" },
+          { "method": "GET", "path": "/auth/google/callback", "auth_required": false, "status": "implemented" },
+          { "method": "GET", "path": "/auth/google/failure", "auth_required": false, "status": "implemented" },
+          { "method": "GET", "path": "/auth/calendar-status", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "POST", "path": "/auth/google/calendar-disconnect", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "GET", "path": "/auth/me", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "POST", "path": "/auth/logout", "auth_required": false, "status": "implemented" }
+        ]
+      },
+      {
+        "group": "leave",
+        "file": "apps/api/src/routes/leave.routes.ts",
+        "endpoints": [
+          { "method": "POST", "path": "/leave/applyLeave", "auth_required": true, "roles": ["USER", "MANAGER", "ADMIN"], "status": "implemented" },
+          { "method": "GET", "path": "/leave", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "GET", "path": "/leave/export", "auth_required": true, "roles": ["ADMIN", "MANAGER"], "status": "implemented" },
+          { "method": "PATCH", "path": "/leave/:id/status", "auth_required": true, "roles": ["ADMIN", "MANAGER"], "status": "implemented" },
+          { "method": "PATCH", "path": "/leave/:id/cancel", "auth_required": true, "roles": ["ALL"], "status": "implemented" }
+        ]
+      },
+      {
+        "group": "availability",
+        "file": "apps/api/src/routes/availability.routes.ts",
+        "endpoints": [
+          { "method": "GET", "path": "/availability/board", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "PUT", "path": "/availability/me", "auth_required": true, "roles": ["ALL"], "status": "implemented" }
+        ]
+      },
+      {
+        "group": "feedback",
+        "file": "apps/api/src/routes/feedback.routes.ts",
+        "endpoints": [
+          { "method": "POST", "path": "/feedback", "auth_required": true, "roles": ["ALL"], "status": "implemented" }
+        ]
+      },
+      {
+        "group": "holidays",
+        "file": "apps/api/src/routes/holiday.routes.ts",
+        "endpoints": [
+          { "method": "GET", "path": "/holidays", "auth_required": true, "roles": ["ALL"], "status": "implemented" }
+        ]
+      },
+      {
+        "group": "reports",
+        "file": "apps/api/src/routes/reports.routes.ts",
+        "endpoints": [
+          { "method": "GET", "path": "/reports/summary", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "GET", "path": "/reports/analytics", "auth_required": true, "roles": ["ADMIN", "MANAGER"], "status": "implemented" }
+        ]
+      },
+      {
+        "group": "settings",
+        "file": "apps/api/src/routes/settings.routes.ts",
+        "endpoints": [
+          { "method": "GET", "path": "/settings/leave-types", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "PUT", "path": "/settings/leave-types", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "POST", "path": "/settings/leave-types", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "PATCH", "path": "/settings/leave-types/:id", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "DELETE", "path": "/settings/leave-types/:id", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "GET", "path": "/settings/countries", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "POST", "path": "/settings/workspace", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "GET", "path": "/settings/leave-balances", "auth_required": true, "roles": ["ALL"], "plan_gated": "STARTER", "status": "implemented" },
+          { "method": "GET", "path": "/settings/leave-policies", "auth_required": true, "roles": ["ADMIN"], "plan_gated": "STARTER", "status": "implemented" },
+          { "method": "POST", "path": "/settings/leave-policies", "auth_required": true, "roles": ["ADMIN"], "plan_gated": "STARTER", "status": "implemented" }
+        ]
+      },
+      {
+        "group": "teams",
+        "file": "apps/api/src/routes/team.routes.ts",
+        "endpoints": [
+          { "method": "GET", "path": "/teams", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "POST", "path": "/teams", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "PATCH", "path": "/teams/:id", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "DELETE", "path": "/teams/:id", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" }
+        ]
+      },
+      {
+        "group": "users",
+        "file": "apps/api/src/routes/user.routes.ts",
+        "endpoints": [
+          { "method": "PUT", "path": "/users/me", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "PUT", "path": "/users/me/password", "auth_required": true, "roles": ["ALL"], "status": "implemented" },
+          { "method": "GET", "path": "/users", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "POST", "path": "/users", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "PATCH", "path": "/users/:id", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "PATCH", "path": "/users/:id/deactivate", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" }
+        ]
+      },
+      {
+        "group": "audit_logs",
+        "file": "apps/api/src/routes/audit.routes.ts",
+        "endpoints": [
+          { "method": "GET", "path": "/audit-logs", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" }
+        ]
+      },
+      {
+        "group": "slack",
+        "file": "apps/api/src/integrations/slack/slack.router.ts",
+        "endpoints": [
+          { "method": "GET", "path": "/slack/oauth/install", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "GET", "path": "/slack/oauth/callback", "auth_required": false, "status": "implemented" },
+          { "method": "GET", "path": "/slack/status", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "DELETE", "path": "/slack/disconnect", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "PATCH", "path": "/slack/settings", "auth_required": true, "roles": ["ADMIN"], "status": "implemented" },
+          { "method": "POST", "path": "/slack/commands", "auth_required": false, "signature_verified": true, "status": "implemented" },
+          { "method": "POST", "path": "/slack/actions", "auth_required": false, "signature_verified": true, "status": "implemented" }
+        ]
+      }
+    ],
+    "app_level_endpoints": [
+      { "method": "GET", "path": "/health", "status": "implemented" },
+      { "method": "GET", "path": "/openapi.json", "status": "implemented" },
+      { "method": "GET", "path": "/reference", "status": "implemented" }
+    ]
+  },
+  "database_schema": {
+    "summary": {
+      "models": 14,
+      "enums": 8,
+      "provider": "postgresql",
+      "all_models_actively_used": true
+    },
+    "models": [
+      "Workspace",
+      "SlackInstallation",
+      "Team",
+      "User",
+      "LeaveRequest",
+      "AuditLog",
+      "WorkspaceLeaveType",
+      "UserAvailabilityStatus",
+      "UserWorkloadStatus",
+      "PublicHoliday",
+      "FeedbackEntry",
+      "UserGoogleToken",
+      "WorkspaceLeavePolicy",
+      "UserLeaveBalance"
+    ],
+    "enums": [
+      "Role",
+      "LeaveStatus",
+      "Session",
+      "AvailabilityStatus",
+      "WorkloadLevel",
+      "HolidayCategory",
+      "LeaveAccrualFrequency",
+      "AuditAction"
+    ],
+    "high_value_constraints": [
+      "WorkspaceLeaveType unique(workspaceId, type)",
+      "UserLeaveBalance unique(userId, leaveTypeId, year)",
+      "WorkspaceLeavePolicy unique(leaveTypeId) and unique(workspaceId, leaveTypeId)",
+      "PublicHoliday unique(workspaceId, date, name)",
+      "UserAvailabilityStatus unique(userId, date)",
+      "UserWorkloadStatus unique(userId, date)"
+    ]
+  },
+  "frontend": {
+    "pages": {
+      "total": 18,
+      "routes": [
+        "/",
+        "/(marketing)/changelog",
+        "/(marketing)/privacy",
+        "/(marketing)/terms",
+        "/(auth)/login",
+        "/(auth)/register",
+        "/(dashboard)/dashboard",
+        "/(dashboard)/calendar",
+        "/(dashboard)/leaves",
+        "/(dashboard)/leaves/apply",
+        "/(dashboard)/leaves/approvals",
+        "/(dashboard)/audit-logs",
+        "/(dashboard)/teams",
+        "/(dashboard)/users",
+        "/(dashboard)/reports",
+        "/(dashboard)/settings",
+        "/(dashboard)/settings/profile",
+        "/(dashboard)/settings/team"
+      ]
+    },
+    "components": {
+      "files_in_components_dir": 45,
+      "implemented_component_files": 44,
+      "categories": {
+        "auth": 2,
+        "calendar": 6,
+        "dashboard": 1,
+        "layout": 3,
+        "marketing": 11,
+        "providers": 2,
+        "settings": 1,
+        "ui": 17,
+        "other": 1
+      }
+    },
+    "hooks": {
+      "files_in_hooks_dir": 12,
+      "implemented_hooks": 11,
+      "key_hooks": [
+        "use-auth",
+        "use-role",
+        "use-current-user",
+        "use-leaves",
+        "use-dashboard-summary",
+        "use-reports-analytics",
+        "use-availability-board",
+        "use-calendar-leaves",
+        "use-public-holidays",
+        "use-teams",
+        "use-leave-type-label-map"
+      ]
+    },
+    "client_services": [
+      "apps/web/services/auth.service.ts",
+      "apps/web/services/slack.service.ts"
+    ]
+  },
+  "implementation_status": {
+    "fully_implemented": [
+      "Authentication (email/password + Google OAuth + logout)",
+      "Workspace onboarding with initial leave-type selection",
+      "Leave application with half-day/session granularity",
+      "Overlap detection and capacity warning logic",
+      "Leave approval/rejection workflow",
+      "Dashboard summary analytics",
+      "Reports analytics + CSV export",
+      "Availability board and workload indicators",
+      "Audit log capture and retrieval",
+      "Leave type CRUD and activation management",
+      "Regional settings and holiday sync with retries",
+      "Slack OAuth + commands + actions + notifications + digest",
+      "Leave accrual policies + balances + cron jobs",
+      "Google Calendar token management and event sync on approval/removal"
+    ],
+    "partial": [
+      "Teams frontend page has mostly presentational controls; CRUD UI flow incomplete",
+      "Settings integrations display is inconsistent (static Slack card vs live Slack component)",
+      "Users frontend mixes /users and /user paths for mutations"
+    ],
+    "not_started_or_low_coverage": [
+      "PWA installability and offline strategy",
+      "Comprehensive automated test suites (unit/integration/e2e)",
+      "Shared workspace Google calendar orchestration in product flow"
+    ]
+  },
+  "known_gaps_and_risks": [
+    {
+      "severity": "high",
+      "area": "frontend-users",
+      "issue": "users page update/deactivate calls /user/* while backend route mount is /users/*",
+      "impact": "edit/deactivate actions can fail with 404",
+      "recommended_fix": "normalize all users-page mutations to /users/:id and /users/:id/deactivate"
+    },
+    {
+      "severity": "high",
+      "area": "frontend-teams",
+      "issue": "teams page CRUD controls are not fully wired despite backend readiness",
+      "impact": "team management appears available but is operationally incomplete",
+      "recommended_fix": "implement create/edit/delete dialogs and connect to existing mutations"
+    },
+    {
+      "severity": "medium",
+      "area": "docs-product-parity",
+      "issue": "older docs still imply broader leave cancel behavior",
+      "impact": "support confusion and QA mismatch",
+      "recommended_fix": "update docs to pending-owner cancellation semantics"
+    },
+    {
+      "severity": "medium",
+      "area": "slack-command-code",
+      "issue": "stale TODO in /apply-leave command references missing LeaveBalance model",
+      "impact": "engineering confusion",
+      "recommended_fix": "remove outdated TODO and implement balance display in modal if desired"
+    }
+  ],
+  "environment_config": {
+    "backend_env_used": [
+      "DATABASE_URL",
+      "JWT_SECRET",
+      "ENCRYPTION_KEY",
+      "NODE_ENV",
+      "PORT",
+      "HOST",
+      "CLIENT_URL",
+      "CLIENT_URLS",
+      "PUBLIC_API_URL",
+      "API_URL",
+      "GOOGLE_CLIENT_ID",
+      "GOOGLE_CLIENT_SECRET",
+      "GOOGLE_CALLBACK_URL",
+      "BREVO_API_KEY",
+      "BREVO_SENDER_EMAIL",
+      "BREVO_SENDER_NAME",
+      "TEAM_MIN_CAPACITY_WARNING_PERCENT",
+      "SLACK_CLIENT_ID",
+      "SLACK_CLIENT_SECRET",
+      "SLACK_SIGNING_SECRET",
+      "SLACK_REDIRECT_URI"
+    ],
+    "frontend_env_used": [
+      "BACKEND_URL",
+      "NEXT_PUBLIC_API_URL",
+      "NEXT_PUBLIC_POSTHOG_KEY",
+      "NEXT_PUBLIC_POSTHOG_HOST"
+    ]
+  },
+  "future_contributor_instructions": {
+    "must_follow": [
+      "Preserve workspace isolation on all data operations",
+      "Use pnpm only for installs/scripts",
+      "Keep NodeNext import convention (.js extension in TS imports)",
+      "Avoid stale docs: update audits when endpoint/model surface changes"
+    ],
+    "pre_merge_validation": [
+      "pnpm -r check",
+      "pnpm -r --if-present typecheck",
+      "manual smoke for auth/leaves/approvals/settings/users/teams/reports",
+      "verify plan-gated endpoints return expected 403 payload on FREE plans"
+    ]
+  },
+  "roadmap": {
+    "phase_1_correctness": [
+      "Fix users-page mutation endpoint paths",
+      "Finish teams-page CRUD wiring",
+      "Unify settings integration UX to live Slack/Google status components",
+      "Refresh documentation for leave cancel semantics"
+    ],
+    "phase_2_reliability": [
+      "Add API integration tests for leave lifecycle and workspace isolation",
+      "Add accrual/carry-forward regression tests",
+      "Add frontend e2e scenarios for apply -> approve -> calendar sync"
+    ],
+    "phase_3_maturity": [
+      "Implement PWA manifest + service worker + offline fallback",
+      "Productize shared workspace Google calendar option",
+      "Expand Slack interactive workflows for manager actions"
+    ]
+  },
+  "codebase_metrics": {
+    "backend": {
+      "route_files": 11,
+      "controller_files": 10,
+      "service_files": 14,
+      "mounted_endpoints": 50,
+      "app_level_endpoints": 3
+    },
+    "frontend": {
+      "app_files": 30,
+      "page_routes": 18,
+      "component_files": 45,
+      "hook_files": 12,
+      "client_service_files": 2
+    },
+    "database": {
+      "models": 14,
+      "enums": 8,
+      "provider": "PostgreSQL"
+    }
+  }
+}

@@ -21,6 +21,13 @@ function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
+function formatAvailableDays(value: number): string {
+  const rounded = Math.round(value * 10) / 10;
+  return Number.isInteger(rounded)
+    ? `${rounded.toFixed(0)}d`
+    : `${rounded.toFixed(1)}d`;
+}
+
 function logCommandError(
   command: string,
   workspaceId: string,
@@ -629,30 +636,75 @@ async function handleApplyLeave(
       return;
     }
 
-    const leaveTypes = await prisma.workspaceLeaveType.findMany({
-      where: { workspaceId, isActive: true },
-      orderBy: { label: "asc" },
-      select: { id: true, type: true, label: true },
-    });
-
-    // Step 3: LeaveBalance model does not exist yet in this schema.
-    // TODO: fetch leave balances when LeaveBalance is added.
-
     const today = new Date();
+    const currentYear = today.getFullYear();
+
+    const [leaveTypes, balances] = await Promise.all([
+      prisma.workspaceLeaveType.findMany({
+        where: { workspaceId, isActive: true },
+        orderBy: { label: "asc" },
+        select: { id: true, type: true, label: true },
+      }),
+      prisma.userLeaveBalance.findMany({
+        where: {
+          workspaceId,
+          userId: user.id,
+          year: currentYear,
+        },
+        select: {
+          leaveTypeId: true,
+          openingBalance: true,
+          accrued: true,
+          carriedForward: true,
+          taken: true,
+        },
+      }),
+    ]);
+
+    if (leaveTypes.length === 0) {
+      await postToResponseUrl(
+        payload.response_url,
+        {
+          response_type: "ephemeral",
+          text: "No active leave types are configured for your workspace. Ask an admin to enable at least one leave type in settings.",
+        },
+        { workspaceId, command },
+      );
+      return;
+    }
+
+    const balanceByLeaveTypeId = new Map(
+      balances.map((balance) => {
+        const available = Math.max(
+          balance.openingBalance +
+            balance.accrued +
+            balance.carriedForward -
+            balance.taken,
+          0,
+        );
+        return [balance.leaveTypeId, available];
+      }),
+    );
+
     const initialDate = [
       today.getFullYear(),
       String(today.getMonth() + 1).padStart(2, "0"),
       String(today.getDate()).padStart(2, "0"),
     ].join("-");
 
-    const leaveTypeOptions = leaveTypes.map((leaveType) => ({
-      text: {
-        type: "plain_text" as const,
-        text: leaveType.label,
-        emoji: true,
-      },
-      value: leaveType.id,
-    }));
+    const leaveTypeOptions = leaveTypes.map((leaveType) => {
+      const available = balanceByLeaveTypeId.get(leaveType.id) ?? 0;
+      const optionLabel = `${leaveType.label} (${formatAvailableDays(available)} left)`;
+
+      return {
+        text: {
+          type: "plain_text" as const,
+          text: optionLabel.slice(0, 75),
+          emoji: true,
+        },
+        value: leaveType.id,
+      };
+    });
 
     try {
       await client.views.open({

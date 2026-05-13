@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
+import { PencilLine, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -10,8 +10,17 @@ import { PageContainer } from "@/components/layout/page-container";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { useTeams } from "@/hooks/use-teams";
 import api from "@/lib/axios";
+import type { Team } from "@/types/api";
 
 const TEAM_COLORS = [
   "bg-gradient-to-br from-blue-500 to-blue-700",
@@ -29,22 +38,26 @@ function getTeamColor(index: number) {
 export default function TeamsPage() {
   const queryClient = useQueryClient();
   const { data: teams = [], isLoading } = useTeams();
-  const [name, setName] = useState("");
-  const [_editing, _setEditing] = useState<Record<string, string>>({});
+  const [createOpen, setCreateOpen] = useState(false);
+  const [createName, setCreateName] = useState("");
+  const [editTarget, setEditTarget] = useState<Team | null>(null);
+  const [editName, setEditName] = useState("");
+  const [deleteTarget, setDeleteTarget] = useState<Team | null>(null);
 
-  const _createMutation = useMutation({
-    mutationFn: async () => {
+  const createMutation = useMutation({
+    mutationFn: async (name: string) => {
       await api.post("/teams", { name });
     },
     onSuccess: async () => {
-      setName("");
+      setCreateName("");
+      setCreateOpen(false);
       toast.success("Team created");
       await queryClient.invalidateQueries({ queryKey: ["teams"] });
     },
     onError: () => toast.error("Could not create team"),
   });
 
-  const _updateMutation = useMutation({
+  const updateMutation = useMutation({
     mutationFn: async ({
       teamId,
       teamName,
@@ -55,17 +68,20 @@ export default function TeamsPage() {
       await api.patch(`/teams/${teamId}`, { name: teamName });
     },
     onSuccess: async () => {
+      setEditTarget(null);
+      setEditName("");
       toast.success("Team updated");
       await queryClient.invalidateQueries({ queryKey: ["teams"] });
     },
     onError: () => toast.error("Could not update team"),
   });
 
-  const _deleteMutation = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: async (teamId: string) => {
       await api.delete(`/teams/${teamId}`);
     },
     onSuccess: async () => {
+      setDeleteTarget(null);
       toast.success("Team deleted");
       await queryClient.invalidateQueries({ queryKey: ["teams"] });
     },
@@ -112,19 +128,44 @@ export default function TeamsPage() {
                 className="product-card-hover flex flex-col gap-3"
               >
                 <CardHeader className="pb-2">
-                  <div className="flex items-center gap-3">
-                    <Avatar
-                      className={`h-10 w-10 text-white ${getTeamColor(idx)}`}
-                    >
-                      <AvatarFallback className="bg-transparent font-semibold">
-                        {team.name.substring(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <CardTitle className="text-base">{team.name}</CardTitle>
-                      <p className="text-xs text-muted-foreground">
-                        approver · @vivek
-                      </p>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar
+                        className={`h-10 w-10 text-white ${getTeamColor(idx)}`}
+                      >
+                        <AvatarFallback className="bg-transparent font-semibold">
+                          {team.name.substring(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <CardTitle className="text-base">{team.name}</CardTitle>
+                        <p className="text-xs text-muted-foreground">
+                          approver · @vivek
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-8 w-8"
+                        aria-label={`Edit ${team.name}`}
+                        onClick={() => {
+                          setEditTarget(team);
+                          setEditName(team.name);
+                        }}
+                      >
+                        <PencilLine className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-8 w-8 text-destructive hover:text-destructive"
+                        aria-label={`Delete ${team.name}`}
+                        onClick={() => setDeleteTarget(team)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
                 </CardHeader>
@@ -172,11 +213,14 @@ export default function TeamsPage() {
                     </div>
                   </div>
 
-                  {/* Edit button */}
                   <Button
                     size="sm"
                     variant="outline"
                     className="product-press w-full text-xs"
+                    onClick={() => {
+                      setEditTarget(team);
+                      setEditName(team.name);
+                    }}
                   >
                     Edit team
                   </Button>
@@ -196,8 +240,8 @@ export default function TeamsPage() {
                   variant="outline"
                   className="product-press mt-2"
                   onClick={() => {
-                    setName("");
-                    // In a real app, this would open a dialog
+                    setCreateName("");
+                    setCreateOpen(true);
                   }}
                 >
                   <Plus className="mr-1.5 h-3 w-3" />
@@ -207,6 +251,133 @@ export default function TeamsPage() {
             </Card>
           </div>
         )}
+
+        <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+          <DialogContent className="sm:max-w-sm">
+            <DialogHeader>
+              <DialogTitle>Create team</DialogTitle>
+            </DialogHeader>
+            <div className="py-2">
+              <Input
+                placeholder="Team name"
+                value={createName}
+                onChange={(event) => setCreateName(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && createName.trim()) {
+                    createMutation.mutate(createName.trim());
+                  }
+                }}
+              />
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setCreateOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => createMutation.mutate(createName.trim())}
+                disabled={!createName.trim() || createMutation.isPending}
+              >
+                {createMutation.isPending ? "Creating..." : "Create"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={editTarget !== null}
+          onOpenChange={(open) => {
+            if (!open) {
+              setEditTarget(null);
+              setEditName("");
+            }
+          }}
+        >
+          <DialogContent className="sm:max-w-sm">
+            <DialogHeader>
+              <DialogTitle>Edit team</DialogTitle>
+            </DialogHeader>
+            <div className="py-2">
+              <Input
+                placeholder="Team name"
+                value={editName}
+                onChange={(event) => setEditName(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && editTarget && editName.trim()) {
+                    updateMutation.mutate({
+                      teamId: editTarget.id,
+                      teamName: editName.trim(),
+                    });
+                  }
+                }}
+              />
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setEditTarget(null);
+                  setEditName("");
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  if (!editTarget || !editName.trim()) {
+                    return;
+                  }
+                  updateMutation.mutate({
+                    teamId: editTarget.id,
+                    teamName: editName.trim(),
+                  });
+                }}
+                disabled={
+                  !editTarget || !editName.trim() || updateMutation.isPending
+                }
+              >
+                {updateMutation.isPending ? "Saving..." : "Save"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={deleteTarget !== null}
+          onOpenChange={(open) => {
+            if (!open) {
+              setDeleteTarget(null);
+            }
+          }}
+        >
+          <DialogContent className="sm:max-w-sm">
+            <DialogHeader>
+              <DialogTitle>Delete team</DialogTitle>
+            </DialogHeader>
+            <p className="text-sm text-muted-foreground">
+              Delete{" "}
+              <span className="font-medium text-foreground">
+                {deleteTarget?.name}
+              </span>
+              ? This action cannot be undone.
+            </p>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setDeleteTarget(null)}>
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  if (deleteTarget) {
+                    deleteMutation.mutate(deleteTarget.id);
+                  }
+                }}
+                disabled={!deleteTarget || deleteMutation.isPending}
+              >
+                {deleteMutation.isPending ? "Deleting..." : "Delete"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </PageContainer>
     </RoleGuard>
   );

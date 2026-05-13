@@ -117,10 +117,10 @@ export default function UsersPage() {
       role: string;
       teamId: string | null;
     }) => {
-      const res = await api.patch(`/user/${data.userId}`, {
+      const res = await api.patch(`/users/${data.userId}`, {
         name: data.name,
         role: data.role,
-        ...(data.teamId ? { teamId: data.teamId } : {}),
+        ...(data.teamId ? { team_id: data.teamId } : {}),
       });
       return res.data.data;
     },
@@ -139,7 +139,7 @@ export default function UsersPage() {
 
   const deactivateMutation = useMutation({
     mutationFn: async (userId: string) => {
-      const res = await api.patch(`/user/${userId}/deactivate`);
+      const res = await api.patch(`/users/${userId}/deactivate`);
       return res.data.data;
     },
     onSuccess: () => {

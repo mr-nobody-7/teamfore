@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { differenceInCalendarDays, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -47,14 +48,45 @@ const applyLeaveSchema = z.object({
 
 type ApplyLeaveForm = z.infer<typeof applyLeaveSchema>;
 type HolidayConflict = { name: string; date: string };
+type LeaveBalance = {
+  leaveTypeId: string;
+  leaveTypeLabel: string;
+  accrued: number;
+  taken: number;
+  carriedForward: number;
+  available: number;
+  openingBalance: number;
+};
 
 const SESSIONS: Session[] = ["FULL_DAY", "FIRST_HALF", "SECOND_HALF"];
+
+function getRequestedDays(payload: ApplyLeavePayload) {
+  const start = parseISO(payload.start_date);
+  const end = parseISO(payload.end_date);
+  let days = differenceInCalendarDays(end, start) + 1;
+
+  if (payload.start_session !== "FULL_DAY") {
+    days -= 0.5;
+  }
+
+  if (payload.end_session !== "FULL_DAY") {
+    days -= 0.5;
+  }
+
+  return Math.max(days, 0.5);
+}
+
+function formatDays(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
 
 export default function ApplyLeavePage() {
   const queryClient = useQueryClient();
   const [holidayConflicts, setHolidayConflicts] = useState<HolidayConflict[]>(
     [],
   );
+  const [leaveBalances, setLeaveBalances] = useState<LeaveBalance[]>([]);
+  const [showBalances, setShowBalances] = useState(false);
 
   const { data: leaveTypeSettings, isLoading: isLeaveTypesLoading } = useQuery({
     queryKey: ["leave-type-settings"],
@@ -66,7 +98,57 @@ export default function ApplyLeavePage() {
     },
   });
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadLeaveBalances = async () => {
+      try {
+        const response = await api.get<
+          ApiResponse<{ balances: LeaveBalance[] }>
+        >("/settings/leave-balances");
+
+        if (!isMounted) {
+          return;
+        }
+
+        setLeaveBalances(response.data.data.balances);
+        setShowBalances(true);
+      } catch (error: unknown) {
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "response" in error &&
+          typeof error.response === "object" &&
+          error.response !== null &&
+          "data" in error.response &&
+          typeof error.response.data === "object" &&
+          error.response.data !== null &&
+          "upgradeRequired" in error.response.data &&
+          error.response.data.upgradeRequired === true
+        ) {
+          if (isMounted) {
+            setShowBalances(false);
+          }
+          return;
+        }
+
+        console.error("Failed to load leave balances", error);
+
+        if (isMounted) {
+          setShowBalances(false);
+        }
+      }
+    };
+
+    void loadLeaveBalances();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const enabledTypes = leaveTypeSettings?.enabledTypes ?? [];
+  const leaveTypes = leaveTypeSettings?.leaveTypes ?? [];
 
   const form = useForm<ApplyLeaveForm>({
     resolver: zodResolver(applyLeaveSchema),
@@ -85,16 +167,38 @@ export default function ApplyLeavePage() {
       const { data } = await api.post("/leave/applyLeave", payload);
       return data;
     },
-    onSuccess: async (response: {
-      data?: {
-        warning?: boolean;
-        warningMessage?: string | null;
-        holidayConflicts?: HolidayConflict[];
-      };
-    }) => {
+    onSuccess: async (
+      response: {
+        data?: {
+          warning?: boolean;
+          warningMessage?: string | null;
+          holidayConflicts?: HolidayConflict[];
+        };
+      },
+      payload,
+    ) => {
       posthog.capture("leave_requested");
       const conflicts = response?.data?.holidayConflicts ?? [];
       setHolidayConflicts(conflicts);
+
+      const selectedLeaveType = leaveTypes.find(
+        (leaveType) => leaveType.type === payload.type,
+      );
+
+      if (selectedLeaveType) {
+        const requestedDays = getRequestedDays(payload);
+
+        setLeaveBalances((currentBalances) =>
+          currentBalances.map((balance) =>
+            balance.leaveTypeId === selectedLeaveType.id
+              ? {
+                  ...balance,
+                  available: balance.available - requestedDays,
+                }
+              : balance,
+          ),
+        );
+      }
 
       if (response?.data?.warning) {
         toast.warning(
@@ -137,6 +241,17 @@ export default function ApplyLeavePage() {
       });
     }
   }, [enabledTypes, form]);
+
+  const selectedType = form.watch("type");
+  const selectedLeaveType = leaveTypes.find(
+    (leaveType) => leaveType.type === selectedType,
+  );
+  const selectedBalance = selectedLeaveType
+    ? leaveBalances.find(
+        (balance) => balance.leaveTypeId === selectedLeaveType.id,
+      )
+    : undefined;
+  const shouldShowSelectedBalance = showBalances && Boolean(selectedBalance);
 
   return (
     <PageContainer className="flex flex-col gap-6">
@@ -255,6 +370,18 @@ export default function ApplyLeavePage() {
                         ))}
                       </SelectContent>
                     </Select>
+                    {shouldShowSelectedBalance && selectedBalance ? (
+                      selectedBalance.available > 0 ? (
+                        <p className="text-sm text-muted-foreground">
+                          You have {formatDays(selectedBalance.available)} days
+                          available for {selectedBalance.leaveTypeLabel}
+                        </p>
+                      ) : (
+                        <p className="text-sm text-amber-700">
+                          No balance available for this leave type
+                        </p>
+                      )
+                    ) : null}
                     <FormMessage />
                   </FormItem>
                 )}

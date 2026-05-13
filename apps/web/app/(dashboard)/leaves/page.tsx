@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import { Download, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -26,6 +26,16 @@ import api from "@/lib/axios";
 import { formatLeaveType } from "@/lib/utils";
 import type { LeaveRequest, LeaveStatus } from "@/types/api";
 
+type LeaveBalance = {
+  leaveTypeId: string;
+  leaveTypeLabel: string;
+  accrued: number;
+  taken: number;
+  carriedForward: number;
+  available: number;
+  openingBalance: number;
+};
+
 const STATUS_OPTIONS: Array<"ALL" | LeaveStatus> = [
   "ALL",
   "PENDING",
@@ -49,6 +59,31 @@ function getLeaveDurationDays(leave: LeaveRequest) {
   return Math.max(days, 0.5);
 }
 
+function formatDays(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function getBalanceTone(availableRatio: number) {
+  if (availableRatio > 0.5) {
+    return {
+      textClassName: "text-emerald-700",
+      fillClassName: "bg-emerald-500",
+    };
+  }
+
+  if (availableRatio >= 0.2) {
+    return {
+      textClassName: "text-amber-700",
+      fillClassName: "bg-amber-500",
+    };
+  }
+
+  return {
+    textClassName: "text-rose-700",
+    fillClassName: "bg-rose-500",
+  };
+}
+
 export default function LeavesPage() {
   const queryClient = useQueryClient();
   const { role } = useRole();
@@ -64,6 +99,36 @@ export default function LeavesPage() {
     },
     true,
   );
+
+  const { data: leaveBalances, isLoading: isBalancesLoading } = useQuery({
+    queryKey: ["leave-balances", "current-year"],
+    queryFn: async () => {
+      try {
+        const response = await api.get<{ data: LeaveBalance[] }>(
+          "/settings/leave-balances",
+        );
+        return response.data.data;
+      } catch (error: unknown) {
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "response" in error &&
+          typeof error.response === "object" &&
+          error.response !== null &&
+          "data" in error.response &&
+          typeof error.response.data === "object" &&
+          error.response.data !== null &&
+          "upgradeRequired" in error.response.data &&
+          error.response.data.upgradeRequired === true
+        ) {
+          return null;
+        }
+
+        console.error("Failed to load leave balances", error);
+        return null;
+      }
+    },
+  });
 
   const cancelMutation = useMutation({
     mutationFn: async (leaveId: string) => {
@@ -131,6 +196,9 @@ export default function LeavesPage() {
       rejectedCount,
     };
   }, [leaves]);
+
+  const balancesToDisplay = leaveBalances ?? [];
+  const shouldShowBalances = (leaveBalances?.length ?? 0) > 0;
 
   return (
     <PageContainer className="flex flex-col gap-6 md:gap-7">
@@ -238,6 +306,78 @@ export default function LeavesPage() {
           </Card>
         </div>
       </section>
+
+      {isBalancesLoading ? (
+        <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {Array.from({ length: 4 }, (_, index) => (
+            <Card
+              key={`balance-skeleton-${index + 1}`}
+              className="border-border/70 bg-card/70"
+            >
+              <CardContent className="space-y-3 p-4">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-9 w-20" />
+                <Skeleton className="h-3 w-28" />
+                <Skeleton className="h-2.5 w-full" />
+              </CardContent>
+            </Card>
+          ))}
+        </section>
+      ) : shouldShowBalances ? (
+        <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {balancesToDisplay.map((balance) => {
+            const total = Math.max(balance.taken + balance.available, 0);
+            const takenPercent =
+              total > 0 ? Math.min((balance.taken / total) * 100, 100) : 0;
+            const availableRatio = total > 0 ? balance.available / total : 1;
+            const tone = getBalanceTone(availableRatio);
+
+            return (
+              <details key={balance.leaveTypeId} className="group">
+                <summary className="list-none">
+                  <Card className="h-full cursor-pointer overflow-hidden border-border/70 bg-card/70 transition-colors group-hover:border-border">
+                    <CardContent className="space-y-3 p-4">
+                      <div>
+                        <p className="text-sm font-medium">
+                          {balance.leaveTypeLabel}
+                        </p>
+                        <p
+                          className={`mt-2 font-mono text-4xl leading-none ${tone.textClassName}`}
+                        >
+                          {formatDays(balance.available)}
+                        </p>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          days available
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="h-2 overflow-hidden rounded-full bg-muted">
+                          <div
+                            className={`h-full rounded-full transition-all ${tone.fillClassName}`}
+                            style={{ width: `${takenPercent}%` }}
+                          />
+                        </div>
+                        <p className="text-[11px] text-muted-foreground">
+                          {formatDays(balance.taken)} taken of{" "}
+                          {formatDays(total)} tracked
+                        </p>
+                      </div>
+
+                      <p className="max-h-0 overflow-hidden text-xs text-muted-foreground opacity-0 transition-all duration-200 group-open:max-h-20 group-open:opacity-100">
+                        Opening: {formatDays(balance.openingBalance)} · Accrued:{" "}
+                        {formatDays(balance.accrued)} · Carried forward:{" "}
+                        {formatDays(balance.carriedForward)} · Taken:{" "}
+                        {formatDays(balance.taken)}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </summary>
+              </details>
+            );
+          })}
+        </section>
+      ) : null}
 
       <Card className="overflow-hidden border-border/70 bg-card/70">
         <CardContent className="p-0">

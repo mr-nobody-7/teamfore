@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { Navbar } from "@/components/layout/navbar";
 import { Sidebar } from "@/components/layout/sidebar";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -87,6 +88,8 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       >
         Feedback
       </Button>
+
+      <InstallPrompt />
 
       <Dialog
         open={isFeedbackOpen}

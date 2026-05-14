@@ -5,6 +5,7 @@ import { useEffect, useId, useState } from "react";
 import { toast } from "sonner";
 
 import { PageContainer } from "@/components/layout/page-container";
+import { NotificationSettings } from "@/components/pwa/notification-settings";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -181,6 +182,15 @@ export default function ProfileSettingsPage() {
           >
             {updatePasswordMutation.isPending ? "Updating..." : "Save"}
           </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Notifications</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <NotificationSettings />
         </CardContent>
       </Card>
     </PageContainer>

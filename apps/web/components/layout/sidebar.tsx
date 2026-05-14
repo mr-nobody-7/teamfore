@@ -133,16 +133,14 @@ export function Sidebar({
     >
       {/* Logo */}
       <div className="flex h-18 items-center gap-3 border-b border-sidebar-border/70 px-6">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-primary/15 to-cyan-400/20 p-2 shadow-lg shadow-primary/20 ring-1 ring-primary/25">
-          <Image
-            src="/brand/mark-64.svg"
-            alt="TeamFore mark"
-            width={24}
-            height={24}
-            className="h-6 w-6"
-            priority
-          />
-        </div>
+        <Image
+          src="/brand/mark-64.svg"
+          alt="TeamFore mark"
+          width={40}
+          height={40}
+          className="h-10 w-10"
+          priority
+        />
         <div>
           <span className="font-display text-xl tracking-tight">TeamFore</span>
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">

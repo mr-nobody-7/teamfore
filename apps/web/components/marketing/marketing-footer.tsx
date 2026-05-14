@@ -8,15 +8,13 @@ export function MarketingFooter() {
         <div className="grid gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-xl border border-white/12 bg-white/5 p-2">
-                <Image
-                  src="/brand/mark-64.svg"
-                  alt="TeamFore"
-                  width={24}
-                  height={24}
-                  className="h-6 w-6"
-                />
-              </span>
+              <Image
+                src="/brand/mark-64.svg"
+                alt="TeamFore"
+                width={40}
+                height={40}
+                className="h-10 w-10"
+              />
               <span className="font-display text-3xl leading-none tracking-tight text-zinc-100">
                 TeamFore
               </span>

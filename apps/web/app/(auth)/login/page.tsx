@@ -88,15 +88,13 @@ export default function LoginPage() {
         {/* Brand section */}
         <div className="mb-12 text-center">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 p-1.5 backdrop-blur">
-              <Image
-                src="/brand/mark-64.svg"
-                alt="TeamFore"
-                width={20}
-                height={20}
-                className="h-5 w-5"
-              />
-            </div>
+            <Image
+              src="/brand/mark-64.svg"
+              alt="TeamFore"
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
             <span className="font-display text-xl tracking-tight text-white">
               TeamFore
             </span>

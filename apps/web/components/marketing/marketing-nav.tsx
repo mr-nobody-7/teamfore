@@ -26,16 +26,14 @@ export function MarketingNav() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 p-1.5 backdrop-blur">
-            <Image
-              src="/brand/mark-64.svg"
-              alt="TeamFore mark"
-              width={20}
-              height={20}
-              className="h-5 w-5"
-              priority
-            />
-          </div>
+          <Image
+            src="/brand/mark-64.svg"
+            alt="TeamFore mark"
+            width={32}
+            height={32}
+            className="h-8 w-8"
+            priority
+          />
           <span className="font-display text-xl tracking-tight">TeamFore</span>
         </Link>
 

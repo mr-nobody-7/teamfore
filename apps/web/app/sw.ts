@@ -34,6 +34,35 @@ serwist.registerRoute(
   ),
 );
 
+// Fallback to cached page or /offline for navigation failures when offline.
+self.addEventListener("fetch", (event: FetchEvent) => {
+  if (event.request.mode !== "navigate") {
+    return;
+  }
+
+  event.respondWith(
+    (async () => {
+      try {
+        return await fetch(event.request);
+      } catch {
+        const cachedNavigation = await caches.match(event.request, {
+          ignoreSearch: true,
+        });
+        if (cachedNavigation) {
+          return cachedNavigation;
+        }
+
+        const offlineFallback = await caches.match("/offline");
+        if (offlineFallback) {
+          return offlineFallback;
+        }
+
+        return Response.error();
+      }
+    })(),
+  );
+});
+
 // ── Static assets (icons, screenshots) ──────────────────────────────────────
 serwist.registerRoute(
   new Route(

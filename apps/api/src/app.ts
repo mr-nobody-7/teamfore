@@ -15,6 +15,7 @@ import { availabilityRoutes } from "./routes/availability.routes.js";
 import { feedbackRoutes } from "./routes/feedback.routes.js";
 import { holidayRoutes } from "./routes/holiday.routes.js";
 import { leaveRoutes } from "./routes/leave.routes.js";
+import { pushRoutes } from "./routes/push.routes.js";
 import { reportsRoutes } from "./routes/reports.routes.js";
 import { settingsRoutes } from "./routes/settings.routes.js";
 import { slackRoutes } from "./routes/slack.routes.js";
@@ -119,6 +120,7 @@ app.use("/slack", slackRoutes);
 app.use("/teams", teamRoutes);
 app.use("/users", userRoutes);
 app.use("/audit-logs", auditRoutes);
+app.use("/push", pushRoutes);
 
 app.get("/health", (_req, res) => {
   res.json({ success: true, message: "API running 🚀" });

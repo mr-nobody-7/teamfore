@@ -64,7 +64,8 @@ export const ModelName = {
   FeedbackEntry: 'FeedbackEntry',
   UserGoogleToken: 'UserGoogleToken',
   WorkspaceLeavePolicy: 'WorkspaceLeavePolicy',
-  UserLeaveBalance: 'UserLeaveBalance'
+  UserLeaveBalance: 'UserLeaveBalance',
+  PushSubscription: 'PushSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -289,6 +290,20 @@ export const UserLeaveBalanceScalarFieldEnum = {
 } as const
 
 export type UserLeaveBalanceScalarFieldEnum = (typeof UserLeaveBalanceScalarFieldEnum)[keyof typeof UserLeaveBalanceScalarFieldEnum]
+
+
+export const PushSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  endpoint: 'endpoint',
+  p256dh: 'p256dh',
+  auth: 'auth',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PushSubscriptionScalarFieldEnum = (typeof PushSubscriptionScalarFieldEnum)[keyof typeof PushSubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {

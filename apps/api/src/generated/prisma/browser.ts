@@ -87,3 +87,8 @@ export type WorkspaceLeavePolicy = Prisma.WorkspaceLeavePolicyModel
  * 
  */
 export type UserLeaveBalance = Prisma.UserLeaveBalanceModel
+/**
+ * Model PushSubscription
+ * 
+ */
+export type PushSubscription = Prisma.PushSubscriptionModel

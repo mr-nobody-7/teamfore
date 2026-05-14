@@ -14,6 +14,9 @@ import {
   UnauthorizedError,
 } from "../utils/errors.js";
 import { sendMail } from "./mail.service.js";
+import {
+  sendPushToUser,
+} from "./push.service.js";
 import { isLeaveTypeEnabledForWorkspace } from "./settings.service.js";
 import {
   sendLeaveCancelledNotification,
@@ -518,7 +521,7 @@ export const applyLeave = async (
         isActive: true,
         OR: [{ role: "MANAGER", teamId }, { role: "ADMIN" }],
       },
-      select: { email: true, name: true },
+      select: { email: true, name: true, id: true },
     }),
   ]);
 
@@ -545,6 +548,15 @@ export const applyLeave = async (
     endSession: leaveRequest.endSession,
     ...(leaveRequest.reason ? { reason: leaveRequest.reason } : {}),
   }).catch((err: unknown) => console.error("Slack notification error:", err));
+
+  // Push: notify each manager/admin of the new leave request
+  for (const approver of approvers) {
+    void sendPushToUser(approver.id, {
+      title: "📅 New Leave Request",
+      body: `${requester?.name ?? user.name} has requested ${input.type} leave`,
+      url: "/leaves/approvals",
+    }).catch(console.error);
+  }
 
   return {
     leaveRequest,
@@ -887,6 +899,12 @@ export const updateLeaveStatus = async (
       ...(updated.comment ? { comment: updated.comment } : {}),
       approverName: updated.approver?.name ?? "Manager",
     }).catch((err: unknown) => console.error("Slack notification error:", err));
+
+    void sendPushToUser(updated.user.id, {
+      title: "✅ Leave Approved",
+      body: `Your ${updated.type} leave has been approved`,
+      url: "/leaves",
+    }).catch(console.error);
   }
 
   if (updated.status === "REJECTED") {
@@ -912,6 +930,12 @@ export const updateLeaveStatus = async (
       ...(updated.comment ? { comment: updated.comment } : {}),
       approverName: updated.approver?.name ?? "Manager",
     }).catch((err: unknown) => console.error("Slack notification error:", err));
+
+    void sendPushToUser(updated.user.id, {
+      title: "Leave Request Declined",
+      body: `Your ${updated.type} request was not approved`,
+      url: "/leaves",
+    }).catch(console.error);
   }
 
   return updated;

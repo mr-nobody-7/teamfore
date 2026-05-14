@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import api from "@/lib/axios";
 import { posthog } from "@/lib/posthog";
 import { formatLeaveType, formatSession } from "@/lib/utils";
@@ -394,7 +395,18 @@ export default function ApplyLeavePage() {
                   <FormItem className="md:col-span-2">
                     <FormLabel>Reason</FormLabel>
                     <FormControl>
-                      <Input placeholder="Reason for leave" {...field} />
+                      <Textarea
+                        placeholder="Reason for leave"
+                        maxLength={500}
+                        className="min-h-[80px] resize-none"
+                        onFocus={(e) =>
+                          e.target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          })
+                        }
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -404,6 +416,7 @@ export default function ApplyLeavePage() {
               <div className="md:col-span-2">
                 <Button
                   type="submit"
+                  className="w-full min-h-[44px] sm:w-auto"
                   disabled={
                     mutation.isPending ||
                     isLeaveTypesLoading ||

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { AuthGuard } from "@/components/auth/auth-guard";
+import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
 import { Navbar } from "@/components/layout/navbar";
 import { Sidebar } from "@/components/layout/sidebar";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
@@ -71,25 +72,26 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
         />
       )}
 
-      <div className="relative z-10 flex min-w-0 flex-1 flex-col md:pl-64">
+      <div className="relative z-10 flex min-w-0 flex-1 flex-col md:pl-72">
         <Navbar
           userName={user?.name}
           userEmail={user?.email}
           onLogout={logout}
           onMenuClick={openMobileSidebar}
         />
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto pb-16 md:pb-0">{children}</main>
       </div>
 
       <Button
         type="button"
-        className="fixed right-4 bottom-4 z-50 shadow-lg"
+        className="fixed right-4 bottom-20 z-50 shadow-lg md:bottom-4"
         onClick={() => setIsFeedbackOpen(true)}
       >
         Feedback
       </Button>
 
       <InstallPrompt />
+      <MobileTabBar userRole={role as UserRole | undefined} />
 
       <Dialog
         open={isFeedbackOpen}

@@ -13,7 +13,9 @@
       "!node_modules",
       "!.next",
       "!dist",
-      "!build"
+      "!build",
+      "!apps/web/public/sw.js",
+      "!apps/web/public/swe-worker-*.js"
     ]
   },
   "formatter": {

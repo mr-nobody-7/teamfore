@@ -68,7 +68,7 @@ export function StandupBoard({
 
       <CardContent>
         {isLoading ? (
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-3 md:grid-cols-3">
             {Array.from({ length: 3 }, (_, idx) => (
               <div key={`standup-skeleton-${idx + 1}`} className="space-y-2">
                 <Skeleton className="h-5 w-32" />
@@ -78,7 +78,7 @@ export function StandupBoard({
             ))}
           </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-3 md:grid-cols-3">
             <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3.5">
               <h3 className="mb-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
                 Who&apos;s available today ({availableMembers.length})

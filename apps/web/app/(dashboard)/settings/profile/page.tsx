@@ -123,6 +123,7 @@ export default function ProfileSettingsPage() {
 
           <Button
             type="button"
+            className="w-full sm:w-auto"
             onClick={saveProfile}
             disabled={updateProfileMutation.isPending}
           >
@@ -177,6 +178,7 @@ export default function ProfileSettingsPage() {
 
           <Button
             type="button"
+            className="w-full sm:w-auto"
             onClick={changePassword}
             disabled={updatePasswordMutation.isPending}
           >

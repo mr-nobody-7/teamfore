@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   UserCog,
   Users,
+  X,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -148,6 +149,16 @@ export function Sidebar({
             Operations OS
           </p>
         </div>
+        {onMobileClose && (
+          <button
+            type="button"
+            aria-label="Close navigation"
+            onClick={onMobileClose}
+            className="ml-auto flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground md:hidden"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
       </div>
 
       {/* Navigation */}

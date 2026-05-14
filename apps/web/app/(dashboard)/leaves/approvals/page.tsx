@@ -184,6 +184,7 @@ export default function ApprovalsPage() {
                       size="sm"
                       disabled={!canBulkApprove}
                       onClick={handleApproveAllSafe}
+                      className="min-h-[44px] sm:min-h-8"
                     >
                       {isBulkApproving ? "Approving..." : "Approve all safe"}
                     </Button>
@@ -327,6 +328,7 @@ export default function ApprovalsPage() {
                         <Button
                           size="sm"
                           variant="outline"
+                          className="min-h-[44px] sm:min-h-8"
                           disabled={busy}
                           onClick={() =>
                             mutation.mutate({
@@ -340,6 +342,7 @@ export default function ApprovalsPage() {
                         </Button>
                         <Button
                           size="sm"
+                          className="min-h-[44px] sm:min-h-8"
                           disabled={busy}
                           onClick={() =>
                             mutation.mutate({

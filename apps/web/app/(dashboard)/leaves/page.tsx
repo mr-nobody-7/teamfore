@@ -253,7 +253,7 @@ export default function LeavesPage() {
           </div>
         </div>
 
-        <div className="mt-5 grid gap-3 md:grid-cols-4">
+        <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
           <Card className="border-emerald-500/25 bg-emerald-500/6">
             <CardContent className="p-4">
               <p className="font-mono text-[10px] tracking-[0.12em] text-muted-foreground uppercase">
@@ -414,68 +414,130 @@ export default function LeavesPage() {
                     leave.status === "PENDING" && leave.userId === user?.id;
 
                   return (
-                    <div
-                      key={leave.id}
-                      className="grid gap-2 px-4 py-3 md:grid-cols-[1.5fr_1.15fr_0.95fr_0.8fr_0.95fr_0.9fr_0.7fr] md:items-center md:gap-3"
-                    >
-                      <div>
-                        <p className="text-sm font-medium">{leave.user.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {leave.user.email}
-                        </p>
-                      </div>
-
-                      <div className="text-xs text-muted-foreground md:text-sm">
-                        {format(parseISO(leave.startDate), "MMM d")} →{" "}
-                        {format(parseISO(leave.endDate), "MMM d")}
-                      </div>
-
-                      <div>
-                        <Badge variant="outline">
-                          {formatLeaveType(leave.type)}
-                        </Badge>
-                      </div>
-
-                      <div className="font-mono text-sm">
-                        {getLeaveDurationDays(leave).toFixed(1)}d
-                      </div>
-
-                      <div>
-                        <Badge
-                          variant={
-                            leave.status === "APPROVED" ? "default" : "outline"
-                          }
-                        >
-                          {leave.status}
-                        </Badge>
-                      </div>
-
-                      <div className="font-mono text-xs text-muted-foreground">
-                        {format(parseISO(leave.created_at), "MMM d")}
-                      </div>
-
-                      <div className="flex justify-end">
-                        {canCancel ? (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => cancelMutation.mutate(leave.id)}
-                            disabled={cancelMutation.isPending}
-                          >
-                            Cancel
-                          </Button>
-                        ) : (
-                          <span className="text-xs text-muted-foreground">
-                            —
+                    <div key={leave.id} className="px-4 py-3">
+                      {/* Mobile card layout */}
+                      <div className="md:hidden">
+                        <div className="flex flex-wrap items-start justify-between gap-2">
+                          <div>
+                            <p className="text-sm font-medium">
+                              {leave.user.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {leave.user.email}
+                            </p>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <Badge
+                              variant={
+                                leave.status === "APPROVED"
+                                  ? "default"
+                                  : "outline"
+                              }
+                            >
+                              {leave.status}
+                            </Badge>
+                            <Badge variant="outline">
+                              {formatLeaveType(leave.type)}
+                            </Badge>
+                          </div>
+                        </div>
+                        <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted-foreground">
+                          <span>
+                            {format(parseISO(leave.startDate), "MMM d")} →{" "}
+                            {format(parseISO(leave.endDate), "MMM d")}
                           </span>
+                          <span className="font-mono">
+                            {getLeaveDurationDays(leave).toFixed(1)}d
+                          </span>
+                          <span>
+                            Filed {format(parseISO(leave.created_at), "MMM d")}
+                          </span>
+                        </div>
+                        {leave.comment && (
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            Note: {leave.comment}
+                          </p>
+                        )}
+                        {canCancel && (
+                          <div className="mt-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="min-h-[44px] w-full"
+                              onClick={() => cancelMutation.mutate(leave.id)}
+                              disabled={cancelMutation.isPending}
+                            >
+                              Cancel
+                            </Button>
+                          </div>
                         )}
                       </div>
 
-                      {leave.comment && (
-                        <p className="text-xs text-muted-foreground md:col-span-7">
-                          Comment: {leave.comment}
-                        </p>
-                      )}
+                      {/* Desktop grid layout */}
+                      <div className="hidden md:grid md:grid-cols-[1.5fr_1.15fr_0.95fr_0.8fr_0.95fr_0.9fr_0.7fr] md:items-center md:gap-3">
+                        <div>
+                          <p className="text-sm font-medium">
+                            {leave.user.name}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {leave.user.email}
+                          </p>
+                        </div>
+
+                        <div className="text-xs text-muted-foreground md:text-sm">
+                          {format(parseISO(leave.startDate), "MMM d")} →{" "}
+                          {format(parseISO(leave.endDate), "MMM d")}
+                        </div>
+
+                        <div>
+                          <Badge variant="outline">
+                            {formatLeaveType(leave.type)}
+                          </Badge>
+                        </div>
+
+                        <div className="font-mono text-sm">
+                          {getLeaveDurationDays(leave).toFixed(1)}d
+                        </div>
+
+                        <div>
+                          <Badge
+                            variant={
+                              leave.status === "APPROVED"
+                                ? "default"
+                                : "outline"
+                            }
+                          >
+                            {leave.status}
+                          </Badge>
+                        </div>
+
+                        <div className="font-mono text-xs text-muted-foreground">
+                          {format(parseISO(leave.created_at), "MMM d")}
+                        </div>
+
+                        <div className="flex justify-end">
+                          {canCancel ? (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => cancelMutation.mutate(leave.id)}
+                              disabled={cancelMutation.isPending}
+                            >
+                              Cancel
+                            </Button>
+                          ) : (
+                            <span className="text-xs text-muted-foreground">
+                              —
+                            </span>
+                          )}
+                        </div>
+
+                        {leave.comment && (
+                          <p className="text-xs text-muted-foreground md:col-span-7">
+                            Comment: {leave.comment}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   );
                 })}

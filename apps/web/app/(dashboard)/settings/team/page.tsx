@@ -376,6 +376,7 @@ export default function TeamSettingsPage() {
 
           <div className="md:col-span-2">
             <Button
+              className="w-full sm:w-auto"
               onClick={() => saveMutation.mutate()}
               disabled={saveMutation.isPending || !timezone.trim() || !isDirty}
             >

@@ -6,6 +6,7 @@ import type {
   RegisterInput,
   RegisterResult,
   RegisterWorkspaceInput,
+  SafeUser,
 } from "../types/index.js";
 import {
   AppError,
@@ -150,7 +151,10 @@ export const registerWorkspaceService = async (
 
   const passwordHash = await bcrypt.hash(password, 10);
 
-  let result;
+  let result: {
+    workspace: { id: string; name: string; createdAt: Date };
+    user: SafeUser;
+  };
 
   try {
     result = await prisma.$transaction(async (tx) => {

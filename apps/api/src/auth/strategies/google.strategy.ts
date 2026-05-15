@@ -25,12 +25,20 @@ const GOOGLE_CALLBACK_URL =
 
 const OAUTH_ONBOARDING_WORKSPACE_NAME = "OAuth Onboarding";
 
-function ensureGoogleOauthEnv() {
+function getGoogleOauthEnv(): {
+  clientId: string;
+  clientSecret: string;
+} {
   if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
     throw new Error(
       "Google OAuth is not configured. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.",
     );
   }
+
+  return {
+    clientId: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+  };
 }
 
 function profileDisplayName(profile: Profile, fallbackEmail: string): string {
@@ -133,13 +141,13 @@ async function findOrCreateGoogleUser(
 }
 
 export function configureGoogleStrategy(): void {
-  ensureGoogleOauthEnv();
+  const { clientId, clientSecret } = getGoogleOauthEnv();
 
   passport.use(
     new GoogleStrategy(
       {
-        clientID: GOOGLE_CLIENT_ID!,
-        clientSecret: GOOGLE_CLIENT_SECRET!,
+        clientID: clientId,
+        clientSecret: clientSecret,
         callbackURL: GOOGLE_CALLBACK_URL,
       },
       async (

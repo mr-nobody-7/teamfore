@@ -52,13 +52,13 @@ export const loginSchema = z.object({
 });
 
 export const applyLeaveSchema = z.object({
-  start_date: z.string().refine((date) => !isNaN(Date.parse(date)), {
+  start_date: z.string().refine((date) => !Number.isNaN(Date.parse(date)), {
     message: "Invalid start date",
   }),
   start_session: z.enum(["FULL_DAY", "FIRST_HALF", "SECOND_HALF"], {
     error: "Invalid start session",
   }),
-  end_date: z.string().refine((date) => !isNaN(Date.parse(date)), {
+  end_date: z.string().refine((date) => !Number.isNaN(Date.parse(date)), {
     message: "Invalid end date",
   }),
   end_session: z.enum(["FULL_DAY", "FIRST_HALF", "SECOND_HALF"], {
@@ -169,23 +169,23 @@ export const reportsAnalyticsSchema = z
     to: z.string().date().optional(),
     team_id: z.string().optional(),
   })
-  .refine(
-    ({ from, to }) =>
-      (from === undefined && to === undefined) ||
-      (from !== undefined && to !== undefined),
-    {
-      message: "from and to must be provided together",
-      path: ["from"],
-    },
-  )
-  .refine(({ month, from, to }) => !(month && from && to), {
-    message: "Provide either month or from/to range, not both",
-    path: ["month"],
-  })
-  .refine(({ from, to }) => !from || !to || new Date(from) <= new Date(to), {
-    message: "from must be before or equal to to",
-    path: ["to"],
-  });
+    .refine(
+      ({ from, to }) =>
+        (from === undefined && to === undefined) ||
+        (from !== undefined && to !== undefined),
+      {
+        message: "from and to must be provided together",
+        path: ["from"],
+      },
+    )
+    .refine(({ month, from, to }) => !(month && from && to), {
+      message: "Provide either month or from/to range, not both",
+      path: ["month"],
+    })
+    .refine(({ from, to }) => !from || !to || new Date(from) <= new Date(to), {
+      message: "from must be before or equal to to",
+      path: ["to"],
+    });
 
 export const updateLeaveTypesSchema = z.object({
   enabled_types: z

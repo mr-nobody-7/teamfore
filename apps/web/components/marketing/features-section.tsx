@@ -71,7 +71,6 @@ function Card({
 
 export function FeaturesSection() {
   return (
-    // biome-ignore lint/correctness/useUniqueElementIds: static anchor id for in-page nav
     <section id="features" className="px-4 pb-18 pt-3 sm:px-6 sm:pb-24 sm:pt-4">
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-10 grid gap-6 sm:mb-14 sm:gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-end lg:gap-16">
@@ -117,7 +116,7 @@ export function FeaturesSection() {
                   />
                 ))}
               </div>
-              <div className="mt-2 flex justify-between font-mono text-[10px] tracking-[0.1em] text-zinc-500 uppercase">
+              <div className="mt-2 flex justify-between font-mono text-[10px] tracking-widest text-zinc-500 uppercase">
                 <span>Week 19</span>
                 <span>Week 20</span>
                 <span>Week 21</span>
@@ -174,7 +173,7 @@ export function FeaturesSection() {
                     {row.name}
                   </div>
                   <span
-                    className={`font-mono text-[10px] tracking-[0.1em] uppercase ${row.c}`}
+                    className={`font-mono text-[10px] tracking-widest uppercase ${row.c}`}
                   >
                     {row.status}
                   </span>

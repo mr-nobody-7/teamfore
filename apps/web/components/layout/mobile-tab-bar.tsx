@@ -80,7 +80,7 @@ export function MobileTabBar({ userRole }: MobileTabBarProps) {
                 key={tab.href}
                 href={tab.href}
                 aria-label={tab.label}
-                className="relative flex flex-1 flex-col items-center justify-center min-h-[44px]"
+                className="relative flex min-h-11 flex-1 flex-col items-center justify-center"
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/30">
                   <tab.icon className="h-5 w-5 text-primary-foreground" />
@@ -96,7 +96,7 @@ export function MobileTabBar({ userRole }: MobileTabBarProps) {
               aria-label={tab.label}
               aria-current={isActive ? "page" : undefined}
               className={cn(
-                "flex flex-1 flex-col items-center justify-center gap-0.5 min-h-[44px] text-[10px] font-medium transition-colors",
+                "flex min-h-11 flex-1 flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition-colors",
                 isActive ? "text-primary" : "text-muted-foreground",
               )}
             >

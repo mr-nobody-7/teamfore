@@ -162,8 +162,8 @@ function PreviewCard() {
 export function HeroSection() {
   return (
     <header className="relative overflow-hidden px-4 pb-16 pt-30 sm:px-6 sm:pb-20 sm:pt-36">
-      <div className="pointer-events-none absolute -top-28 right-[-10%] h-[560px] w-[760px] rounded-full bg-radial-[at_40%_40%] from-violet-500/30 to-transparent" />
-      <div className="pointer-events-none absolute -bottom-52 left-[-20%] h-[420px] w-[620px] rounded-full bg-radial-[at_60%_40%] from-indigo-500/20 to-transparent" />
+      <div className="pointer-events-none absolute -top-28 right-[-10%] h-140 w-190 rounded-full bg-radial-[at_40%_40%] from-violet-500/30 to-transparent" />
+      <div className="pointer-events-none absolute -bottom-52 left-[-20%] h-105 w-155 rounded-full bg-radial-[at_60%_40%] from-indigo-500/20 to-transparent" />
 
       <div className="relative mx-auto grid w-full max-w-7xl gap-12 sm:gap-16 lg:grid-cols-[1.1fr_1fr] lg:items-center">
         <div>

@@ -29,7 +29,6 @@ const proFeatures = [
 
 export function PricingSection() {
   return (
-    // biome-ignore lint/correctness/useUniqueElementIds: static anchor id for in-page nav
     <section id="pricing" className="px-4 py-18 sm:px-6 sm:py-24">
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-10 grid gap-6 sm:mb-14 sm:gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-end lg:gap-16">

@@ -81,14 +81,10 @@ serwist.registerRoute(
 );
 
 // ── API calls ────────────────────────────────────────────────────────────────
-const apiBase = process.env.NEXT_PUBLIC_API_URL ?? "";
-
 serwist.registerRoute(
   new Route(
     ({ url, request }: RouteMatchCallbackOptions) =>
-      request.mode !== "navigate" &&
-      (url.pathname.startsWith("/api/") ||
-        (apiBase !== "" && url.href.startsWith(apiBase))),
+      request.mode !== "navigate" && url.pathname.startsWith("/api/"),
     new NetworkFirst({
       cacheName: "api-cache",
       networkTimeoutSeconds: 10,
@@ -113,20 +109,26 @@ self.addEventListener("push", (event: PushEvent) => {
     icon?: string;
   };
 
+  const notificationOptions: NotificationOptions & {
+    vibrate?: number[];
+    renotify?: boolean;
+    actions?: Array<{ action: string; title: string; icon?: string }>;
+  } = {
+    body,
+    icon: icon ?? "/icons/icon-192.png",
+    badge: "/icons/icon-192.png",
+    data: { url: url ?? "/dashboard" },
+    vibrate: [200, 100, 200],
+    tag: "teamfore-notification",
+    renotify: true,
+    actions: [
+      { action: "open", title: "View" },
+      { action: "dismiss", title: "Dismiss" },
+    ],
+  };
+
   event.waitUntil(
-    self.registration.showNotification(title, {
-      body,
-      icon: icon ?? "/icons/icon-192.png",
-      badge: "/icons/icon-192.png",
-      data: { url: url ?? "/dashboard" },
-      vibrate: [200, 100, 200],
-      tag: "teamfore-notification",
-      renotify: true,
-      actions: [
-        { action: "open", title: "View" },
-        { action: "dismiss", title: "Dismiss" },
-      ],
-    }),
+    self.registration.showNotification(title, notificationOptions),
   );
 });
 

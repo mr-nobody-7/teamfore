@@ -14,7 +14,7 @@ export function StatsSection() {
             key={s.label}
             className="flex flex-col items-center gap-1 bg-card px-6 py-8 text-center"
           >
-            <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-3xl font-bold tracking-tight text-transparent">
+            <span className="bg-linear-to-r from-violet-400 to-indigo-400 bg-clip-text text-3xl font-bold tracking-tight text-transparent">
               {s.value}
             </span>
             <span className="text-xs text-muted-foreground">{s.label}</span>

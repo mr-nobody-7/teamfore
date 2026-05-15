@@ -27,7 +27,6 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    // biome-ignore lint/correctness/useUniqueElementIds: static anchor id for in-page nav
     <section id="how" className="px-4 pb-18 pt-4 sm:px-6 sm:pb-24 sm:pt-6">
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-10 grid gap-6 sm:mb-14 sm:gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-end lg:gap-16">
@@ -66,7 +65,7 @@ export function HowItWorksSection() {
               <p className="mt-3 text-sm leading-relaxed text-zinc-400">
                 {step.body}
               </p>
-              <p className="mt-5 font-mono text-[11px] tracking-[0.1em] text-zinc-500 uppercase">
+              <p className="mt-5 font-mono text-[11px] tracking-widest text-zinc-500 uppercase">
                 {step.time}
               </p>
             </article>

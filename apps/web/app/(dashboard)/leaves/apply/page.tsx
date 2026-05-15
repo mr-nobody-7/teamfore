@@ -398,7 +398,7 @@ export default function ApplyLeavePage() {
                       <Textarea
                         placeholder="Reason for leave"
                         maxLength={500}
-                        className="min-h-[80px] resize-none"
+                        className="min-h-20 resize-none"
                         onFocus={(e) =>
                           e.target.scrollIntoView({
                             behavior: "smooth",
@@ -416,7 +416,7 @@ export default function ApplyLeavePage() {
               <div className="md:col-span-2">
                 <Button
                   type="submit"
-                  className="w-full min-h-[44px] sm:w-auto"
+                  className="w-full min-h-11 sm:w-auto"
                   disabled={
                     mutation.isPending ||
                     isLeaveTypesLoading ||

@@ -463,7 +463,7 @@ export default function LeavesPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="min-h-[44px] w-full"
+                              className="min-h-11 w-full"
                               onClick={() => cancelMutation.mutate(leave.id)}
                               disabled={cancelMutation.isPending}
                             >

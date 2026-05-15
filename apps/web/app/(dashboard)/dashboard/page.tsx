@@ -430,7 +430,7 @@ export default function DashboardPage() {
                               </Badge>
                               <Button
                                 size="xs"
-                                className="min-h-[44px] sm:min-h-6"
+                                className="min-h-11 sm:min-h-6"
                                 onClick={() =>
                                   decisionMutation.mutate({
                                     leaveId: leave.id,
@@ -444,7 +444,7 @@ export default function DashboardPage() {
                               <Button
                                 size="xs"
                                 variant="destructive"
-                                className="min-h-[44px] sm:min-h-6"
+                                className="min-h-11 sm:min-h-6"
                                 onClick={() =>
                                   decisionMutation.mutate({
                                     leaveId: leave.id,

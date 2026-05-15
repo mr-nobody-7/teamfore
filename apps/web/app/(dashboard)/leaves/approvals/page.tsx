@@ -96,10 +96,15 @@ export default function ApprovalsPage() {
       ),
     [pendingLeaves],
   );
-  const canBulkApprove = safePendingLeaves.length > 0 && !isBulkApproving;
+  const canBulkApprove = pendingLeaves.length > 0 && !isBulkApproving;
 
   const handleApproveAllSafe = async () => {
-    if (safePendingLeaves.length === 0 || isBulkApproving) {
+    if (pendingLeaves.length === 0 || isBulkApproving) {
+      return;
+    }
+
+    if (safePendingLeaves.length === 0) {
+      toast.info("No safe requests available for bulk approve.");
       return;
     }
 
@@ -184,7 +189,7 @@ export default function ApprovalsPage() {
                       size="sm"
                       disabled={!canBulkApprove}
                       onClick={handleApproveAllSafe}
-                      className="min-h-[44px] sm:min-h-8"
+                      className="min-h-11 sm:min-h-8"
                     >
                       {isBulkApproving ? "Approving..." : "Approve all safe"}
                     </Button>
@@ -328,7 +333,7 @@ export default function ApprovalsPage() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="min-h-[44px] sm:min-h-8"
+                          className="min-h-11 sm:min-h-8"
                           disabled={busy}
                           onClick={() =>
                             mutation.mutate({
@@ -342,7 +347,7 @@ export default function ApprovalsPage() {
                         </Button>
                         <Button
                           size="sm"
-                          className="min-h-[44px] sm:min-h-8"
+                          className="min-h-11 sm:min-h-8"
                           disabled={busy}
                           onClick={() =>
                             mutation.mutate({
